@@ -22,11 +22,11 @@ class Phones
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="phone_marque", type="string", length=255)
+     *   
+     * @ORM\ManyToOne(targetEntity="Fabricant", inversedBy="phones")
+     * @ORM\JoinColumn(name="fabricant_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    private $phoneMarque;
+    private $phoneFabricant;
 
     /**
      * @var string
@@ -85,7 +85,7 @@ class Phones
         return $this->phoneName;
     }
 
-        /**
+    /**
      * Set phonePrice
      *
      * @param string $phonePrice
@@ -108,5 +108,52 @@ class Phones
     {
         return $this->phonePrice;
     }
-}
 
+    /**
+     * Set phoneFabricant
+     *
+     * @param string $phoneFabricant
+     *
+     * @return Phones
+     */
+    public function setPhoneFabricant($phoneFabricant)
+    {
+        $this->phoneFabricant = $phoneFabricant;
+
+        return $this;
+    }
+
+    /**
+     * Get phoneFabricant
+     *
+     * @return string
+     */
+    public function getPhoneFabricant()
+    {
+        return $this->phoneFabricant;
+    }
+
+    /**
+     * Set phoneDescription
+     *
+     * @param string $phoneDescription
+     *
+     * @return Phones
+     */
+    public function setPhoneDescription($phoneDescription)
+    {
+        $this->phoneDescription = $phoneDescription;
+
+        return $this;
+    }
+
+    /**
+     * Get phoneDescription
+     *
+     * @return string
+     */
+    public function getPhoneDescription()
+    {
+        return $this->phoneDescription;
+    }
+}
