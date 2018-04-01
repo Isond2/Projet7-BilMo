@@ -29,8 +29,7 @@ class Fabricant
     private $fabricantName;
 
      /**
-     * @ORM\OneToMany(targetEntity="Phones", mappedBy="fabricant", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="fabricant_id")
+     * @ORM\OneToMany(targetEntity="Phones", mappedBy="fabricant", cascade={"persist"})
      */
     private $fabricantPhones;
 
@@ -92,5 +91,35 @@ class Fabricant
     {
         return $this->fabricantPhones;
     }
-}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->fabricantPhones = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+     * Add fabricantPhone
+     *
+     * @param \AppBundle\Entity\Phones $fabricantPhone
+     *
+     * @return Fabricant
+     */
+    public function addFabricantPhone(\AppBundle\Entity\Phones $fabricantPhone)
+    {
+        $this->fabricantPhones[] = $fabricantPhone;
+
+        return $this;
+    }
+
+    /**
+     * Remove fabricantPhone
+     *
+     * @param \AppBundle\Entity\Phones $fabricantPhone
+     */
+    public function removeFabricantPhone(\AppBundle\Entity\Phones $fabricantPhone)
+    {
+        $this->fabricantPhones->removeElement($fabricantPhone);
+    }
+}

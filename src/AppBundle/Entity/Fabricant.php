@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Fabricant
@@ -25,14 +26,16 @@ class Fabricant
      * @var string
      *
      * @ORM\Column(name="FabricantName", type="string", length=255, unique=true)
+     * @Serializer\Groups({"list_action"})
      */
     private $fabricantName;
 
      /**
-     * @ORM\OneToMany(targetEntity="Phones", mappedBy="fabricant", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="fabricant_id")
+     * @ORM\OneToMany(targetEntity="Phones", mappedBy="phoneFabricant", cascade={"persist"})
      */
     private $fabricantPhones;
+
+
 
 
     /**

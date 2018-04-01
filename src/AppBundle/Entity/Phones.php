@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Phones
@@ -23,8 +24,8 @@ class Phones
 
     /**
      *   
-     * @ORM\ManyToOne(targetEntity="Fabricant", inversedBy="phones")
-     * @ORM\JoinColumn(name="fabricant_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\ManyToOne(targetEntity="Fabricant", cascade={"all"}, fetch="EAGER")
+     * @Serializer\Groups({"list_action"})
      */
     private $phoneFabricant;
 
@@ -32,6 +33,7 @@ class Phones
      * @var string
      *
      * @ORM\Column(name="phone_name", type="string", length=255, unique=true)
+     * @Serializer\Groups({"list_action"})
      */
     private $phoneName;
 
@@ -39,6 +41,7 @@ class Phones
      * @var int
      *
      * @ORM\Column(name="phone_price", type="integer")
+     * @Serializer\Groups({"list_action"})
      */
     private $phonePrice;
 
@@ -47,6 +50,7 @@ class Phones
      * @var string
      *
      * @ORM\Column(name="phone_description", type="text")
+     * @Serializer\Groups({"list_action"})
      */
     private $phoneDescription;
 

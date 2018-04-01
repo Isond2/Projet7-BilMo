@@ -23,8 +23,7 @@ class Phones
 
     /**
      *   
-     * @ORM\ManyToOne(targetEntity="Fabricant", inversedBy="phones")
-     * @ORM\JoinColumn(name="fabricant_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\ManyToOne(targetEntity="Fabricant", cascade={"all"}, fetch="EAGER")
      */
     private $phoneFabricant;
 

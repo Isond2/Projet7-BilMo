@@ -2,20 +2,41 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Fabricant;
+use AppBundle\Entity\Phones;
+use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\Controller\Annotations\View;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use FOS\RestBundle\Controller\Annotations as Rest;
+
 
 class DefaultController extends Controller
 {
+
     /**
-     * @Route("/", name="homepage")
+     * @Rest\Get("/phones", name="app_phones_list")
+     * @View(
+     *     statusCode = 200,
+     *     serializerGroups = {"list_action"}
+     * )
      */
-    public function indexAction(Request $request)
+    public function listAction()
     {
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
-        ]);
+        $phones = $this->getDoctrine()->getRepository('AppBundle:Phones')->findAll();
+        return $phones;
+    }
+
+    /**
+     * @Rest\Get("/phones/{id}", name="app_phones_detail")
+     * @View(
+     *     statusCode = 200,
+     *     serializerGroups = {"list_action"}
+     * )
+     */
+    public function phoneAction(Phones $phone)
+    {
+        return $phone;
     }
 }

@@ -113,13 +113,29 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
 
         }
 
-        // homepage
-        if ('' === $trimmedPathinfo) {
-            if (substr($pathinfo, -1) !== '/') {
-                return $this->redirect($pathinfo.'/', 'homepage');
-            }
+        elseif (0 === strpos($pathinfo, '/phones')) {
+            // app_phones_list
+            if ('/phones' === $pathinfo) {
+                if ('GET' !== $canonicalMethod) {
+                    $allow[] = 'GET';
+                    goto not_app_phones_list;
+                }
 
-            return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::indexAction',  '_route' => 'homepage',);
+                return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::listAction',  '_route' => 'app_phones_list',);
+            }
+            not_app_phones_list:
+
+            // app_phones_detail
+            if (preg_match('#^/phones/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                if ('GET' !== $canonicalMethod) {
+                    $allow[] = 'GET';
+                    goto not_app_phones_detail;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'app_phones_detail')), array (  '_controller' => 'AppBundle\\Controller\\DefaultController::phoneAction',));
+            }
+            not_app_phones_detail:
+
         }
 
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();
