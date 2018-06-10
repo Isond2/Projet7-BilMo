@@ -4,12 +4,45 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * Phones
  *
  * @ORM\Table(name="phones")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PhonesRepository")
+ *
+ * @Hateoas\Relation(
+ *      "self",
+ *      href = @Hateoas\Route(
+ *          "phones_detail",
+ *          parameters = { "id" = "expr(object.getId())" },
+ *          absolute = true
+ *      ),
+ *      exclusion = @Hateoas\Exclusion(
+ *          groups = {"all_phone_list", "phone_detail", "manufacturer_list"}
+ *      )
+ * )
+ *
+ * @Hateoas\Relation(
+ *      "all phone_list",
+ *      href = @Hateoas\Route(
+ *          "phones_list",
+ *          absolute = true
+ *      ),
+ *      exclusion = @Hateoas\Exclusion(
+ *          groups = {"phone_detail"}
+ *      )
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "manufacturer",
+ *     embedded = @Hateoas\Embedded("expr(object.getPhoneManufacturer())"),
+ *     exclusion = @Hateoas\Exclusion(
+ *          groups = {"phone_detail"}
+ *     )
+ * )
+ *
  */
 class Phones
 {
@@ -23,17 +56,10 @@ class Phones
     private $id;
 
     /**
-     *   
-     * @ORM\ManyToOne(targetEntity="Fabricant", cascade={"all"}, fetch="EAGER")
-     * @Serializer\Groups({"list_action"})
-     */
-    private $phoneFabricant;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="phone_name", type="string", length=255, unique=true)
-     * @Serializer\Groups({"list_action"})
+     * @Serializer\Groups({"all_phone_list", "phone_detail", "manufacturer_list"})
      */
     private $phoneName;
 
@@ -41,7 +67,7 @@ class Phones
      * @var int
      *
      * @ORM\Column(name="phone_price", type="integer")
-     * @Serializer\Groups({"list_action"})
+     * @Serializer\Groups({"all_phone_list", "phone_detail", "manufacturer_list"})
      */
     private $phonePrice;
 
@@ -50,10 +76,15 @@ class Phones
      * @var string
      *
      * @ORM\Column(name="phone_description", type="text")
-     * @Serializer\Groups({"list_action"})
+     * @Serializer\Groups({"phone_detail"})
      */
     private $phoneDescription;
 
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Manufacturer", cascade={"all"}, fetch="EAGER")
+     */
+    private $phoneManufacturer;
 
     /**
      * Get id
@@ -114,27 +145,27 @@ class Phones
     }
 
     /**
-     * Set phoneFabricant
+     * Set phoneManufacturer
      *
-     * @param string $phoneFabricant
+     * @param string $phoneManufacturer
      *
      * @return Phones
      */
-    public function setPhoneFabricant($phoneFabricant)
+    public function setPhoneManufacturer($phoneManufacturer)
     {
-        $this->phoneFabricant = $phoneFabricant;
+        $this->phoneManufacturer = $phoneManufacturer;
 
         return $this;
     }
 
     /**
-     * Get phoneFabricant
+     * Get phoneManufacturer
      *
      * @return string
      */
-    public function getPhoneFabricant()
+    public function getPhoneManufacturer()
     {
-        return $this->phoneFabricant;
+        return $this->phoneManufacturer;
     }
 
     /**

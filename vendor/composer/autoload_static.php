@@ -52,6 +52,10 @@ class ComposerStaticInitce32f360f39707201d89a619cd8d8bbb
             'Psr\\Container\\' => 14,
             'Psr\\Cache\\' => 10,
         ),
+        'O' => 
+        array (
+            'OAuth2\\' => 7,
+        ),
         'N' => 
         array (
             'Negotiation\\' => 12,
@@ -72,6 +76,7 @@ class ComposerStaticInitce32f360f39707201d89a619cd8d8bbb
         array (
             'Fig\\Link\\' => 9,
             'FOS\\RestBundle\\' => 15,
+            'FOS\\OAuthServerBundle\\' => 22,
         ),
         'D' => 
         array (
@@ -85,6 +90,10 @@ class ComposerStaticInitce32f360f39707201d89a619cd8d8bbb
         'C' => 
         array (
             'Composer\\CaBundle\\' => 18,
+        ),
+        'B' => 
+        array (
+            'Bazinga\\Bundle\\HateoasBundle\\' => 29,
         ),
     );
 
@@ -185,6 +194,10 @@ class ComposerStaticInitce32f360f39707201d89a619cd8d8bbb
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
+        'OAuth2\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/friendsofsymfony/oauth2-php/lib',
+        ),
         'Negotiation\\' => 
         array (
             0 => __DIR__ . '/..' . '/willdurand/negotiation/src/Negotiation',
@@ -208,6 +221,10 @@ class ComposerStaticInitce32f360f39707201d89a619cd8d8bbb
         'FOS\\RestBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/friendsofsymfony/rest-bundle',
+        ),
+        'FOS\\OAuthServerBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/friendsofsymfony/oauth-server-bundle',
         ),
         'Doctrine\\Instantiator\\' => 
         array (
@@ -236,6 +253,10 @@ class ComposerStaticInitce32f360f39707201d89a619cd8d8bbb
         'Composer\\CaBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
+        ),
+        'Bazinga\\Bundle\\HateoasBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/willdurand/hateoas-bundle',
         ),
     );
 
@@ -289,6 +310,13 @@ class ComposerStaticInitce32f360f39707201d89a619cd8d8bbb
             'JMS\\' => 
             array (
                 0 => __DIR__ . '/..' . '/jms/parser-lib/src',
+            ),
+        ),
+        'H' => 
+        array (
+            'Hateoas' => 
+            array (
+                0 => __DIR__ . '/..' . '/willdurand/hateoas/src',
             ),
         ),
         'D' => 

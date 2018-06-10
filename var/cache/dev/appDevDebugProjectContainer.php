@@ -35,7 +35,10 @@ class appDevDebugProjectContainer extends Container
         $this->services = array();
         $this->normalizedIds = array(
             'appbundle\\controller\\defaultcontroller' => 'AppBundle\\Controller\\DefaultController',
+            'appbundle\\controller\\securitycontroller' => 'AppBundle\\Controller\\SecurityController',
+            'appbundle\\controller\\usercontroller' => 'AppBundle\\Controller\\UserController',
             'autowired.appbundle\\entity\\phones' => 'autowired.AppBundle\\Entity\\Phones',
+            'autowired.appbundle\\entity\\user' => 'autowired.AppBundle\\Entity\\User',
             'fos\\restbundle\\request\\paramfetcherinterface' => 'FOS\\RestBundle\\Request\\ParamFetcherInterface',
             'fos\\restbundle\\view\\viewhandlerinterface' => 'FOS\\RestBundle\\View\\ViewHandlerInterface',
             'symfony\\component\\security\\core\\authorization\\authorizationcheckerinterface' => 'Symfony\\Component\\Security\\Core\\Authorization\\AuthorizationCheckerInterface',
@@ -45,6 +48,8 @@ class appDevDebugProjectContainer extends Container
             '1_69862e56290c4074b3c778ac85d6185f88adf336964185ae3c42669322cbf686' => 'get169862e56290c4074b3c778ac85d6185f88adf336964185ae3c42669322cbf686Service',
             '2_69862e56290c4074b3c778ac85d6185f88adf336964185ae3c42669322cbf686' => 'get269862e56290c4074b3c778ac85d6185f88adf336964185ae3c42669322cbf686Service',
             'AppBundle\\Controller\\DefaultController' => 'getAppBundle_Controller_DefaultControllerService',
+            'AppBundle\\Controller\\SecurityController' => 'getAppBundle_Controller_SecurityControllerService',
+            'AppBundle\\Controller\\UserController' => 'getAppBundle_Controller_UserControllerService',
             'FOS\\RestBundle\\View\\ViewHandlerInterface' => 'getFOS_RestBundle_View_ViewHandlerInterfaceService',
             'annotation_reader' => 'getAnnotationReaderService',
             'annotations.reader' => 'getAnnotations_ReaderService',
@@ -57,6 +62,8 @@ class appDevDebugProjectContainer extends Container
             'assets.context' => 'getAssets_ContextService',
             'assets.packages' => 'getAssets_PackagesService',
             'autowired.AppBundle\\Entity\\Phones' => 'getAutowired_AppBundle_Entity_PhonesService',
+            'autowired.AppBundle\\Entity\\User' => 'getAutowired_AppBundle_Entity_UserService',
+            'bazinga_hateoas.expression_language' => 'getBazingaHateoas_ExpressionLanguageService',
             'cache.annotations' => 'getCache_AnnotationsService',
             'cache.annotations.recorder_inner' => 'getCache_Annotations_RecorderInnerService',
             'cache.app' => 'getCache_AppService',
@@ -71,6 +78,7 @@ class appDevDebugProjectContainer extends Container
             'cache_clearer' => 'getCacheClearerService',
             'cache_warmer' => 'getCacheWarmerService',
             'config_cache_factory' => 'getConfigCacheFactoryService',
+            'console.command.appbundle_command_createoauthclientcommand' => 'getConsole_Command_AppbundleCommandCreateoauthclientcommandService',
             'console.command.symfony_bundle_securitybundle_command_userpasswordencodercommand' => 'getConsole_Command_SymfonyBundleSecuritybundleCommandUserpasswordencodercommandService',
             'console.command.symfony_bundle_webserverbundle_command_serverruncommand' => 'getConsole_Command_SymfonyBundleWebserverbundleCommandServerruncommandService',
             'console.command.symfony_bundle_webserverbundle_command_serverstartcommand' => 'getConsole_Command_SymfonyBundleWebserverbundleCommandServerstartcommandService',
@@ -156,6 +164,17 @@ class appDevDebugProjectContainer extends Container
             'form.type_extension.upload.validator' => 'getForm_TypeExtension_Upload_ValidatorService',
             'form.type_guesser.doctrine' => 'getForm_TypeGuesser_DoctrineService',
             'form.type_guesser.validator' => 'getForm_TypeGuesser_ValidatorService',
+            'fos_oauth_server.access_token_manager.default' => 'getFosOauthServer_AccessTokenManager_DefaultService',
+            'fos_oauth_server.auth_code_manager.default' => 'getFosOauthServer_AuthCodeManager_DefaultService',
+            'fos_oauth_server.authorize.form' => 'getFosOauthServer_Authorize_FormService',
+            'fos_oauth_server.authorize.form.handler.default' => 'getFosOauthServer_Authorize_Form_Handler_DefaultService',
+            'fos_oauth_server.authorize.form.type' => 'getFosOauthServer_Authorize_Form_TypeService',
+            'fos_oauth_server.client_manager.default' => 'getFosOauthServer_ClientManager_DefaultService',
+            'fos_oauth_server.controller.token' => 'getFosOauthServer_Controller_TokenService',
+            'fos_oauth_server.entity_manager' => 'getFosOauthServer_EntityManagerService',
+            'fos_oauth_server.refresh_token_manager.default' => 'getFosOauthServer_RefreshTokenManager_DefaultService',
+            'fos_oauth_server.server' => 'getFosOauthServer_ServerService',
+            'fos_oauth_server.storage' => 'getFosOauthServer_StorageService',
             'fos_rest.body_listener' => 'getFosRest_BodyListenerService',
             'fos_rest.decoder.json' => 'getFosRest_Decoder_JsonService',
             'fos_rest.decoder.jsontoform' => 'getFosRest_Decoder_JsontoformService',
@@ -166,6 +185,7 @@ class appDevDebugProjectContainer extends Container
             'fos_rest.inflector' => 'getFosRest_InflectorService',
             'fos_rest.normalizer.camel_keys' => 'getFosRest_Normalizer_CamelKeysService',
             'fos_rest.normalizer.camel_keys_with_leading_underscore' => 'getFosRest_Normalizer_CamelKeysWithLeadingUnderscoreService',
+            'fos_rest.param_fetcher_listener' => 'getFosRest_ParamFetcherListenerService',
             'fos_rest.request.param_fetcher' => 'getFosRest_Request_ParamFetcherService',
             'fos_rest.request.param_fetcher.reader' => 'getFosRest_Request_ParamFetcher_ReaderService',
             'fos_rest.serializer' => 'getFosRest_SerializerService',
@@ -177,6 +197,20 @@ class appDevDebugProjectContainer extends Container
             'fragment.renderer.hinclude' => 'getFragment_Renderer_HincludeService',
             'fragment.renderer.inline' => 'getFragment_Renderer_InlineService',
             'fragment.renderer.ssi' => 'getFragment_Renderer_SsiService',
+            'hateoas.configuration.provider.resolver' => 'getHateoas_Configuration_Provider_ResolverService',
+            'hateoas.configuration.relations_repository' => 'getHateoas_Configuration_RelationsRepositoryService',
+            'hateoas.embeds_factory' => 'getHateoas_EmbedsFactoryService',
+            'hateoas.event_subscriber.json' => 'getHateoas_EventSubscriber_JsonService',
+            'hateoas.event_subscriber.xml' => 'getHateoas_EventSubscriber_XmlService',
+            'hateoas.expression.evaluator' => 'getHateoas_Expression_EvaluatorService',
+            'hateoas.expression.link' => 'getHateoas_Expression_LinkService',
+            'hateoas.generator.registry' => 'getHateoas_Generator_RegistryService',
+            'hateoas.generator.symfony' => 'getHateoas_Generator_SymfonyService',
+            'hateoas.helper.link' => 'getHateoas_Helper_LinkService',
+            'hateoas.link_factory' => 'getHateoas_LinkFactoryService',
+            'hateoas.links_factory' => 'getHateoas_LinksFactoryService',
+            'hateoas.serializer.exclusion_manager' => 'getHateoas_Serializer_ExclusionManagerService',
+            'hateoas.twig.link' => 'getHateoas_Twig_LinkService',
             'http_kernel' => 'getHttpKernelService',
             'jms_serializer' => 'getJmsSerializerService',
             'jms_serializer.accessor_strategy' => 'getJmsSerializer_AccessorStrategyService',
@@ -190,7 +224,9 @@ class appDevDebugProjectContainer extends Container
             'jms_serializer.handler_registry' => 'getJmsSerializer_HandlerRegistryService',
             'jms_serializer.json_deserialization_visitor' => 'getJmsSerializer_JsonDeserializationVisitorService',
             'jms_serializer.json_serialization_visitor' => 'getJmsSerializer_JsonSerializationVisitorService',
+            'jms_serializer.metadata.file_locator' => 'getJmsSerializer_Metadata_FileLocatorService',
             'jms_serializer.metadata_driver' => 'getJmsSerializer_MetadataDriverService',
+            'jms_serializer.metadata_factory' => 'getJmsSerializer_MetadataFactoryService',
             'jms_serializer.naming_strategy' => 'getJmsSerializer_NamingStrategyService',
             'jms_serializer.object_constructor' => 'getJmsSerializer_ObjectConstructorService',
             'jms_serializer.php_collection_handler' => 'getJmsSerializer_PhpCollectionHandlerService',
@@ -233,25 +269,39 @@ class appDevDebugProjectContainer extends Container
             'routing.loader' => 'getRouting_LoaderService',
             'security.access.authenticated_voter' => 'getSecurity_Access_AuthenticatedVoterService',
             'security.access.expression_voter' => 'getSecurity_Access_ExpressionVoterService',
-            'security.access.simple_role_voter' => 'getSecurity_Access_SimpleRoleVoterService',
+            'security.access.role_hierarchy_voter' => 'getSecurity_Access_RoleHierarchyVoterService',
+            'security.access_listener' => 'getSecurity_AccessListenerService',
+            'security.access_map' => 'getSecurity_AccessMapService',
             'security.authentication.guard_handler' => 'getSecurity_Authentication_GuardHandlerService',
             'security.authentication.manager' => 'getSecurity_Authentication_ManagerService',
             'security.authentication.provider.anonymous.main' => 'getSecurity_Authentication_Provider_Anonymous_MainService',
+            'security.authentication.provider.dao.main' => 'getSecurity_Authentication_Provider_Dao_MainService',
+            'security.authentication.provider.dao.oauth_authorize' => 'getSecurity_Authentication_Provider_Dao_OauthAuthorizeService',
+            'security.authentication.provider.fos_oauth_server.api' => 'getSecurity_Authentication_Provider_FosOauthServer_ApiService',
             'security.authentication.trust_resolver' => 'getSecurity_Authentication_TrustResolverService',
             'security.authentication_utils' => 'getSecurity_AuthenticationUtilsService',
             'security.authorization_checker' => 'getSecurity_AuthorizationCheckerService',
+            'security.channel_listener' => 'getSecurity_ChannelListenerService',
             'security.csrf.token_manager' => 'getSecurity_Csrf_TokenManagerService',
             'security.encoder_factory' => 'getSecurity_EncoderFactoryService',
             'security.firewall' => 'getSecurity_FirewallService',
             'security.firewall.map' => 'getSecurity_Firewall_MapService',
-            'security.firewall.map.context.dev' => 'getSecurity_Firewall_Map_Context_DevService',
+            'security.firewall.map.context.api' => 'getSecurity_Firewall_Map_Context_ApiService',
             'security.firewall.map.context.main' => 'getSecurity_Firewall_Map_Context_MainService',
+            'security.firewall.map.context.oauth_authorize' => 'getSecurity_Firewall_Map_Context_OauthAuthorizeService',
+            'security.firewall.map.context.oauth_token' => 'getSecurity_Firewall_Map_Context_OauthTokenService',
+            'security.http_utils' => 'getSecurity_HttpUtilsService',
             'security.logout_url_generator' => 'getSecurity_LogoutUrlGeneratorService',
             'security.password_encoder' => 'getSecurity_PasswordEncoderService',
             'security.rememberme.response_listener' => 'getSecurity_Rememberme_ResponseListenerService',
-            'security.request_matcher.5314eeb91110adf24b9b678372bb11bbe00e8858c519c088bfb65f525181ad3bf573fd1d' => 'getSecurity_RequestMatcher_5314eeb91110adf24b9b678372bb11bbe00e8858c519c088bfb65f525181ad3bf573fd1dService',
+            'security.request_matcher.83414b4f59ab53f8865b08d5074e037efbb06e57ccba58ede5e1ed417a9ddcd1b645c11b' => 'getSecurity_RequestMatcher_83414b4f59ab53f8865b08d5074e037efbb06e57ccba58ede5e1ed417a9ddcd1b645c11bService',
+            'security.request_matcher.9aeba7fba005ca2de6ea0e58141fd0f560b96c6bfaf30a7f437ed27f98a09bf8fd4a1ccf' => 'getSecurity_RequestMatcher_9aeba7fba005ca2de6ea0e58141fd0f560b96c6bfaf30a7f437ed27f98a09bf8fd4a1ccfService',
+            'security.request_matcher.a64d671f18e5575531d76c1d1154fdc4476cb8a79c02ed7a3469178c6d7b96b5ed4e60db' => 'getSecurity_RequestMatcher_A64d671f18e5575531d76c1d1154fdc4476cb8a79c02ed7a3469178c6d7b96b5ed4e60dbService',
+            'security.request_matcher.e32d8aefb5b59880c62e1a2111aa884fc5b89d540b3c4f3f126566afd79d8eb1771d0471' => 'getSecurity_RequestMatcher_E32d8aefb5b59880c62e1a2111aa884fc5b89d540b3c4f3f126566afd79d8eb1771d0471Service',
             'security.role_hierarchy' => 'getSecurity_RoleHierarchyService',
             'security.token_storage' => 'getSecurity_TokenStorageService',
+            'security.user.provider.concrete.dp_provider' => 'getSecurity_User_Provider_Concrete_DpProviderService',
+            'security.user_checker' => 'getSecurity_UserCheckerService',
             'security.user_value_resolver' => 'getSecurity_UserValueResolverService',
             'security.validator.user_password' => 'getSecurity_Validator_UserPasswordService',
             'sensio_distribution.security_checker' => 'getSensioDistribution_SecurityCheckerService',
@@ -265,7 +315,11 @@ class appDevDebugProjectContainer extends Container
             'sensio_framework_extra.security.listener' => 'getSensioFrameworkExtra_Security_ListenerService',
             'sensio_framework_extra.view.guesser' => 'getSensioFrameworkExtra_View_GuesserService',
             'sensio_framework_extra.view.listener' => 'getSensioFrameworkExtra_View_ListenerService',
+            'service_locator.182f5c5b079727c046caf1a16a7b23a8' => 'getServiceLocator_182f5c5b079727c046caf1a16a7b23a8Service',
+            'service_locator.2da6c68114bb2c845d30e336cbd4b76a' => 'getServiceLocator_2da6c68114bb2c845d30e336cbd4b76aService',
             'service_locator.56b71901dc9f1612b3eb794d69c52524' => 'getServiceLocator_56b71901dc9f1612b3eb794d69c52524Service',
+            'service_locator.61c4bc70092b00e9393797dce8125338' => 'getServiceLocator_61c4bc70092b00e9393797dce8125338Service',
+            'service_locator.bb08ca9a813b17f5c0d9c069a1cda526' => 'getServiceLocator_Bb08ca9a813b17f5c0d9c069a1cda526Service',
             'service_locator.e64d23c3bf770e2cf44b71643280668d' => 'getServiceLocator_E64d23c3bf770e2cf44b71643280668dService',
             'session' => 'getSessionService',
             'session.handler' => 'getSession_HandlerService',
@@ -325,6 +379,7 @@ class appDevDebugProjectContainer extends Container
             'argument_resolver.session' => true,
             'argument_resolver.variadic' => true,
             'autowired.AppBundle\\Entity\\Phones' => true,
+            'autowired.AppBundle\\Entity\\User' => true,
             'cache.annotations' => true,
             'cache.annotations.recorder_inner' => true,
             'cache.app.recorder_inner' => true,
@@ -349,23 +404,46 @@ class appDevDebugProjectContainer extends Container
             'form.type_extension.submit.validator' => true,
             'form.type_extension.upload.validator' => true,
             'form.type_guesser.validator' => true,
+            'fos_oauth_server.entity_manager' => true,
             'fos_rest.request.param_fetcher.reader' => true,
             'fos_rest.serializer.jms_handler_registry.inner' => true,
+            'hateoas.configuration.relations_repository' => true,
+            'hateoas.embeds_factory' => true,
+            'hateoas.link_factory' => true,
+            'hateoas.links_factory' => true,
+            'jms_serializer.metadata.file_locator' => true,
+            'jms_serializer.metadata_factory' => true,
             'jms_serializer.unserialize_object_constructor' => true,
             'resolve_controller_name_subscriber' => true,
             'router.request_context' => true,
             'security.access.authenticated_voter' => true,
             'security.access.expression_voter' => true,
-            'security.access.simple_role_voter' => true,
+            'security.access.role_hierarchy_voter' => true,
+            'security.access_listener' => true,
+            'security.access_map' => true,
             'security.authentication.manager' => true,
             'security.authentication.provider.anonymous.main' => true,
+            'security.authentication.provider.dao.main' => true,
+            'security.authentication.provider.dao.oauth_authorize' => true,
+            'security.authentication.provider.fos_oauth_server.api' => true,
             'security.authentication.trust_resolver' => true,
+            'security.channel_listener' => true,
             'security.firewall.map' => true,
+            'security.http_utils' => true,
             'security.logout_url_generator' => true,
-            'security.request_matcher.5314eeb91110adf24b9b678372bb11bbe00e8858c519c088bfb65f525181ad3bf573fd1d' => true,
+            'security.request_matcher.83414b4f59ab53f8865b08d5074e037efbb06e57ccba58ede5e1ed417a9ddcd1b645c11b' => true,
+            'security.request_matcher.9aeba7fba005ca2de6ea0e58141fd0f560b96c6bfaf30a7f437ed27f98a09bf8fd4a1ccf' => true,
+            'security.request_matcher.a64d671f18e5575531d76c1d1154fdc4476cb8a79c02ed7a3469178c6d7b96b5ed4e60db' => true,
+            'security.request_matcher.e32d8aefb5b59880c62e1a2111aa884fc5b89d540b3c4f3f126566afd79d8eb1771d0471' => true,
             'security.role_hierarchy' => true,
+            'security.user.provider.concrete.dp_provider' => true,
+            'security.user_checker' => true,
             'security.user_value_resolver' => true,
+            'service_locator.182f5c5b079727c046caf1a16a7b23a8' => true,
+            'service_locator.2da6c68114bb2c845d30e336cbd4b76a' => true,
             'service_locator.56b71901dc9f1612b3eb794d69c52524' => true,
+            'service_locator.61c4bc70092b00e9393797dce8125338' => true,
+            'service_locator.bb08ca9a813b17f5c0d9c069a1cda526' => true,
             'service_locator.e64d23c3bf770e2cf44b71643280668d' => true,
             'session.storage.metadata_bag' => true,
             'swiftmailer.mailer.default.transport.eventdispatcher' => true,
@@ -383,9 +461,15 @@ class appDevDebugProjectContainer extends Container
             'doctrine.orm.default_result_cache' => 'doctrine_cache.providers.doctrine.orm.default_result_cache',
             'doctrine.orm.entity_manager' => 'doctrine.orm.default_entity_manager',
             'event_dispatcher' => 'debug.event_dispatcher',
+            'fos_oauth_server.access_token_manager' => 'fos_oauth_server.access_token_manager.default',
+            'fos_oauth_server.auth_code_manager' => 'fos_oauth_server.auth_code_manager.default',
+            'fos_oauth_server.authorize.form.handler' => 'fos_oauth_server.authorize.form.handler.default',
+            'fos_oauth_server.client_manager' => 'fos_oauth_server.client_manager.default',
+            'fos_oauth_server.refresh_token_manager' => 'fos_oauth_server.refresh_token_manager.default',
             'fos_rest.router' => 'router',
             'fos_rest.serializer.jms_handler_registry' => 'jms_serializer.handler_registry',
             'fos_rest.templating' => 'templating',
+            'fos_rest.validator' => 'validator',
             'fos_rest.view_handler' => 'FOS\\RestBundle\\View\\ViewHandlerInterface',
             'mailer' => 'swiftmailer.mailer.default',
             'session.storage' => 'session.storage.native',
@@ -436,6 +520,36 @@ class appDevDebugProjectContainer extends Container
     protected function getAppBundle_Controller_DefaultControllerService()
     {
         return $this->services['AppBundle\Controller\DefaultController'] = new \AppBundle\Controller\DefaultController();
+    }
+
+    /**
+     * Gets the 'AppBundle\Controller\SecurityController' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is autowired.
+     *
+     * @return \AppBundle\Controller\SecurityController A AppBundle\Controller\SecurityController instance
+     */
+    protected function getAppBundle_Controller_SecurityControllerService()
+    {
+        return $this->services['AppBundle\Controller\SecurityController'] = new \AppBundle\Controller\SecurityController();
+    }
+
+    /**
+     * Gets the 'AppBundle\Controller\UserController' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is autowired.
+     *
+     * @return \AppBundle\Controller\UserController A AppBundle\Controller\UserController instance
+     */
+    protected function getAppBundle_Controller_UserControllerService()
+    {
+        return $this->services['AppBundle\Controller\UserController'] = new \AppBundle\Controller\UserController();
     }
 
     /**
@@ -492,6 +606,19 @@ class appDevDebugProjectContainer extends Container
     protected function getAssets_PackagesService()
     {
         return $this->services['assets.packages'] = new \Symfony\Component\Asset\Packages(new \Symfony\Component\Asset\PathPackage('', new \Symfony\Component\Asset\VersionStrategy\EmptyVersionStrategy(), ${($_ = isset($this->services['assets.context']) ? $this->services['assets.context'] : $this->get('assets.context')) && false ?: '_'}), array());
+    }
+
+    /**
+     * Gets the 'bazinga_hateoas.expression_language' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \Bazinga\Bundle\HateoasBundle\ExpressionLanguage\ExpressionLanguage A Bazinga\Bundle\HateoasBundle\ExpressionLanguage\ExpressionLanguage instance
+     */
+    protected function getBazingaHateoas_ExpressionLanguageService()
+    {
+        return $this->services['bazinga_hateoas.expression_language'] = new \Bazinga\Bundle\HateoasBundle\ExpressionLanguage\ExpressionLanguage();
     }
 
     /**
@@ -596,6 +723,21 @@ class appDevDebugProjectContainer extends Container
     }
 
     /**
+     * Gets the 'console.command.appbundle_command_createoauthclientcommand' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is autowired.
+     *
+     * @return \AppBundle\Command\CreateOauthClientCommand A AppBundle\Command\CreateOauthClientCommand instance
+     */
+    protected function getConsole_Command_AppbundleCommandCreateoauthclientcommandService()
+    {
+        return $this->services['console.command.appbundle_command_createoauthclientcommand'] = new \AppBundle\Command\CreateOauthClientCommand();
+    }
+
+    /**
      * Gets the 'console.command.symfony_bundle_securitybundle_command_userpasswordencodercommand' service.
      *
      * This service is shared.
@@ -605,7 +747,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getConsole_Command_SymfonyBundleSecuritybundleCommandUserpasswordencodercommandService()
     {
-        return $this->services['console.command.symfony_bundle_securitybundle_command_userpasswordencodercommand'] = new \Symfony\Bundle\SecurityBundle\Command\UserPasswordEncoderCommand(${($_ = isset($this->services['security.encoder_factory']) ? $this->services['security.encoder_factory'] : $this->get('security.encoder_factory')) && false ?: '_'}, array());
+        return $this->services['console.command.symfony_bundle_securitybundle_command_userpasswordencodercommand'] = new \Symfony\Bundle\SecurityBundle\Command\UserPasswordEncoderCommand(${($_ = isset($this->services['security.encoder_factory']) ? $this->services['security.encoder_factory'] : $this->get('security.encoder_factory')) && false ?: '_'}, array(0 => 'AppBundle\\Entity\\User'));
     }
 
     /**
@@ -806,6 +948,9 @@ class appDevDebugProjectContainer extends Container
         $instance->addListener('kernel.request', array(0 => function () {
             return ${($_ = isset($this->services['fos_rest.format_listener']) ? $this->services['fos_rest.format_listener'] : $this->get('fos_rest.format_listener')) && false ?: '_'};
         }, 1 => 'onKernelRequest'), 34);
+        $instance->addListener('kernel.controller', array(0 => function () {
+            return ${($_ = isset($this->services['fos_rest.param_fetcher_listener']) ? $this->services['fos_rest.param_fetcher_listener'] : $this->get('fos_rest.param_fetcher_listener')) && false ?: '_'};
+        }, 1 => 'onKernelController'), 5);
         $instance->addListener('kernel.response', array(0 => function () {
             return ${($_ = isset($this->services['response_listener']) ? $this->services['response_listener'] : $this->get('response_listener')) && false ?: '_'};
         }, 1 => 'onKernelResponse'), 0);
@@ -1072,25 +1217,29 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getDoctrine_Orm_DefaultEntityManagerService($lazyLoad = true)
     {
-        $a = new \Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain();
-        $a->addDriver(new \Doctrine\ORM\Mapping\Driver\AnnotationDriver(${($_ = isset($this->services['annotation_reader']) ? $this->services['annotation_reader'] : $this->get('annotation_reader')) && false ?: '_'}, array(0 => ($this->targetDirs[3].'\\src\\AppBundle\\Entity'))), 'AppBundle\\Entity');
+        $a = new \Doctrine\ORM\Mapping\Driver\SimplifiedXmlDriver(array(($this->targetDirs[3].'\\vendor\\friendsofsymfony\\oauth-server-bundle\\Resources\\config\\doctrine') => 'FOS\\OAuthServerBundle\\Entity'));
+        $a->setGlobalBasename('mapping');
 
-        $b = new \Doctrine\ORM\Configuration();
-        $b->setEntityNamespaces(array('AppBundle' => 'AppBundle\\Entity'));
-        $b->setMetadataCacheImpl(${($_ = isset($this->services['doctrine_cache.providers.doctrine.orm.default_metadata_cache']) ? $this->services['doctrine_cache.providers.doctrine.orm.default_metadata_cache'] : $this->get('doctrine_cache.providers.doctrine.orm.default_metadata_cache')) && false ?: '_'});
-        $b->setQueryCacheImpl(${($_ = isset($this->services['doctrine_cache.providers.doctrine.orm.default_query_cache']) ? $this->services['doctrine_cache.providers.doctrine.orm.default_query_cache'] : $this->get('doctrine_cache.providers.doctrine.orm.default_query_cache')) && false ?: '_'});
-        $b->setResultCacheImpl(${($_ = isset($this->services['doctrine_cache.providers.doctrine.orm.default_result_cache']) ? $this->services['doctrine_cache.providers.doctrine.orm.default_result_cache'] : $this->get('doctrine_cache.providers.doctrine.orm.default_result_cache')) && false ?: '_'});
-        $b->setMetadataDriverImpl($a);
-        $b->setProxyDir((__DIR__.'/doctrine/orm/Proxies'));
-        $b->setProxyNamespace('Proxies');
-        $b->setAutoGenerateProxyClasses(true);
-        $b->setClassMetadataFactoryName('Doctrine\\ORM\\Mapping\\ClassMetadataFactory');
-        $b->setDefaultRepositoryClassName('Doctrine\\ORM\\EntityRepository');
-        $b->setNamingStrategy(new \Doctrine\ORM\Mapping\UnderscoreNamingStrategy());
-        $b->setQuoteStrategy(new \Doctrine\ORM\Mapping\DefaultQuoteStrategy());
-        $b->setEntityListenerResolver(${($_ = isset($this->services['doctrine.orm.default_entity_listener_resolver']) ? $this->services['doctrine.orm.default_entity_listener_resolver'] : $this->get('doctrine.orm.default_entity_listener_resolver')) && false ?: '_'});
+        $b = new \Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain();
+        $b->addDriver(new \Doctrine\ORM\Mapping\Driver\AnnotationDriver(${($_ = isset($this->services['annotation_reader']) ? $this->services['annotation_reader'] : $this->get('annotation_reader')) && false ?: '_'}, array(0 => ($this->targetDirs[3].'\\src\\AppBundle\\Entity'))), 'AppBundle\\Entity');
+        $b->addDriver($a, 'FOS\\OAuthServerBundle\\Entity');
 
-        $this->services['doctrine.orm.default_entity_manager'] = $instance = \Doctrine\ORM\EntityManager::create(${($_ = isset($this->services['doctrine.dbal.default_connection']) ? $this->services['doctrine.dbal.default_connection'] : $this->get('doctrine.dbal.default_connection')) && false ?: '_'}, $b);
+        $c = new \Doctrine\ORM\Configuration();
+        $c->setEntityNamespaces(array('AppBundle' => 'AppBundle\\Entity', 'FOSOAuthServerBundle' => 'FOS\\OAuthServerBundle\\Entity'));
+        $c->setMetadataCacheImpl(${($_ = isset($this->services['doctrine_cache.providers.doctrine.orm.default_metadata_cache']) ? $this->services['doctrine_cache.providers.doctrine.orm.default_metadata_cache'] : $this->get('doctrine_cache.providers.doctrine.orm.default_metadata_cache')) && false ?: '_'});
+        $c->setQueryCacheImpl(${($_ = isset($this->services['doctrine_cache.providers.doctrine.orm.default_query_cache']) ? $this->services['doctrine_cache.providers.doctrine.orm.default_query_cache'] : $this->get('doctrine_cache.providers.doctrine.orm.default_query_cache')) && false ?: '_'});
+        $c->setResultCacheImpl(${($_ = isset($this->services['doctrine_cache.providers.doctrine.orm.default_result_cache']) ? $this->services['doctrine_cache.providers.doctrine.orm.default_result_cache'] : $this->get('doctrine_cache.providers.doctrine.orm.default_result_cache')) && false ?: '_'});
+        $c->setMetadataDriverImpl($b);
+        $c->setProxyDir((__DIR__.'/doctrine/orm/Proxies'));
+        $c->setProxyNamespace('Proxies');
+        $c->setAutoGenerateProxyClasses(true);
+        $c->setClassMetadataFactoryName('Doctrine\\ORM\\Mapping\\ClassMetadataFactory');
+        $c->setDefaultRepositoryClassName('Doctrine\\ORM\\EntityRepository');
+        $c->setNamingStrategy(new \Doctrine\ORM\Mapping\UnderscoreNamingStrategy());
+        $c->setQuoteStrategy(new \Doctrine\ORM\Mapping\DefaultQuoteStrategy());
+        $c->setEntityListenerResolver(${($_ = isset($this->services['doctrine.orm.default_entity_listener_resolver']) ? $this->services['doctrine.orm.default_entity_listener_resolver'] : $this->get('doctrine.orm.default_entity_listener_resolver')) && false ?: '_'});
+
+        $this->services['doctrine.orm.default_entity_manager'] = $instance = \Doctrine\ORM\EntityManager::create(${($_ = isset($this->services['doctrine.dbal.default_connection']) ? $this->services['doctrine.dbal.default_connection'] : $this->get('doctrine.dbal.default_connection')) && false ?: '_'}, $c);
 
         ${($_ = isset($this->services['doctrine.orm.default_manager_configurator']) ? $this->services['doctrine.orm.default_manager_configurator'] : $this->get('doctrine.orm.default_manager_configurator')) && false ?: '_'}->configure($instance);
 
@@ -1262,7 +1411,9 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getForm_RegistryService()
     {
-        return $this->services['form.registry'] = new \Symfony\Component\Form\FormRegistry(array(0 => new \Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension(new \Symfony\Component\DependencyInjection\ServiceLocator(array('Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType' => function () {
+        return $this->services['form.registry'] = new \Symfony\Component\Form\FormRegistry(array(0 => new \Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension(new \Symfony\Component\DependencyInjection\ServiceLocator(array('FOS\\OAuthServerBundle\\Form\\Type\\AuthorizeFormType' => function () {
+            return ${($_ = isset($this->services['fos_oauth_server.authorize.form.type']) ? $this->services['fos_oauth_server.authorize.form.type'] : $this->get('fos_oauth_server.authorize.form.type')) && false ?: '_'};
+        }, 'Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType' => function () {
             return ${($_ = isset($this->services['form.type.entity']) ? $this->services['form.type.entity'] : $this->get('form.type.entity')) && false ?: '_'};
         }, 'Symfony\\Component\\Form\\Extension\\Core\\Type\\ChoiceType' => function () {
             return ${($_ = isset($this->services['form.type.choice']) ? $this->services['form.type.choice'] : $this->getForm_Type_ChoiceService()) && false ?: '_'};
@@ -1817,6 +1968,136 @@ class appDevDebugProjectContainer extends Container
     }
 
     /**
+     * Gets the 'fos_oauth_server.access_token_manager.default' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \FOS\OAuthServerBundle\Entity\AccessTokenManager A FOS\OAuthServerBundle\Entity\AccessTokenManager instance
+     */
+    protected function getFosOauthServer_AccessTokenManager_DefaultService()
+    {
+        return $this->services['fos_oauth_server.access_token_manager.default'] = new \FOS\OAuthServerBundle\Entity\AccessTokenManager(${($_ = isset($this->services['fos_oauth_server.entity_manager']) ? $this->services['fos_oauth_server.entity_manager'] : $this->getFosOauthServer_EntityManagerService()) && false ?: '_'}, 'AppBundle\\Entity\\AccessToken');
+    }
+
+    /**
+     * Gets the 'fos_oauth_server.auth_code_manager.default' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \FOS\OAuthServerBundle\Entity\AuthCodeManager A FOS\OAuthServerBundle\Entity\AuthCodeManager instance
+     */
+    protected function getFosOauthServer_AuthCodeManager_DefaultService()
+    {
+        return $this->services['fos_oauth_server.auth_code_manager.default'] = new \FOS\OAuthServerBundle\Entity\AuthCodeManager(${($_ = isset($this->services['fos_oauth_server.entity_manager']) ? $this->services['fos_oauth_server.entity_manager'] : $this->getFosOauthServer_EntityManagerService()) && false ?: '_'}, 'AppBundle\\Entity\\AuthCode');
+    }
+
+    /**
+     * Gets the 'fos_oauth_server.authorize.form' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \Symfony\Component\Form\Form A Symfony\Component\Form\Form instance
+     */
+    protected function getFosOauthServer_Authorize_FormService()
+    {
+        return $this->services['fos_oauth_server.authorize.form'] = ${($_ = isset($this->services['form.factory']) ? $this->services['form.factory'] : $this->get('form.factory')) && false ?: '_'}->createNamed('fos_oauth_server_authorize_form', 'FOS\\OAuthServerBundle\\Form\\Type\\AuthorizeFormType', NULL, array('validation_groups' => array(0 => 'Authorize', 1 => 'Default')));
+    }
+
+    /**
+     * Gets the 'fos_oauth_server.authorize.form.handler.default' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \FOS\OAuthServerBundle\Form\Handler\AuthorizeFormHandler A FOS\OAuthServerBundle\Form\Handler\AuthorizeFormHandler instance
+     */
+    protected function getFosOauthServer_Authorize_Form_Handler_DefaultService()
+    {
+        return $this->services['fos_oauth_server.authorize.form.handler.default'] = new \FOS\OAuthServerBundle\Form\Handler\AuthorizeFormHandler(${($_ = isset($this->services['fos_oauth_server.authorize.form']) ? $this->services['fos_oauth_server.authorize.form'] : $this->get('fos_oauth_server.authorize.form')) && false ?: '_'}, ${($_ = isset($this->services['request_stack']) ? $this->services['request_stack'] : $this->get('request_stack', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'});
+    }
+
+    /**
+     * Gets the 'fos_oauth_server.authorize.form.type' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \FOS\OAuthServerBundle\Form\Type\AuthorizeFormType A FOS\OAuthServerBundle\Form\Type\AuthorizeFormType instance
+     */
+    protected function getFosOauthServer_Authorize_Form_TypeService()
+    {
+        return $this->services['fos_oauth_server.authorize.form.type'] = new \FOS\OAuthServerBundle\Form\Type\AuthorizeFormType();
+    }
+
+    /**
+     * Gets the 'fos_oauth_server.client_manager.default' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \FOS\OAuthServerBundle\Entity\ClientManager A FOS\OAuthServerBundle\Entity\ClientManager instance
+     */
+    protected function getFosOauthServer_ClientManager_DefaultService()
+    {
+        return $this->services['fos_oauth_server.client_manager.default'] = new \FOS\OAuthServerBundle\Entity\ClientManager(${($_ = isset($this->services['fos_oauth_server.entity_manager']) ? $this->services['fos_oauth_server.entity_manager'] : $this->getFosOauthServer_EntityManagerService()) && false ?: '_'}, 'AppBundle\\Entity\\Client');
+    }
+
+    /**
+     * Gets the 'fos_oauth_server.controller.token' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \FOS\OAuthServerBundle\Controller\TokenController A FOS\OAuthServerBundle\Controller\TokenController instance
+     */
+    protected function getFosOauthServer_Controller_TokenService()
+    {
+        return $this->services['fos_oauth_server.controller.token'] = new \FOS\OAuthServerBundle\Controller\TokenController(${($_ = isset($this->services['fos_oauth_server.server']) ? $this->services['fos_oauth_server.server'] : $this->get('fos_oauth_server.server')) && false ?: '_'});
+    }
+
+    /**
+     * Gets the 'fos_oauth_server.refresh_token_manager.default' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \FOS\OAuthServerBundle\Entity\RefreshTokenManager A FOS\OAuthServerBundle\Entity\RefreshTokenManager instance
+     */
+    protected function getFosOauthServer_RefreshTokenManager_DefaultService()
+    {
+        return $this->services['fos_oauth_server.refresh_token_manager.default'] = new \FOS\OAuthServerBundle\Entity\RefreshTokenManager(${($_ = isset($this->services['fos_oauth_server.entity_manager']) ? $this->services['fos_oauth_server.entity_manager'] : $this->getFosOauthServer_EntityManagerService()) && false ?: '_'}, 'AppBundle\\Entity\\RefreshToken');
+    }
+
+    /**
+     * Gets the 'fos_oauth_server.server' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \OAuth2\OAuth2 A OAuth2\OAuth2 instance
+     */
+    protected function getFosOauthServer_ServerService()
+    {
+        return $this->services['fos_oauth_server.server'] = new \OAuth2\OAuth2(${($_ = isset($this->services['fos_oauth_server.storage']) ? $this->services['fos_oauth_server.storage'] : $this->get('fos_oauth_server.storage')) && false ?: '_'}, array());
+    }
+
+    /**
+     * Gets the 'fos_oauth_server.storage' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \FOS\OAuthServerBundle\Storage\OAuthStorage A FOS\OAuthServerBundle\Storage\OAuthStorage instance
+     */
+    protected function getFosOauthServer_StorageService()
+    {
+        return $this->services['fos_oauth_server.storage'] = new \FOS\OAuthServerBundle\Storage\OAuthStorage(${($_ = isset($this->services['fos_oauth_server.client_manager.default']) ? $this->services['fos_oauth_server.client_manager.default'] : $this->get('fos_oauth_server.client_manager.default')) && false ?: '_'}, ${($_ = isset($this->services['fos_oauth_server.access_token_manager.default']) ? $this->services['fos_oauth_server.access_token_manager.default'] : $this->get('fos_oauth_server.access_token_manager.default')) && false ?: '_'}, ${($_ = isset($this->services['fos_oauth_server.refresh_token_manager.default']) ? $this->services['fos_oauth_server.refresh_token_manager.default'] : $this->get('fos_oauth_server.refresh_token_manager.default')) && false ?: '_'}, ${($_ = isset($this->services['fos_oauth_server.auth_code_manager.default']) ? $this->services['fos_oauth_server.auth_code_manager.default'] : $this->get('fos_oauth_server.auth_code_manager.default')) && false ?: '_'}, new \AppBundle\Security\UserProvider(${($_ = isset($this->services['doctrine.orm.default_entity_manager']) ? $this->services['doctrine.orm.default_entity_manager'] : $this->get('doctrine.orm.default_entity_manager')) && false ?: '_'}), ${($_ = isset($this->services['security.encoder_factory']) ? $this->services['security.encoder_factory'] : $this->get('security.encoder_factory')) && false ?: '_'});
+    }
+
+    /**
      * Gets the 'fos_rest.body_listener' service.
      *
      * This service is shared.
@@ -1960,6 +2241,19 @@ class appDevDebugProjectContainer extends Container
     }
 
     /**
+     * Gets the 'fos_rest.param_fetcher_listener' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \FOS\RestBundle\EventListener\ParamFetcherListener A FOS\RestBundle\EventListener\ParamFetcherListener instance
+     */
+    protected function getFosRest_ParamFetcherListenerService()
+    {
+        return $this->services['fos_rest.param_fetcher_listener'] = new \FOS\RestBundle\EventListener\ParamFetcherListener(${($_ = isset($this->services['fos_rest.request.param_fetcher']) ? $this->services['fos_rest.request.param_fetcher'] : $this->get('fos_rest.request.param_fetcher')) && false ?: '_'}, true);
+    }
+
+    /**
      * Gets the 'fos_rest.request.param_fetcher' service.
      *
      * This service is shared.
@@ -2095,6 +2389,146 @@ class appDevDebugProjectContainer extends Container
     }
 
     /**
+     * Gets the 'hateoas.configuration.provider.resolver' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \Hateoas\Configuration\Provider\Resolver\ChainResolver A Hateoas\Configuration\Provider\Resolver\ChainResolver instance
+     */
+    protected function getHateoas_Configuration_Provider_ResolverService()
+    {
+        return $this->services['hateoas.configuration.provider.resolver'] = new \Hateoas\Configuration\Provider\Resolver\ChainResolver(array(0 => new \Hateoas\Configuration\Provider\Resolver\MethodResolver(), 1 => new \Hateoas\Configuration\Provider\Resolver\StaticMethodResolver(), 2 => new \Hateoas\Configuration\Provider\Resolver\SymfonyContainerResolver($this)));
+    }
+
+    /**
+     * Gets the 'hateoas.event_subscriber.json' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \Hateoas\Serializer\EventSubscriber\JsonEventSubscriber A Hateoas\Serializer\EventSubscriber\JsonEventSubscriber instance
+     */
+    protected function getHateoas_EventSubscriber_JsonService()
+    {
+        $a = ${($_ = isset($this->services['jms_serializer.metadata_factory']) ? $this->services['jms_serializer.metadata_factory'] : $this->getJmsSerializer_MetadataFactoryService()) && false ?: '_'};
+
+        return $this->services['hateoas.event_subscriber.json'] = new \Hateoas\Serializer\EventSubscriber\JsonEventSubscriber(new \Hateoas\Serializer\JsonHalSerializer(), ${($_ = isset($this->services['hateoas.links_factory']) ? $this->services['hateoas.links_factory'] : $this->getHateoas_LinksFactoryService()) && false ?: '_'}, ${($_ = isset($this->services['hateoas.embeds_factory']) ? $this->services['hateoas.embeds_factory'] : $this->getHateoas_EmbedsFactoryService()) && false ?: '_'}, new \Hateoas\Serializer\Metadata\InlineDeferrer($a), new \Hateoas\Serializer\Metadata\InlineDeferrer($a));
+    }
+
+    /**
+     * Gets the 'hateoas.event_subscriber.xml' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \Hateoas\Serializer\EventSubscriber\XmlEventSubscriber A Hateoas\Serializer\EventSubscriber\XmlEventSubscriber instance
+     */
+    protected function getHateoas_EventSubscriber_XmlService()
+    {
+        $a = new \Hateoas\Serializer\XmlSerializer();
+        $a->setMetadataFactory(${($_ = isset($this->services['jms_serializer.metadata_factory']) ? $this->services['jms_serializer.metadata_factory'] : $this->getJmsSerializer_MetadataFactoryService()) && false ?: '_'});
+
+        return $this->services['hateoas.event_subscriber.xml'] = new \Hateoas\Serializer\EventSubscriber\XmlEventSubscriber($a, ${($_ = isset($this->services['hateoas.links_factory']) ? $this->services['hateoas.links_factory'] : $this->getHateoas_LinksFactoryService()) && false ?: '_'}, ${($_ = isset($this->services['hateoas.embeds_factory']) ? $this->services['hateoas.embeds_factory'] : $this->getHateoas_EmbedsFactoryService()) && false ?: '_'});
+    }
+
+    /**
+     * Gets the 'hateoas.expression.evaluator' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \Bazinga\Bundle\HateoasBundle\Hateoas\Expression\LazyFunctionExpressionEvaluator A Bazinga\Bundle\HateoasBundle\Hateoas\Expression\LazyFunctionExpressionEvaluator instance
+     */
+    protected function getHateoas_Expression_EvaluatorService()
+    {
+        $this->services['hateoas.expression.evaluator'] = $instance = new \Bazinga\Bundle\HateoasBundle\Hateoas\Expression\LazyFunctionExpressionEvaluator(${($_ = isset($this->services['bazinga_hateoas.expression_language']) ? $this->services['bazinga_hateoas.expression_language'] : $this->get('bazinga_hateoas.expression_language')) && false ?: '_'}, array(), $this);
+
+        $instance->setContextVariable('container', $this);
+        $instance->registerFunctionId('hateoas.expression.link');
+
+        return $instance;
+    }
+
+    /**
+     * Gets the 'hateoas.expression.link' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \Hateoas\Expression\LinkExpressionFunction A Hateoas\Expression\LinkExpressionFunction instance
+     */
+    protected function getHateoas_Expression_LinkService()
+    {
+        return $this->services['hateoas.expression.link'] = new \Hateoas\Expression\LinkExpressionFunction(${($_ = isset($this->services['hateoas.helper.link']) ? $this->services['hateoas.helper.link'] : $this->get('hateoas.helper.link')) && false ?: '_'});
+    }
+
+    /**
+     * Gets the 'hateoas.generator.registry' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \Hateoas\UrlGenerator\UrlGeneratorRegistry A Hateoas\UrlGenerator\UrlGeneratorRegistry instance
+     */
+    protected function getHateoas_Generator_RegistryService()
+    {
+        return $this->services['hateoas.generator.registry'] = new \Hateoas\UrlGenerator\UrlGeneratorRegistry(${($_ = isset($this->services['hateoas.generator.symfony']) ? $this->services['hateoas.generator.symfony'] : $this->get('hateoas.generator.symfony')) && false ?: '_'});
+    }
+
+    /**
+     * Gets the 'hateoas.generator.symfony' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \Hateoas\UrlGenerator\SymfonyUrlGenerator A Hateoas\UrlGenerator\SymfonyUrlGenerator instance
+     */
+    protected function getHateoas_Generator_SymfonyService()
+    {
+        return $this->services['hateoas.generator.symfony'] = new \Hateoas\UrlGenerator\SymfonyUrlGenerator(${($_ = isset($this->services['router']) ? $this->services['router'] : $this->get('router')) && false ?: '_'});
+    }
+
+    /**
+     * Gets the 'hateoas.helper.link' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \Hateoas\Helper\LinkHelper A Hateoas\Helper\LinkHelper instance
+     */
+    protected function getHateoas_Helper_LinkService()
+    {
+        return $this->services['hateoas.helper.link'] = new \Hateoas\Helper\LinkHelper(${($_ = isset($this->services['hateoas.link_factory']) ? $this->services['hateoas.link_factory'] : $this->getHateoas_LinkFactoryService()) && false ?: '_'}, ${($_ = isset($this->services['hateoas.configuration.relations_repository']) ? $this->services['hateoas.configuration.relations_repository'] : $this->getHateoas_Configuration_RelationsRepositoryService()) && false ?: '_'});
+    }
+
+    /**
+     * Gets the 'hateoas.serializer.exclusion_manager' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \Hateoas\Serializer\ExclusionManager A Hateoas\Serializer\ExclusionManager instance
+     */
+    protected function getHateoas_Serializer_ExclusionManagerService()
+    {
+        return $this->services['hateoas.serializer.exclusion_manager'] = new \Hateoas\Serializer\ExclusionManager(${($_ = isset($this->services['hateoas.expression.evaluator']) ? $this->services['hateoas.expression.evaluator'] : $this->get('hateoas.expression.evaluator')) && false ?: '_'});
+    }
+
+    /**
+     * Gets the 'hateoas.twig.link' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \Hateoas\Twig\Extension\LinkExtension A Hateoas\Twig\Extension\LinkExtension instance
+     */
+    protected function getHateoas_Twig_LinkService()
+    {
+        return $this->services['hateoas.twig.link'] = new \Hateoas\Twig\Extension\LinkExtension(${($_ = isset($this->services['hateoas.helper.link']) ? $this->services['hateoas.helper.link'] : $this->get('hateoas.helper.link')) && false ?: '_'});
+    }
+
+    /**
      * Gets the 'http_kernel' service.
      *
      * This service is shared.
@@ -2117,17 +2551,18 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getJmsSerializerService()
     {
-        $a = new \Metadata\MetadataFactory(new \Metadata\Driver\LazyLoadingDriver($this, 'jms_serializer.metadata_driver'), 'Metadata\\ClassHierarchyMetadata', true);
-        $a->setCache(new \Metadata\Cache\FileCache((__DIR__.'/jms_serializer')));
-
-        $b = new \JMS\Serializer\EventDispatcher\LazyEventDispatcher(new \Symfony\Component\DependencyInjection\ServiceLocator(array('jms_serializer.doctrine_proxy_subscriber' => function () {
+        $a = new \JMS\Serializer\EventDispatcher\LazyEventDispatcher(new \Symfony\Component\DependencyInjection\ServiceLocator(array('hateoas.event_subscriber.json' => function () {
+            return ${($_ = isset($this->services['hateoas.event_subscriber.json']) ? $this->services['hateoas.event_subscriber.json'] : $this->get('hateoas.event_subscriber.json')) && false ?: '_'};
+        }, 'hateoas.event_subscriber.xml' => function () {
+            return ${($_ = isset($this->services['hateoas.event_subscriber.xml']) ? $this->services['hateoas.event_subscriber.xml'] : $this->get('hateoas.event_subscriber.xml')) && false ?: '_'};
+        }, 'jms_serializer.doctrine_proxy_subscriber' => function () {
             return ${($_ = isset($this->services['jms_serializer.doctrine_proxy_subscriber']) ? $this->services['jms_serializer.doctrine_proxy_subscriber'] : $this->get('jms_serializer.doctrine_proxy_subscriber')) && false ?: '_'};
         }, 'jms_serializer.stopwatch_subscriber' => function () {
             return ${($_ = isset($this->services['jms_serializer.stopwatch_subscriber']) ? $this->services['jms_serializer.stopwatch_subscriber'] : $this->get('jms_serializer.stopwatch_subscriber')) && false ?: '_'};
         })));
-        $b->setListeners(array('serializer.pre_serialize' => array(0 => array(0 => array(0 => 'jms_serializer.stopwatch_subscriber', 1 => 'onPreSerialize'), 1 => NULL, 2 => NULL), 1 => array(0 => array(0 => 'jms_serializer.doctrine_proxy_subscriber', 1 => 'onPreSerializeTypedProxy'), 1 => NULL, 2 => NULL), 2 => array(0 => array(0 => 'jms_serializer.doctrine_proxy_subscriber', 1 => 'onPreSerialize'), 1 => NULL, 2 => NULL)), 'serializer.post_serialize' => array(0 => array(0 => array(0 => 'jms_serializer.stopwatch_subscriber', 1 => 'onPostSerialize'), 1 => NULL, 2 => NULL))));
+        $a->setListeners(array('serializer.pre_serialize' => array(0 => array(0 => array(0 => 'jms_serializer.stopwatch_subscriber', 1 => 'onPreSerialize'), 1 => NULL, 2 => NULL), 1 => array(0 => array(0 => 'jms_serializer.doctrine_proxy_subscriber', 1 => 'onPreSerializeTypedProxy'), 1 => NULL, 2 => NULL), 2 => array(0 => array(0 => 'jms_serializer.doctrine_proxy_subscriber', 1 => 'onPreSerialize'), 1 => NULL, 2 => NULL)), 'serializer.post_serialize' => array(0 => array(0 => array(0 => 'hateoas.event_subscriber.xml', 1 => 'onPostSerialize'), 1 => NULL, 2 => 'xml'), 1 => array(0 => array(0 => 'hateoas.event_subscriber.json', 1 => 'onPostSerialize'), 1 => NULL, 2 => 'json'), 2 => array(0 => array(0 => 'jms_serializer.stopwatch_subscriber', 1 => 'onPostSerialize'), 1 => NULL, 2 => NULL))));
 
-        $this->services['jms_serializer'] = $instance = new \JMS\Serializer\Serializer($a, ${($_ = isset($this->services['jms_serializer.handler_registry']) ? $this->services['jms_serializer.handler_registry'] : $this->get('jms_serializer.handler_registry')) && false ?: '_'}, ${($_ = isset($this->services['jms_serializer.unserialize_object_constructor']) ? $this->services['jms_serializer.unserialize_object_constructor'] : $this->getJmsSerializer_UnserializeObjectConstructorService()) && false ?: '_'}, new \PhpCollection\Map(array('json' => ${($_ = isset($this->services['jms_serializer.json_serialization_visitor']) ? $this->services['jms_serializer.json_serialization_visitor'] : $this->get('jms_serializer.json_serialization_visitor')) && false ?: '_'}, 'xml' => ${($_ = isset($this->services['jms_serializer.xml_serialization_visitor']) ? $this->services['jms_serializer.xml_serialization_visitor'] : $this->get('jms_serializer.xml_serialization_visitor')) && false ?: '_'}, 'yml' => ${($_ = isset($this->services['jms_serializer.yaml_serialization_visitor']) ? $this->services['jms_serializer.yaml_serialization_visitor'] : $this->get('jms_serializer.yaml_serialization_visitor')) && false ?: '_'})), new \PhpCollection\Map(array('json' => ${($_ = isset($this->services['jms_serializer.json_deserialization_visitor']) ? $this->services['jms_serializer.json_deserialization_visitor'] : $this->get('jms_serializer.json_deserialization_visitor')) && false ?: '_'}, 'xml' => ${($_ = isset($this->services['jms_serializer.xml_deserialization_visitor']) ? $this->services['jms_serializer.xml_deserialization_visitor'] : $this->get('jms_serializer.xml_deserialization_visitor')) && false ?: '_'})), $b, NULL, ${($_ = isset($this->services['jms_serializer.expression_evaluator']) ? $this->services['jms_serializer.expression_evaluator'] : $this->get('jms_serializer.expression_evaluator')) && false ?: '_'});
+        $this->services['jms_serializer'] = $instance = new \JMS\Serializer\Serializer(${($_ = isset($this->services['jms_serializer.metadata_factory']) ? $this->services['jms_serializer.metadata_factory'] : $this->getJmsSerializer_MetadataFactoryService()) && false ?: '_'}, ${($_ = isset($this->services['jms_serializer.handler_registry']) ? $this->services['jms_serializer.handler_registry'] : $this->get('jms_serializer.handler_registry')) && false ?: '_'}, ${($_ = isset($this->services['jms_serializer.unserialize_object_constructor']) ? $this->services['jms_serializer.unserialize_object_constructor'] : $this->getJmsSerializer_UnserializeObjectConstructorService()) && false ?: '_'}, new \PhpCollection\Map(array('json' => ${($_ = isset($this->services['jms_serializer.json_serialization_visitor']) ? $this->services['jms_serializer.json_serialization_visitor'] : $this->get('jms_serializer.json_serialization_visitor')) && false ?: '_'}, 'xml' => ${($_ = isset($this->services['jms_serializer.xml_serialization_visitor']) ? $this->services['jms_serializer.xml_serialization_visitor'] : $this->get('jms_serializer.xml_serialization_visitor')) && false ?: '_'}, 'yml' => ${($_ = isset($this->services['jms_serializer.yaml_serialization_visitor']) ? $this->services['jms_serializer.yaml_serialization_visitor'] : $this->get('jms_serializer.yaml_serialization_visitor')) && false ?: '_'})), new \PhpCollection\Map(array('json' => ${($_ = isset($this->services['jms_serializer.json_deserialization_visitor']) ? $this->services['jms_serializer.json_deserialization_visitor'] : $this->get('jms_serializer.json_deserialization_visitor')) && false ?: '_'}, 'xml' => ${($_ = isset($this->services['jms_serializer.xml_deserialization_visitor']) ? $this->services['jms_serializer.xml_deserialization_visitor'] : $this->get('jms_serializer.xml_deserialization_visitor')) && false ?: '_'})), $a, NULL, ${($_ = isset($this->services['jms_serializer.expression_evaluator']) ? $this->services['jms_serializer.expression_evaluator'] : $this->get('jms_serializer.expression_evaluator')) && false ?: '_'});
 
         $instance->setSerializationContextFactory(${($_ = isset($this->services['jms_serializer.serialization_context_factory']) ? $this->services['jms_serializer.serialization_context_factory'] : $this->get('jms_serializer.serialization_context_factory')) && false ?: '_'});
         $instance->setDeserializationContextFactory(${($_ = isset($this->services['jms_serializer.deserialization_context_factory']) ? $this->services['jms_serializer.deserialization_context_factory'] : $this->get('jms_serializer.deserialization_context_factory')) && false ?: '_'});
@@ -2295,7 +2730,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getJmsSerializer_MetadataDriverService()
     {
-        $a = new \Metadata\Driver\FileLocator(array());
+        $a = ${($_ = isset($this->services['jms_serializer.metadata.file_locator']) ? $this->services['jms_serializer.metadata.file_locator'] : $this->getJmsSerializer_Metadata_FileLocatorService()) && false ?: '_'};
 
         return $this->services['jms_serializer.metadata_driver'] = new \JMS\Serializer\Metadata\Driver\DoctrineTypeDriver(new \Metadata\Driver\DriverChain(array(0 => new \JMS\Serializer\Metadata\Driver\YamlDriver($a), 1 => new \JMS\Serializer\Metadata\Driver\XmlDriver($a), 2 => new \JMS\Serializer\Metadata\Driver\PhpDriver($a), 3 => new \JMS\Serializer\Metadata\Driver\AnnotationDriver(${($_ = isset($this->services['annotation_reader']) ? $this->services['annotation_reader'] : $this->get('annotation_reader')) && false ?: '_'}))), ${($_ = isset($this->services['doctrine']) ? $this->services['doctrine'] : $this->get('doctrine')) && false ?: '_'});
     }
@@ -2993,7 +3428,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getSecurity_EncoderFactoryService()
     {
-        return $this->services['security.encoder_factory'] = new \Symfony\Component\Security\Core\Encoder\EncoderFactory(array());
+        return $this->services['security.encoder_factory'] = new \Symfony\Component\Security\Core\Encoder\EncoderFactory(array('AppBundle\\Entity\\User' => array('class' => 'Symfony\\Component\\Security\\Core\\Encoder\\BCryptPasswordEncoder', 'arguments' => array(0 => 13))));
     }
 
     /**
@@ -3010,16 +3445,19 @@ class appDevDebugProjectContainer extends Container
     }
 
     /**
-     * Gets the 'security.firewall.map.context.dev' service.
+     * Gets the 'security.firewall.map.context.api' service.
      *
      * This service is shared.
      * This method always returns the same instance of the service.
      *
      * @return \Symfony\Bundle\SecurityBundle\Security\FirewallContext A Symfony\Bundle\SecurityBundle\Security\FirewallContext instance
      */
-    protected function getSecurity_Firewall_Map_Context_DevService()
+    protected function getSecurity_Firewall_Map_Context_ApiService()
     {
-        return $this->services['security.firewall.map.context.dev'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(), NULL, new \Symfony\Bundle\SecurityBundle\Security\FirewallConfig('dev', 'security.user_checker', 'security.request_matcher.5314eeb91110adf24b9b678372bb11bbe00e8858c519c088bfb65f525181ad3bf573fd1d', false, '', '', '', '', '', '', array()));
+        $a = ${($_ = isset($this->services['security.token_storage']) ? $this->services['security.token_storage'] : $this->get('security.token_storage')) && false ?: '_'};
+        $b = ${($_ = isset($this->services['fos_oauth_server.server']) ? $this->services['fos_oauth_server.server'] : $this->get('fos_oauth_server.server')) && false ?: '_'};
+
+        return $this->services['security.firewall.map.context.api'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => ${($_ = isset($this->services['security.channel_listener']) ? $this->services['security.channel_listener'] : $this->getSecurity_ChannelListenerService()) && false ?: '_'}, 1 => new \FOS\OAuthServerBundle\Security\Firewall\OAuthListener($a, ${($_ = isset($this->services['security.authentication.manager']) ? $this->services['security.authentication.manager'] : $this->getSecurity_Authentication_ManagerService()) && false ?: '_'}, $b), 2 => ${($_ = isset($this->services['security.access_listener']) ? $this->services['security.access_listener'] : $this->getSecurity_AccessListenerService()) && false ?: '_'}), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($a, ${($_ = isset($this->services['security.authentication.trust_resolver']) ? $this->services['security.authentication.trust_resolver'] : $this->getSecurity_Authentication_TrustResolverService()) && false ?: '_'}, ${($_ = isset($this->services['security.http_utils']) ? $this->services['security.http_utils'] : $this->getSecurity_HttpUtilsService()) && false ?: '_'}, 'api', new \FOS\OAuthServerBundle\Security\EntryPoint\OAuthEntryPoint($b), NULL, NULL, ${($_ = isset($this->services['monolog.logger.security']) ? $this->services['monolog.logger.security'] : $this->get('monolog.logger.security', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'}, true), new \Symfony\Bundle\SecurityBundle\Security\FirewallConfig('api', 'security.user_checker', 'security.request_matcher.83414b4f59ab53f8865b08d5074e037efbb06e57ccba58ede5e1ed417a9ddcd1b645c11b', true, true, 'security.user.provider.concrete.dp_provider', NULL, 'fos_oauth_server.security.entry_point', NULL, NULL, array(0 => 'fos_oauth')));
     }
 
     /**
@@ -3032,15 +3470,46 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getSecurity_Firewall_Map_Context_MainService()
     {
-        $a = ${($_ = isset($this->services['monolog.logger.security']) ? $this->services['monolog.logger.security'] : $this->get('monolog.logger.security', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'};
-        $b = ${($_ = isset($this->services['security.token_storage']) ? $this->services['security.token_storage'] : $this->get('security.token_storage')) && false ?: '_'};
+        $a = ${($_ = isset($this->services['security.token_storage']) ? $this->services['security.token_storage'] : $this->get('security.token_storage')) && false ?: '_'};
+        $b = ${($_ = isset($this->services['monolog.logger.security']) ? $this->services['monolog.logger.security'] : $this->get('monolog.logger.security', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'};
         $c = ${($_ = isset($this->services['security.authentication.trust_resolver']) ? $this->services['security.authentication.trust_resolver'] : $this->getSecurity_Authentication_TrustResolverService()) && false ?: '_'};
         $d = ${($_ = isset($this->services['security.authentication.manager']) ? $this->services['security.authentication.manager'] : $this->getSecurity_Authentication_ManagerService()) && false ?: '_'};
-        $e = ${($_ = isset($this->services['router']) ? $this->services['router'] : $this->get('router', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'};
 
-        $f = new \Symfony\Component\Security\Http\AccessMap();
+        $e = new \Symfony\Component\Security\Http\EntryPoint\BasicAuthenticationEntryPoint('Secured Area');
 
-        return $this->services['security.firewall.map.context.main'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => new \Symfony\Component\Security\Http\Firewall\ChannelListener($f, new \Symfony\Component\Security\Http\EntryPoint\RetryAuthenticationEntryPoint(80, 443), $a), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($b, array(0 => new \Symfony\Component\Security\Core\User\InMemoryUserProvider()), 'main', $a, ${($_ = isset($this->services['debug.event_dispatcher']) ? $this->services['debug.event_dispatcher'] : $this->get('debug.event_dispatcher', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'}, $c), 2 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($b, '5ac14347a02541.18353188', $a, $d), 3 => new \Symfony\Component\Security\Http\Firewall\AccessListener($b, ${($_ = isset($this->services['debug.security.access.decision_manager']) ? $this->services['debug.security.access.decision_manager'] : $this->getDebug_Security_Access_DecisionManagerService()) && false ?: '_'}, $f, $d)), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($b, $c, new \Symfony\Component\Security\Http\HttpUtils($e, $e), 'main', NULL, NULL, NULL, $a, false), new \Symfony\Bundle\SecurityBundle\Security\FirewallConfig('main', 'security.user_checker', NULL, true, false, 'security.user.provider.concrete.in_memory', 'main', NULL, NULL, NULL, array(0 => 'anonymous')));
+        return $this->services['security.firewall.map.context.main'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => ${($_ = isset($this->services['security.channel_listener']) ? $this->services['security.channel_listener'] : $this->getSecurity_ChannelListenerService()) && false ?: '_'}, 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($a, array(0 => ${($_ = isset($this->services['security.user.provider.concrete.dp_provider']) ? $this->services['security.user.provider.concrete.dp_provider'] : $this->getSecurity_User_Provider_Concrete_DpProviderService()) && false ?: '_'}), 'main', $b, ${($_ = isset($this->services['debug.event_dispatcher']) ? $this->services['debug.event_dispatcher'] : $this->get('debug.event_dispatcher', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'}, $c), 2 => new \Symfony\Component\Security\Http\Firewall\BasicAuthenticationListener($a, $d, 'main', $e, $b), 3 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($a, '5b1d6273366e54.73882304', $b, $d), 4 => ${($_ = isset($this->services['security.access_listener']) ? $this->services['security.access_listener'] : $this->getSecurity_AccessListenerService()) && false ?: '_'}), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($a, $c, ${($_ = isset($this->services['security.http_utils']) ? $this->services['security.http_utils'] : $this->getSecurity_HttpUtilsService()) && false ?: '_'}, 'main', $e, NULL, NULL, $b, false), new \Symfony\Bundle\SecurityBundle\Security\FirewallConfig('main', 'security.user_checker', 'security.request_matcher.a64d671f18e5575531d76c1d1154fdc4476cb8a79c02ed7a3469178c6d7b96b5ed4e60db', true, false, 'security.user.provider.concrete.dp_provider', 'main', 'security.authentication.basic_entry_point.main', NULL, NULL, array(0 => 'http_basic', 1 => 'anonymous')));
+    }
+
+    /**
+     * Gets the 'security.firewall.map.context.oauth_authorize' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \Symfony\Bundle\SecurityBundle\Security\FirewallContext A Symfony\Bundle\SecurityBundle\Security\FirewallContext instance
+     */
+    protected function getSecurity_Firewall_Map_Context_OauthAuthorizeService()
+    {
+        $a = ${($_ = isset($this->services['security.token_storage']) ? $this->services['security.token_storage'] : $this->get('security.token_storage')) && false ?: '_'};
+        $b = ${($_ = isset($this->services['monolog.logger.security']) ? $this->services['monolog.logger.security'] : $this->get('monolog.logger.security', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'};
+        $c = ${($_ = isset($this->services['security.authentication.trust_resolver']) ? $this->services['security.authentication.trust_resolver'] : $this->getSecurity_Authentication_TrustResolverService()) && false ?: '_'};
+
+        $d = new \Symfony\Component\Security\Http\EntryPoint\BasicAuthenticationEntryPoint('Secured Area');
+
+        return $this->services['security.firewall.map.context.oauth_authorize'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => ${($_ = isset($this->services['security.channel_listener']) ? $this->services['security.channel_listener'] : $this->getSecurity_ChannelListenerService()) && false ?: '_'}, 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($a, array(0 => ${($_ = isset($this->services['security.user.provider.concrete.dp_provider']) ? $this->services['security.user.provider.concrete.dp_provider'] : $this->getSecurity_User_Provider_Concrete_DpProviderService()) && false ?: '_'}), 'oauth_authorize', $b, ${($_ = isset($this->services['debug.event_dispatcher']) ? $this->services['debug.event_dispatcher'] : $this->get('debug.event_dispatcher', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'}, $c), 2 => new \Symfony\Component\Security\Http\Firewall\BasicAuthenticationListener($a, ${($_ = isset($this->services['security.authentication.manager']) ? $this->services['security.authentication.manager'] : $this->getSecurity_Authentication_ManagerService()) && false ?: '_'}, 'oauth_authorize', $d, $b), 3 => ${($_ = isset($this->services['security.access_listener']) ? $this->services['security.access_listener'] : $this->getSecurity_AccessListenerService()) && false ?: '_'}), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($a, $c, ${($_ = isset($this->services['security.http_utils']) ? $this->services['security.http_utils'] : $this->getSecurity_HttpUtilsService()) && false ?: '_'}, 'oauth_authorize', $d, NULL, NULL, $b, false), new \Symfony\Bundle\SecurityBundle\Security\FirewallConfig('oauth_authorize', 'security.user_checker', 'security.request_matcher.e32d8aefb5b59880c62e1a2111aa884fc5b89d540b3c4f3f126566afd79d8eb1771d0471', true, false, 'security.user.provider.concrete.dp_provider', 'oauth_authorize', 'security.authentication.basic_entry_point.oauth_authorize', NULL, NULL, array(0 => 'http_basic')));
+    }
+
+    /**
+     * Gets the 'security.firewall.map.context.oauth_token' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \Symfony\Bundle\SecurityBundle\Security\FirewallContext A Symfony\Bundle\SecurityBundle\Security\FirewallContext instance
+     */
+    protected function getSecurity_Firewall_Map_Context_OauthTokenService()
+    {
+        return $this->services['security.firewall.map.context.oauth_token'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(), NULL, new \Symfony\Bundle\SecurityBundle\Security\FirewallConfig('oauth_token', 'security.user_checker', 'security.request_matcher.9aeba7fba005ca2de6ea0e58141fd0f560b96c6bfaf30a7f437ed27f98a09bf8fd4a1ccf', false, '', '', '', '', '', '', array()));
     }
 
     /**
@@ -3200,7 +3669,7 @@ class appDevDebugProjectContainer extends Container
 
         $instance->add(${($_ = isset($this->services['sensio_framework_extra.converter.doctrine.orm']) ? $this->services['sensio_framework_extra.converter.doctrine.orm'] : $this->get('sensio_framework_extra.converter.doctrine.orm')) && false ?: '_'}, 0, 'doctrine.orm');
         $instance->add(${($_ = isset($this->services['sensio_framework_extra.converter.datetime']) ? $this->services['sensio_framework_extra.converter.datetime'] : $this->get('sensio_framework_extra.converter.datetime')) && false ?: '_'}, 0, 'datetime');
-        $instance->add(new \FOS\RestBundle\Request\RequestBodyParamConverter(${($_ = isset($this->services['fos_rest.serializer']) ? $this->services['fos_rest.serializer'] : $this->get('fos_rest.serializer')) && false ?: '_'}, array(), '', NULL, 'validationErrors'), -50, 'fos_rest.request_body');
+        $instance->add(new \FOS\RestBundle\Request\RequestBodyParamConverter(${($_ = isset($this->services['fos_rest.serializer']) ? $this->services['fos_rest.serializer'] : $this->get('fos_rest.serializer')) && false ?: '_'}, array(), '', ${($_ = isset($this->services['validator']) ? $this->services['validator'] : $this->get('validator', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'}, 'violations'), -50, 'fos_rest.request_body');
 
         return $instance;
     }
@@ -3586,6 +4055,7 @@ class appDevDebugProjectContainer extends Container
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\WebLinkExtension($c));
         $instance->addExtension(new \Doctrine\Bundle\DoctrineBundle\Twig\DoctrineExtension());
         $instance->addExtension(new \JMS\Serializer\Twig\SerializerRuntimeExtension());
+        $instance->addExtension(${($_ = isset($this->services['hateoas.twig.link']) ? $this->services['hateoas.twig.link'] : $this->get('hateoas.twig.link')) && false ?: '_'});
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\DumpExtension(${($_ = isset($this->services['var_dumper.cloner']) ? $this->services['var_dumper.cloner'] : $this->get('var_dumper.cloner')) && false ?: '_'}, $d));
         $instance->addExtension(new \Symfony\Bundle\WebProfilerBundle\Twig\WebProfilerExtension($e));
         $instance->addGlobal('app', $f);
@@ -3670,6 +4140,7 @@ class appDevDebugProjectContainer extends Container
         $instance->addPath(($this->targetDirs[3].'\\vendor\\symfony\\symfony\\src\\Symfony\\Bundle\\TwigBundle/Resources/views'), 'Twig');
         $instance->addPath(($this->targetDirs[3].'\\vendor\\symfony\\swiftmailer-bundle/Resources/views'), 'Swiftmailer');
         $instance->addPath(($this->targetDirs[3].'\\vendor\\doctrine\\doctrine-bundle/Resources/views'), 'Doctrine');
+        $instance->addPath(($this->targetDirs[3].'\\vendor\\friendsofsymfony\\oauth-server-bundle/Resources/views'), 'FOSOAuthServer');
         $instance->addPath(($this->targetDirs[3].'\\vendor\\symfony\\symfony\\src\\Symfony\\Bundle\\DebugBundle/Resources/views'), 'Debug');
         $instance->addPath(($this->targetDirs[3].'\\vendor\\symfony\\symfony\\src\\Symfony\\Bundle\\WebProfilerBundle/Resources/views'), 'WebProfiler');
         $instance->addPath(($this->targetDirs[3].'\\app/Resources/views'));
@@ -3785,7 +4256,7 @@ class appDevDebugProjectContainer extends Container
         }))));
         $instance->setTranslator(${($_ = isset($this->services['translator']) ? $this->services['translator'] : $this->get('translator')) && false ?: '_'});
         $instance->setTranslationDomain('validators');
-        $instance->addXmlMappings(array(0 => ($this->targetDirs[3].'\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/config/validation.xml')));
+        $instance->addXmlMappings(array(0 => ($this->targetDirs[3].'\\vendor\\symfony\\symfony\\src\\Symfony\\Component\\Form/Resources/config/validation.xml'), 1 => ($this->targetDirs[3].'\\vendor\\friendsofsymfony\\oauth-server-bundle/Resources/config/validation.xml')));
         $instance->enableAnnotationMapping(${($_ = isset($this->services['annotation_reader']) ? $this->services['annotation_reader'] : $this->get('annotation_reader')) && false ?: '_'});
         $instance->addMethodMapping('loadValidatorMetadata');
         $instance->addObjectInitializers(array(0 => ${($_ = isset($this->services['doctrine.orm.validator_initializer']) ? $this->services['doctrine.orm.validator_initializer'] : $this->get('doctrine.orm.validator_initializer')) && false ?: '_'}));
@@ -4027,8 +4498,32 @@ class appDevDebugProjectContainer extends Container
     {
         return $this->services['argument_resolver.service'] = new \Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver(new \Symfony\Component\DependencyInjection\ServiceLocator(array('AppBundle\\Controller\\DefaultController:phoneAction' => function () {
             return ${($_ = isset($this->services['service_locator.56b71901dc9f1612b3eb794d69c52524']) ? $this->services['service_locator.56b71901dc9f1612b3eb794d69c52524'] : $this->getServiceLocator_56b71901dc9f1612b3eb794d69c52524Service()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\SecurityController:delUserAction' => function () {
+            return ${($_ = isset($this->services['service_locator.bb08ca9a813b17f5c0d9c069a1cda526']) ? $this->services['service_locator.bb08ca9a813b17f5c0d9c069a1cda526'] : $this->getServiceLocator_Bb08ca9a813b17f5c0d9c069a1cda526Service()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\SecurityController:registerAction' => function () {
+            return ${($_ = isset($this->services['service_locator.2da6c68114bb2c845d30e336cbd4b76a']) ? $this->services['service_locator.2da6c68114bb2c845d30e336cbd4b76a'] : $this->getServiceLocator_2da6c68114bb2c845d30e336cbd4b76aService()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\SecurityController:registerAdminAction' => function () {
+            return ${($_ = isset($this->services['service_locator.2da6c68114bb2c845d30e336cbd4b76a']) ? $this->services['service_locator.2da6c68114bb2c845d30e336cbd4b76a'] : $this->getServiceLocator_2da6c68114bb2c845d30e336cbd4b76aService()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\SecurityController:setViewHandler' => function () {
+            return ${($_ = isset($this->services['service_locator.182f5c5b079727c046caf1a16a7b23a8']) ? $this->services['service_locator.182f5c5b079727c046caf1a16a7b23a8'] : $this->getServiceLocator_182f5c5b079727c046caf1a16a7b23a8Service()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\UserController:setViewHandler' => function () {
+            return ${($_ = isset($this->services['service_locator.182f5c5b079727c046caf1a16a7b23a8']) ? $this->services['service_locator.182f5c5b079727c046caf1a16a7b23a8'] : $this->getServiceLocator_182f5c5b079727c046caf1a16a7b23a8Service()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\UserController:userAction' => function () {
+            return ${($_ = isset($this->services['service_locator.61c4bc70092b00e9393797dce8125338']) ? $this->services['service_locator.61c4bc70092b00e9393797dce8125338'] : $this->getServiceLocator_61c4bc70092b00e9393797dce8125338Service()) && false ?: '_'};
         }, 'AppBundle\\Controller\\DefaultController::phoneAction' => function () {
             return ${($_ = isset($this->services['service_locator.56b71901dc9f1612b3eb794d69c52524']) ? $this->services['service_locator.56b71901dc9f1612b3eb794d69c52524'] : $this->getServiceLocator_56b71901dc9f1612b3eb794d69c52524Service()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\SecurityController::delUserAction' => function () {
+            return ${($_ = isset($this->services['service_locator.bb08ca9a813b17f5c0d9c069a1cda526']) ? $this->services['service_locator.bb08ca9a813b17f5c0d9c069a1cda526'] : $this->getServiceLocator_Bb08ca9a813b17f5c0d9c069a1cda526Service()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\SecurityController::registerAction' => function () {
+            return ${($_ = isset($this->services['service_locator.2da6c68114bb2c845d30e336cbd4b76a']) ? $this->services['service_locator.2da6c68114bb2c845d30e336cbd4b76a'] : $this->getServiceLocator_2da6c68114bb2c845d30e336cbd4b76aService()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\SecurityController::registerAdminAction' => function () {
+            return ${($_ = isset($this->services['service_locator.2da6c68114bb2c845d30e336cbd4b76a']) ? $this->services['service_locator.2da6c68114bb2c845d30e336cbd4b76a'] : $this->getServiceLocator_2da6c68114bb2c845d30e336cbd4b76aService()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\SecurityController::setViewHandler' => function () {
+            return ${($_ = isset($this->services['service_locator.182f5c5b079727c046caf1a16a7b23a8']) ? $this->services['service_locator.182f5c5b079727c046caf1a16a7b23a8'] : $this->getServiceLocator_182f5c5b079727c046caf1a16a7b23a8Service()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\UserController::setViewHandler' => function () {
+            return ${($_ = isset($this->services['service_locator.182f5c5b079727c046caf1a16a7b23a8']) ? $this->services['service_locator.182f5c5b079727c046caf1a16a7b23a8'] : $this->getServiceLocator_182f5c5b079727c046caf1a16a7b23a8Service()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\UserController::userAction' => function () {
+            return ${($_ = isset($this->services['service_locator.61c4bc70092b00e9393797dce8125338']) ? $this->services['service_locator.61c4bc70092b00e9393797dce8125338'] : $this->getServiceLocator_61c4bc70092b00e9393797dce8125338Service()) && false ?: '_'};
         })));
     }
 
@@ -4086,6 +4581,25 @@ class appDevDebugProjectContainer extends Container
     }
 
     /**
+     * Gets the 'autowired.AppBundle\Entity\User' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is private.
+     * If you want to be able to request this service from the container directly,
+     * make it public, otherwise you might end up with broken code.
+     *
+     * This service is autowired.
+     *
+     * @return \AppBundle\Entity\User A AppBundle\Entity\User instance
+     */
+    protected function getAutowired_AppBundle_Entity_UserService()
+    {
+        return $this->services['autowired.AppBundle\Entity\User'] = new \AppBundle\Entity\User();
+    }
+
+    /**
      * Gets the 'cache.annotations' service.
      *
      * This service is shared.
@@ -4118,7 +4632,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getCache_Annotations_RecorderInnerService($lazyLoad = true)
     {
-        return $this->services['cache.annotations.recorder_inner'] = \Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('U7ZBQaeMIW', 0, 'ZkOc-PQLpxl1V8+aKTKlgj', (__DIR__.'/pools'), ${($_ = isset($this->services['monolog.logger.cache']) ? $this->services['monolog.logger.cache'] : $this->get('monolog.logger.cache', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'});
+        return $this->services['cache.annotations.recorder_inner'] = \Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('U7ZBQaeMIW', 0, '7PmvuMqFTjiQ70u8ZjLot9', (__DIR__.'/pools'), ${($_ = isset($this->services['monolog.logger.cache']) ? $this->services['monolog.logger.cache'] : $this->get('monolog.logger.cache', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'});
     }
 
     /**
@@ -4162,7 +4676,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getCache_Serializer_RecorderInnerService($lazyLoad = true)
     {
-        return $this->services['cache.serializer.recorder_inner'] = \Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('Eykh4o4F3u', 0, 'ZkOc-PQLpxl1V8+aKTKlgj', (__DIR__.'/pools'), ${($_ = isset($this->services['monolog.logger.cache']) ? $this->services['monolog.logger.cache'] : $this->get('monolog.logger.cache', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'});
+        return $this->services['cache.serializer.recorder_inner'] = \Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('Eykh4o4F3u', 0, '7PmvuMqFTjiQ70u8ZjLot9', (__DIR__.'/pools'), ${($_ = isset($this->services['monolog.logger.cache']) ? $this->services['monolog.logger.cache'] : $this->get('monolog.logger.cache', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'});
     }
 
     /**
@@ -4181,7 +4695,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getCache_System_RecorderInnerService($lazyLoad = true)
     {
-        return $this->services['cache.system.recorder_inner'] = \Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('a+V6g3iEDE', 0, 'ZkOc-PQLpxl1V8+aKTKlgj', (__DIR__.'/pools'), ${($_ = isset($this->services['monolog.logger.cache']) ? $this->services['monolog.logger.cache'] : $this->get('monolog.logger.cache', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'});
+        return $this->services['cache.system.recorder_inner'] = \Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('a+V6g3iEDE', 0, '7PmvuMqFTjiQ70u8ZjLot9', (__DIR__.'/pools'), ${($_ = isset($this->services['monolog.logger.cache']) ? $this->services['monolog.logger.cache'] : $this->get('monolog.logger.cache', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'});
     }
 
     /**
@@ -4217,7 +4731,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getCache_Validator_RecorderInnerService($lazyLoad = true)
     {
-        return $this->services['cache.validator.recorder_inner'] = \Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('Z8cfsXxJ9v', 0, 'ZkOc-PQLpxl1V8+aKTKlgj', (__DIR__.'/pools'), ${($_ = isset($this->services['monolog.logger.cache']) ? $this->services['monolog.logger.cache'] : $this->get('monolog.logger.cache', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'});
+        return $this->services['cache.validator.recorder_inner'] = \Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('Z8cfsXxJ9v', 0, '7PmvuMqFTjiQ70u8ZjLot9', (__DIR__.'/pools'), ${($_ = isset($this->services['monolog.logger.cache']) ? $this->services['monolog.logger.cache'] : $this->get('monolog.logger.cache', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'});
     }
 
     /**
@@ -4304,7 +4818,7 @@ class appDevDebugProjectContainer extends Container
     {
         return $this->services['debug.security.access.decision_manager'] = new \Symfony\Component\Security\Core\Authorization\TraceableAccessDecisionManager(new \Symfony\Component\Security\Core\Authorization\AccessDecisionManager(new RewindableGenerator(function () {
             yield 0 => ${($_ = isset($this->services['security.access.authenticated_voter']) ? $this->services['security.access.authenticated_voter'] : $this->getSecurity_Access_AuthenticatedVoterService()) && false ?: '_'};
-            yield 1 => ${($_ = isset($this->services['security.access.simple_role_voter']) ? $this->services['security.access.simple_role_voter'] : $this->getSecurity_Access_SimpleRoleVoterService()) && false ?: '_'};
+            yield 1 => ${($_ = isset($this->services['security.access.role_hierarchy_voter']) ? $this->services['security.access.role_hierarchy_voter'] : $this->getSecurity_Access_RoleHierarchyVoterService()) && false ?: '_'};
             yield 2 => ${($_ = isset($this->services['security.access.expression_voter']) ? $this->services['security.access.expression_voter'] : $this->getSecurity_Access_ExpressionVoterService()) && false ?: '_'};
         }, 3), 'affirmative', false, true));
     }
@@ -4514,6 +5028,23 @@ class appDevDebugProjectContainer extends Container
     }
 
     /**
+     * Gets the 'fos_oauth_server.entity_manager' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is private.
+     * If you want to be able to request this service from the container directly,
+     * make it public, otherwise you might end up with broken code.
+     *
+     * @return \Doctrine\ORM\EntityManager A Doctrine\ORM\EntityManager instance
+     */
+    protected function getFosOauthServer_EntityManagerService()
+    {
+        return $this->services['fos_oauth_server.entity_manager'] = ${($_ = isset($this->services['doctrine']) ? $this->services['doctrine'] : $this->get('doctrine')) && false ?: '_'}->getManager(NULL);
+    }
+
+    /**
      * Gets the 'fos_rest.request.param_fetcher.reader' service.
      *
      * This service is shared.
@@ -4555,6 +5086,130 @@ class appDevDebugProjectContainer extends Container
         }, 'jms_serializer.php_collection_handler' => function () {
             return ${($_ = isset($this->services['jms_serializer.php_collection_handler']) ? $this->services['jms_serializer.php_collection_handler'] : $this->get('jms_serializer.php_collection_handler')) && false ?: '_'};
         })), array(2 => array('DateTime' => array('json' => array(0 => 'jms_serializer.datetime_handler', 1 => 'deserializeDateTimeFromjson'), 'xml' => array(0 => 'jms_serializer.datetime_handler', 1 => 'deserializeDateTimeFromxml'), 'yml' => array(0 => 'jms_serializer.datetime_handler', 1 => 'deserializeDateTimeFromyml')), 'DateTimeImmutable' => array('json' => array(0 => 'jms_serializer.datetime_handler', 1 => 'deserializeDateTimeImmutableFromjson'), 'xml' => array(0 => 'jms_serializer.datetime_handler', 1 => 'deserializeDateTimeImmutableFromxml'), 'yml' => array(0 => 'jms_serializer.datetime_handler', 1 => 'deserializeDateTimeImmutableFromyml')), 'DateInterval' => array('json' => array(0 => 'jms_serializer.datetime_handler', 1 => 'deserializeDateIntervalFromjson'), 'xml' => array(0 => 'jms_serializer.datetime_handler', 1 => 'deserializeDateIntervalFromxml'), 'yml' => array(0 => 'jms_serializer.datetime_handler', 1 => 'deserializeDateIntervalFromyml')), 'ArrayCollection' => array('json' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'deserializeCollection'), 'xml' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'deserializeCollection'), 'yml' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'deserializeCollection')), 'Doctrine\\Common\\Collections\\ArrayCollection' => array('json' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'deserializeCollection'), 'xml' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'deserializeCollection'), 'yml' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'deserializeCollection')), 'Doctrine\\ORM\\PersistentCollection' => array('json' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'deserializeCollection'), 'xml' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'deserializeCollection'), 'yml' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'deserializeCollection')), 'Doctrine\\ODM\\MongoDB\\PersistentCollection' => array('json' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'deserializeCollection'), 'xml' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'deserializeCollection'), 'yml' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'deserializeCollection')), 'Doctrine\\ODM\\PHPCR\\PersistentCollection' => array('json' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'deserializeCollection'), 'xml' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'deserializeCollection'), 'yml' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'deserializeCollection')), 'PhpCollection\\Sequence' => array('json' => array(0 => 'jms_serializer.php_collection_handler', 1 => 'deserializeSequence'), 'xml' => array(0 => 'jms_serializer.php_collection_handler', 1 => 'deserializeSequence'), 'yml' => array(0 => 'jms_serializer.php_collection_handler', 1 => 'deserializeSequence')), 'PhpCollection\\Map' => array('json' => array(0 => 'jms_serializer.php_collection_handler', 1 => 'deserializeMap'), 'xml' => array(0 => 'jms_serializer.php_collection_handler', 1 => 'deserializeMap'), 'yml' => array(0 => 'jms_serializer.php_collection_handler', 1 => 'deserializeMap'))), 1 => array('DateTime' => array('json' => array(0 => 'jms_serializer.datetime_handler', 1 => 'serializeDateTime'), 'xml' => array(0 => 'jms_serializer.datetime_handler', 1 => 'serializeDateTime'), 'yml' => array(0 => 'jms_serializer.datetime_handler', 1 => 'serializeDateTime')), 'DateTimeImmutable' => array('json' => array(0 => 'jms_serializer.datetime_handler', 1 => 'serializeDateTimeImmutable'), 'xml' => array(0 => 'jms_serializer.datetime_handler', 1 => 'serializeDateTimeImmutable'), 'yml' => array(0 => 'jms_serializer.datetime_handler', 1 => 'serializeDateTimeImmutable')), 'DateInterval' => array('json' => array(0 => 'jms_serializer.datetime_handler', 1 => 'serializeDateInterval'), 'xml' => array(0 => 'jms_serializer.datetime_handler', 1 => 'serializeDateInterval'), 'yml' => array(0 => 'jms_serializer.datetime_handler', 1 => 'serializeDateInterval')), 'ArrayCollection' => array('json' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'serializeCollection'), 'xml' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'serializeCollection'), 'yml' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'serializeCollection')), 'Doctrine\\Common\\Collections\\ArrayCollection' => array('json' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'serializeCollection'), 'xml' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'serializeCollection'), 'yml' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'serializeCollection')), 'Doctrine\\ORM\\PersistentCollection' => array('json' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'serializeCollection'), 'xml' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'serializeCollection'), 'yml' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'serializeCollection')), 'Doctrine\\ODM\\MongoDB\\PersistentCollection' => array('json' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'serializeCollection'), 'xml' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'serializeCollection'), 'yml' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'serializeCollection')), 'Doctrine\\ODM\\PHPCR\\PersistentCollection' => array('json' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'serializeCollection'), 'xml' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'serializeCollection'), 'yml' => array(0 => 'jms_serializer.array_collection_handler', 1 => 'serializeCollection')), 'PhpCollection\\Sequence' => array('json' => array(0 => 'jms_serializer.php_collection_handler', 1 => 'serializeSequence'), 'xml' => array(0 => 'jms_serializer.php_collection_handler', 1 => 'serializeSequence'), 'yml' => array(0 => 'jms_serializer.php_collection_handler', 1 => 'serializeSequence')), 'PhpCollection\\Map' => array('json' => array(0 => 'jms_serializer.php_collection_handler', 1 => 'serializeMap'), 'xml' => array(0 => 'jms_serializer.php_collection_handler', 1 => 'serializeMap'), 'yml' => array(0 => 'jms_serializer.php_collection_handler', 1 => 'serializeMap')), 'Symfony\\Component\\Form\\Form' => array('xml' => array(0 => 'jms_serializer.form_error_handler', 1 => 'serializeFormToxml'), 'json' => array(0 => 'jms_serializer.form_error_handler', 1 => 'serializeFormTojson'), 'yml' => array(0 => 'jms_serializer.form_error_handler', 1 => 'serializeFormToyml')), 'Symfony\\Component\\Form\\FormError' => array('xml' => array(0 => 'jms_serializer.form_error_handler', 1 => 'serializeFormErrorToxml'), 'json' => array(0 => 'jms_serializer.form_error_handler', 1 => 'serializeFormErrorTojson'), 'yml' => array(0 => 'jms_serializer.form_error_handler', 1 => 'serializeFormErrorToyml')), 'Symfony\\Component\\Validator\\ConstraintViolationList' => array('xml' => array(0 => 'jms_serializer.constraint_violation_handler', 1 => 'serializeListToxml'), 'json' => array(0 => 'jms_serializer.constraint_violation_handler', 1 => 'serializeListTojson'), 'yml' => array(0 => 'jms_serializer.constraint_violation_handler', 1 => 'serializeListToyml')), 'Symfony\\Component\\Validator\\ConstraintViolation' => array('xml' => array(0 => 'jms_serializer.constraint_violation_handler', 1 => 'serializeViolationToxml'), 'json' => array(0 => 'jms_serializer.constraint_violation_handler', 1 => 'serializeViolationTojson'), 'yml' => array(0 => 'jms_serializer.constraint_violation_handler', 1 => 'serializeViolationToyml')))));
+    }
+
+    /**
+     * Gets the 'hateoas.configuration.relations_repository' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is private.
+     * If you want to be able to request this service from the container directly,
+     * make it public, otherwise you might end up with broken code.
+     *
+     * @return \Hateoas\Configuration\RelationsRepository A Hateoas\Configuration\RelationsRepository instance
+     */
+    protected function getHateoas_Configuration_RelationsRepositoryService()
+    {
+        $a = ${($_ = isset($this->services['jms_serializer.metadata.file_locator']) ? $this->services['jms_serializer.metadata.file_locator'] : $this->getJmsSerializer_Metadata_FileLocatorService()) && false ?: '_'};
+        $b = ${($_ = isset($this->services['annotation_reader']) ? $this->services['annotation_reader'] : $this->get('annotation_reader')) && false ?: '_'};
+
+        $c = new \Hateoas\Configuration\Metadata\Driver\YamlDriver($a);
+
+        $d = new \Hateoas\Configuration\Metadata\Driver\XmlDriver($a);
+
+        $e = new \Hateoas\Configuration\Metadata\Driver\AnnotationDriver($b);
+
+        $f = new \Hateoas\Configuration\Metadata\Driver\ExtensionDriver($e);
+
+        $g = new \Metadata\Driver\DriverChain(array(0 => $c, 1 => $d, 2 => $f));
+
+        $h = new \Metadata\Cache\FileCache((__DIR__.'/hateoas'));
+
+        $i = new \Metadata\MetadataFactory($g, 'Metadata\\ClassHierarchyMetadata', true);
+        $i->setCache($h);
+
+        return $this->services['hateoas.configuration.relations_repository'] = new \Hateoas\Configuration\RelationsRepository($i, new \Hateoas\Configuration\Provider\RelationProvider($i, ${($_ = isset($this->services['hateoas.configuration.provider.resolver']) ? $this->services['hateoas.configuration.provider.resolver'] : $this->get('hateoas.configuration.provider.resolver')) && false ?: '_'}));
+    }
+
+    /**
+     * Gets the 'hateoas.embeds_factory' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is private.
+     * If you want to be able to request this service from the container directly,
+     * make it public, otherwise you might end up with broken code.
+     *
+     * @return \Hateoas\Factory\EmbeddedsFactory A Hateoas\Factory\EmbeddedsFactory instance
+     */
+    protected function getHateoas_EmbedsFactoryService()
+    {
+        return $this->services['hateoas.embeds_factory'] = new \Hateoas\Factory\EmbeddedsFactory(${($_ = isset($this->services['hateoas.configuration.relations_repository']) ? $this->services['hateoas.configuration.relations_repository'] : $this->getHateoas_Configuration_RelationsRepositoryService()) && false ?: '_'}, ${($_ = isset($this->services['hateoas.expression.evaluator']) ? $this->services['hateoas.expression.evaluator'] : $this->get('hateoas.expression.evaluator')) && false ?: '_'}, ${($_ = isset($this->services['hateoas.serializer.exclusion_manager']) ? $this->services['hateoas.serializer.exclusion_manager'] : $this->get('hateoas.serializer.exclusion_manager')) && false ?: '_'});
+    }
+
+    /**
+     * Gets the 'hateoas.link_factory' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is private.
+     * If you want to be able to request this service from the container directly,
+     * make it public, otherwise you might end up with broken code.
+     *
+     * @return \Hateoas\Factory\LinkFactory A Hateoas\Factory\LinkFactory instance
+     */
+    protected function getHateoas_LinkFactoryService()
+    {
+        return $this->services['hateoas.link_factory'] = new \Hateoas\Factory\LinkFactory(${($_ = isset($this->services['hateoas.expression.evaluator']) ? $this->services['hateoas.expression.evaluator'] : $this->get('hateoas.expression.evaluator')) && false ?: '_'}, ${($_ = isset($this->services['hateoas.generator.registry']) ? $this->services['hateoas.generator.registry'] : $this->get('hateoas.generator.registry')) && false ?: '_'});
+    }
+
+    /**
+     * Gets the 'hateoas.links_factory' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is private.
+     * If you want to be able to request this service from the container directly,
+     * make it public, otherwise you might end up with broken code.
+     *
+     * @return \Hateoas\Factory\LinksFactory A Hateoas\Factory\LinksFactory instance
+     */
+    protected function getHateoas_LinksFactoryService()
+    {
+        return $this->services['hateoas.links_factory'] = new \Hateoas\Factory\LinksFactory(${($_ = isset($this->services['hateoas.configuration.relations_repository']) ? $this->services['hateoas.configuration.relations_repository'] : $this->getHateoas_Configuration_RelationsRepositoryService()) && false ?: '_'}, ${($_ = isset($this->services['hateoas.link_factory']) ? $this->services['hateoas.link_factory'] : $this->getHateoas_LinkFactoryService()) && false ?: '_'}, ${($_ = isset($this->services['hateoas.serializer.exclusion_manager']) ? $this->services['hateoas.serializer.exclusion_manager'] : $this->get('hateoas.serializer.exclusion_manager')) && false ?: '_'});
+    }
+
+    /**
+     * Gets the 'jms_serializer.metadata.file_locator' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is private.
+     * If you want to be able to request this service from the container directly,
+     * make it public, otherwise you might end up with broken code.
+     *
+     * @return \Metadata\Driver\FileLocator A Metadata\Driver\FileLocator instance
+     */
+    protected function getJmsSerializer_Metadata_FileLocatorService()
+    {
+        return $this->services['jms_serializer.metadata.file_locator'] = new \Metadata\Driver\FileLocator(array());
+    }
+
+    /**
+     * Gets the 'jms_serializer.metadata_factory' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is private.
+     * If you want to be able to request this service from the container directly,
+     * make it public, otherwise you might end up with broken code.
+     *
+     * @return \Metadata\MetadataFactory A Metadata\MetadataFactory instance
+     */
+    protected function getJmsSerializer_MetadataFactoryService()
+    {
+        $this->services['jms_serializer.metadata_factory'] = $instance = new \Metadata\MetadataFactory(new \Metadata\Driver\LazyLoadingDriver($this, 'jms_serializer.metadata_driver'), 'Metadata\\ClassHierarchyMetadata', true);
+
+        $instance->setCache(new \Metadata\Cache\FileCache((__DIR__.'/jms_serializer')));
+
+        return $instance;
     }
 
     /**
@@ -4643,7 +5298,7 @@ class appDevDebugProjectContainer extends Container
     }
 
     /**
-     * Gets the 'security.access.simple_role_voter' service.
+     * Gets the 'security.access.role_hierarchy_voter' service.
      *
      * This service is shared.
      * This method always returns the same instance of the service.
@@ -4652,11 +5307,50 @@ class appDevDebugProjectContainer extends Container
      * If you want to be able to request this service from the container directly,
      * make it public, otherwise you might end up with broken code.
      *
-     * @return \Symfony\Component\Security\Core\Authorization\Voter\RoleVoter A Symfony\Component\Security\Core\Authorization\Voter\RoleVoter instance
+     * @return \Symfony\Component\Security\Core\Authorization\Voter\RoleHierarchyVoter A Symfony\Component\Security\Core\Authorization\Voter\RoleHierarchyVoter instance
      */
-    protected function getSecurity_Access_SimpleRoleVoterService()
+    protected function getSecurity_Access_RoleHierarchyVoterService()
     {
-        return $this->services['security.access.simple_role_voter'] = new \Symfony\Component\Security\Core\Authorization\Voter\RoleVoter();
+        return $this->services['security.access.role_hierarchy_voter'] = new \Symfony\Component\Security\Core\Authorization\Voter\RoleHierarchyVoter(${($_ = isset($this->services['security.role_hierarchy']) ? $this->services['security.role_hierarchy'] : $this->getSecurity_RoleHierarchyService()) && false ?: '_'});
+    }
+
+    /**
+     * Gets the 'security.access_listener' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is private.
+     * If you want to be able to request this service from the container directly,
+     * make it public, otherwise you might end up with broken code.
+     *
+     * @return \Symfony\Component\Security\Http\Firewall\AccessListener A Symfony\Component\Security\Http\Firewall\AccessListener instance
+     */
+    protected function getSecurity_AccessListenerService()
+    {
+        return $this->services['security.access_listener'] = new \Symfony\Component\Security\Http\Firewall\AccessListener(${($_ = isset($this->services['security.token_storage']) ? $this->services['security.token_storage'] : $this->get('security.token_storage')) && false ?: '_'}, ${($_ = isset($this->services['debug.security.access.decision_manager']) ? $this->services['debug.security.access.decision_manager'] : $this->getDebug_Security_Access_DecisionManagerService()) && false ?: '_'}, ${($_ = isset($this->services['security.access_map']) ? $this->services['security.access_map'] : $this->getSecurity_AccessMapService()) && false ?: '_'}, ${($_ = isset($this->services['security.authentication.manager']) ? $this->services['security.authentication.manager'] : $this->getSecurity_Authentication_ManagerService()) && false ?: '_'});
+    }
+
+    /**
+     * Gets the 'security.access_map' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is private.
+     * If you want to be able to request this service from the container directly,
+     * make it public, otherwise you might end up with broken code.
+     *
+     * @return \Symfony\Component\Security\Http\AccessMap A Symfony\Component\Security\Http\AccessMap instance
+     */
+    protected function getSecurity_AccessMapService()
+    {
+        $this->services['security.access_map'] = $instance = new \Symfony\Component\Security\Http\AccessMap();
+
+        $instance->add(new \Symfony\Component\HttpFoundation\RequestMatcher('^/api'), array(0 => 'IS_AUTHENTICATED_FULLY'), NULL);
+        $instance->add(new \Symfony\Component\HttpFoundation\RequestMatcher('^/register'), array(0 => 'IS_AUTHENTICATED_ANONYMOUSLY'), NULL);
+
+        return $instance;
     }
 
     /**
@@ -4674,8 +5368,11 @@ class appDevDebugProjectContainer extends Container
     protected function getSecurity_Authentication_ManagerService()
     {
         $this->services['security.authentication.manager'] = $instance = new \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager(new RewindableGenerator(function () {
-            yield 0 => ${($_ = isset($this->services['security.authentication.provider.anonymous.main']) ? $this->services['security.authentication.provider.anonymous.main'] : $this->getSecurity_Authentication_Provider_Anonymous_MainService()) && false ?: '_'};
-        }, 1), true);
+            yield 0 => ${($_ = isset($this->services['security.authentication.provider.dao.oauth_authorize']) ? $this->services['security.authentication.provider.dao.oauth_authorize'] : $this->getSecurity_Authentication_Provider_Dao_OauthAuthorizeService()) && false ?: '_'};
+            yield 1 => ${($_ = isset($this->services['security.authentication.provider.fos_oauth_server.api']) ? $this->services['security.authentication.provider.fos_oauth_server.api'] : $this->getSecurity_Authentication_Provider_FosOauthServer_ApiService()) && false ?: '_'};
+            yield 2 => ${($_ = isset($this->services['security.authentication.provider.dao.main']) ? $this->services['security.authentication.provider.dao.main'] : $this->getSecurity_Authentication_Provider_Dao_MainService()) && false ?: '_'};
+            yield 3 => ${($_ = isset($this->services['security.authentication.provider.anonymous.main']) ? $this->services['security.authentication.provider.anonymous.main'] : $this->getSecurity_Authentication_Provider_Anonymous_MainService()) && false ?: '_'};
+        }, 4), true);
 
         $instance->setEventDispatcher(${($_ = isset($this->services['debug.event_dispatcher']) ? $this->services['debug.event_dispatcher'] : $this->get('debug.event_dispatcher')) && false ?: '_'});
 
@@ -4696,7 +5393,58 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getSecurity_Authentication_Provider_Anonymous_MainService()
     {
-        return $this->services['security.authentication.provider.anonymous.main'] = new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('5ac14347a02541.18353188');
+        return $this->services['security.authentication.provider.anonymous.main'] = new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('5b1d6273366e54.73882304');
+    }
+
+    /**
+     * Gets the 'security.authentication.provider.dao.main' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is private.
+     * If you want to be able to request this service from the container directly,
+     * make it public, otherwise you might end up with broken code.
+     *
+     * @return \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider A Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider instance
+     */
+    protected function getSecurity_Authentication_Provider_Dao_MainService()
+    {
+        return $this->services['security.authentication.provider.dao.main'] = new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider(${($_ = isset($this->services['security.user.provider.concrete.dp_provider']) ? $this->services['security.user.provider.concrete.dp_provider'] : $this->getSecurity_User_Provider_Concrete_DpProviderService()) && false ?: '_'}, ${($_ = isset($this->services['security.user_checker']) ? $this->services['security.user_checker'] : $this->getSecurity_UserCheckerService()) && false ?: '_'}, 'main', ${($_ = isset($this->services['security.encoder_factory']) ? $this->services['security.encoder_factory'] : $this->get('security.encoder_factory')) && false ?: '_'}, true);
+    }
+
+    /**
+     * Gets the 'security.authentication.provider.dao.oauth_authorize' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is private.
+     * If you want to be able to request this service from the container directly,
+     * make it public, otherwise you might end up with broken code.
+     *
+     * @return \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider A Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider instance
+     */
+    protected function getSecurity_Authentication_Provider_Dao_OauthAuthorizeService()
+    {
+        return $this->services['security.authentication.provider.dao.oauth_authorize'] = new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider(${($_ = isset($this->services['security.user.provider.concrete.dp_provider']) ? $this->services['security.user.provider.concrete.dp_provider'] : $this->getSecurity_User_Provider_Concrete_DpProviderService()) && false ?: '_'}, ${($_ = isset($this->services['security.user_checker']) ? $this->services['security.user_checker'] : $this->getSecurity_UserCheckerService()) && false ?: '_'}, 'oauth_authorize', ${($_ = isset($this->services['security.encoder_factory']) ? $this->services['security.encoder_factory'] : $this->get('security.encoder_factory')) && false ?: '_'}, true);
+    }
+
+    /**
+     * Gets the 'security.authentication.provider.fos_oauth_server.api' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is private.
+     * If you want to be able to request this service from the container directly,
+     * make it public, otherwise you might end up with broken code.
+     *
+     * @return \FOS\OAuthServerBundle\Security\Authentication\Provider\OAuthProvider A FOS\OAuthServerBundle\Security\Authentication\Provider\OAuthProvider instance
+     */
+    protected function getSecurity_Authentication_Provider_FosOauthServer_ApiService()
+    {
+        return $this->services['security.authentication.provider.fos_oauth_server.api'] = new \FOS\OAuthServerBundle\Security\Authentication\Provider\OAuthProvider(${($_ = isset($this->services['security.user.provider.concrete.dp_provider']) ? $this->services['security.user.provider.concrete.dp_provider'] : $this->getSecurity_User_Provider_Concrete_DpProviderService()) && false ?: '_'}, ${($_ = isset($this->services['fos_oauth_server.server']) ? $this->services['fos_oauth_server.server'] : $this->get('fos_oauth_server.server')) && false ?: '_'}, ${($_ = isset($this->services['security.user_checker']) ? $this->services['security.user_checker'] : $this->getSecurity_UserCheckerService()) && false ?: '_'});
     }
 
     /**
@@ -4717,6 +5465,23 @@ class appDevDebugProjectContainer extends Container
     }
 
     /**
+     * Gets the 'security.channel_listener' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is private.
+     * If you want to be able to request this service from the container directly,
+     * make it public, otherwise you might end up with broken code.
+     *
+     * @return \Symfony\Component\Security\Http\Firewall\ChannelListener A Symfony\Component\Security\Http\Firewall\ChannelListener instance
+     */
+    protected function getSecurity_ChannelListenerService()
+    {
+        return $this->services['security.channel_listener'] = new \Symfony\Component\Security\Http\Firewall\ChannelListener(${($_ = isset($this->services['security.access_map']) ? $this->services['security.access_map'] : $this->getSecurity_AccessMapService()) && false ?: '_'}, new \Symfony\Component\Security\Http\EntryPoint\RetryAuthenticationEntryPoint(80, 443), ${($_ = isset($this->services['monolog.logger.security']) ? $this->services['monolog.logger.security'] : $this->get('monolog.logger.security', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'});
+    }
+
+    /**
      * Gets the 'security.firewall.map' service.
      *
      * This service is shared.
@@ -4730,14 +5495,39 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getSecurity_Firewall_MapService()
     {
-        return $this->services['security.firewall.map'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallMap(new \Symfony\Component\DependencyInjection\ServiceLocator(array('security.firewall.map.context.dev' => function () {
-            return ${($_ = isset($this->services['security.firewall.map.context.dev']) ? $this->services['security.firewall.map.context.dev'] : $this->get('security.firewall.map.context.dev')) && false ?: '_'};
+        return $this->services['security.firewall.map'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallMap(new \Symfony\Component\DependencyInjection\ServiceLocator(array('security.firewall.map.context.api' => function () {
+            return ${($_ = isset($this->services['security.firewall.map.context.api']) ? $this->services['security.firewall.map.context.api'] : $this->get('security.firewall.map.context.api')) && false ?: '_'};
         }, 'security.firewall.map.context.main' => function () {
             return ${($_ = isset($this->services['security.firewall.map.context.main']) ? $this->services['security.firewall.map.context.main'] : $this->get('security.firewall.map.context.main')) && false ?: '_'};
+        }, 'security.firewall.map.context.oauth_authorize' => function () {
+            return ${($_ = isset($this->services['security.firewall.map.context.oauth_authorize']) ? $this->services['security.firewall.map.context.oauth_authorize'] : $this->get('security.firewall.map.context.oauth_authorize')) && false ?: '_'};
+        }, 'security.firewall.map.context.oauth_token' => function () {
+            return ${($_ = isset($this->services['security.firewall.map.context.oauth_token']) ? $this->services['security.firewall.map.context.oauth_token'] : $this->get('security.firewall.map.context.oauth_token')) && false ?: '_'};
         })), new RewindableGenerator(function () {
-            yield 'security.firewall.map.context.dev' => ${($_ = isset($this->services['security.request_matcher.5314eeb91110adf24b9b678372bb11bbe00e8858c519c088bfb65f525181ad3bf573fd1d']) ? $this->services['security.request_matcher.5314eeb91110adf24b9b678372bb11bbe00e8858c519c088bfb65f525181ad3bf573fd1d'] : $this->getSecurity_RequestMatcher_5314eeb91110adf24b9b678372bb11bbe00e8858c519c088bfb65f525181ad3bf573fd1dService()) && false ?: '_'};
-            yield 'security.firewall.map.context.main' => NULL;
-        }, 2));
+            yield 'security.firewall.map.context.oauth_token' => ${($_ = isset($this->services['security.request_matcher.9aeba7fba005ca2de6ea0e58141fd0f560b96c6bfaf30a7f437ed27f98a09bf8fd4a1ccf']) ? $this->services['security.request_matcher.9aeba7fba005ca2de6ea0e58141fd0f560b96c6bfaf30a7f437ed27f98a09bf8fd4a1ccf'] : $this->getSecurity_RequestMatcher_9aeba7fba005ca2de6ea0e58141fd0f560b96c6bfaf30a7f437ed27f98a09bf8fd4a1ccfService()) && false ?: '_'};
+            yield 'security.firewall.map.context.oauth_authorize' => ${($_ = isset($this->services['security.request_matcher.e32d8aefb5b59880c62e1a2111aa884fc5b89d540b3c4f3f126566afd79d8eb1771d0471']) ? $this->services['security.request_matcher.e32d8aefb5b59880c62e1a2111aa884fc5b89d540b3c4f3f126566afd79d8eb1771d0471'] : $this->getSecurity_RequestMatcher_E32d8aefb5b59880c62e1a2111aa884fc5b89d540b3c4f3f126566afd79d8eb1771d0471Service()) && false ?: '_'};
+            yield 'security.firewall.map.context.api' => ${($_ = isset($this->services['security.request_matcher.83414b4f59ab53f8865b08d5074e037efbb06e57ccba58ede5e1ed417a9ddcd1b645c11b']) ? $this->services['security.request_matcher.83414b4f59ab53f8865b08d5074e037efbb06e57ccba58ede5e1ed417a9ddcd1b645c11b'] : $this->getSecurity_RequestMatcher_83414b4f59ab53f8865b08d5074e037efbb06e57ccba58ede5e1ed417a9ddcd1b645c11bService()) && false ?: '_'};
+            yield 'security.firewall.map.context.main' => ${($_ = isset($this->services['security.request_matcher.a64d671f18e5575531d76c1d1154fdc4476cb8a79c02ed7a3469178c6d7b96b5ed4e60db']) ? $this->services['security.request_matcher.a64d671f18e5575531d76c1d1154fdc4476cb8a79c02ed7a3469178c6d7b96b5ed4e60db'] : $this->getSecurity_RequestMatcher_A64d671f18e5575531d76c1d1154fdc4476cb8a79c02ed7a3469178c6d7b96b5ed4e60dbService()) && false ?: '_'};
+        }, 4));
+    }
+
+    /**
+     * Gets the 'security.http_utils' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is private.
+     * If you want to be able to request this service from the container directly,
+     * make it public, otherwise you might end up with broken code.
+     *
+     * @return \Symfony\Component\Security\Http\HttpUtils A Symfony\Component\Security\Http\HttpUtils instance
+     */
+    protected function getSecurity_HttpUtilsService()
+    {
+        $a = ${($_ = isset($this->services['router']) ? $this->services['router'] : $this->get('router', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'};
+
+        return $this->services['security.http_utils'] = new \Symfony\Component\Security\Http\HttpUtils($a, $a);
     }
 
     /**
@@ -4758,7 +5548,7 @@ class appDevDebugProjectContainer extends Container
     }
 
     /**
-     * Gets the 'security.request_matcher.5314eeb91110adf24b9b678372bb11bbe00e8858c519c088bfb65f525181ad3bf573fd1d' service.
+     * Gets the 'security.request_matcher.83414b4f59ab53f8865b08d5074e037efbb06e57ccba58ede5e1ed417a9ddcd1b645c11b' service.
      *
      * This service is shared.
      * This method always returns the same instance of the service.
@@ -4769,9 +5559,60 @@ class appDevDebugProjectContainer extends Container
      *
      * @return \Symfony\Component\HttpFoundation\RequestMatcher A Symfony\Component\HttpFoundation\RequestMatcher instance
      */
-    protected function getSecurity_RequestMatcher_5314eeb91110adf24b9b678372bb11bbe00e8858c519c088bfb65f525181ad3bf573fd1dService()
+    protected function getSecurity_RequestMatcher_83414b4f59ab53f8865b08d5074e037efbb06e57ccba58ede5e1ed417a9ddcd1b645c11bService()
     {
-        return $this->services['security.request_matcher.5314eeb91110adf24b9b678372bb11bbe00e8858c519c088bfb65f525181ad3bf573fd1d'] = new \Symfony\Component\HttpFoundation\RequestMatcher('^/(_(profiler|wdt)|css|images|js)/');
+        return $this->services['security.request_matcher.83414b4f59ab53f8865b08d5074e037efbb06e57ccba58ede5e1ed417a9ddcd1b645c11b'] = new \Symfony\Component\HttpFoundation\RequestMatcher('^/api');
+    }
+
+    /**
+     * Gets the 'security.request_matcher.9aeba7fba005ca2de6ea0e58141fd0f560b96c6bfaf30a7f437ed27f98a09bf8fd4a1ccf' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is private.
+     * If you want to be able to request this service from the container directly,
+     * make it public, otherwise you might end up with broken code.
+     *
+     * @return \Symfony\Component\HttpFoundation\RequestMatcher A Symfony\Component\HttpFoundation\RequestMatcher instance
+     */
+    protected function getSecurity_RequestMatcher_9aeba7fba005ca2de6ea0e58141fd0f560b96c6bfaf30a7f437ed27f98a09bf8fd4a1ccfService()
+    {
+        return $this->services['security.request_matcher.9aeba7fba005ca2de6ea0e58141fd0f560b96c6bfaf30a7f437ed27f98a09bf8fd4a1ccf'] = new \Symfony\Component\HttpFoundation\RequestMatcher('^/oauth/v2/token');
+    }
+
+    /**
+     * Gets the 'security.request_matcher.a64d671f18e5575531d76c1d1154fdc4476cb8a79c02ed7a3469178c6d7b96b5ed4e60db' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is private.
+     * If you want to be able to request this service from the container directly,
+     * make it public, otherwise you might end up with broken code.
+     *
+     * @return \Symfony\Component\HttpFoundation\RequestMatcher A Symfony\Component\HttpFoundation\RequestMatcher instance
+     */
+    protected function getSecurity_RequestMatcher_A64d671f18e5575531d76c1d1154fdc4476cb8a79c02ed7a3469178c6d7b96b5ed4e60dbService()
+    {
+        return $this->services['security.request_matcher.a64d671f18e5575531d76c1d1154fdc4476cb8a79c02ed7a3469178c6d7b96b5ed4e60db'] = new \Symfony\Component\HttpFoundation\RequestMatcher('^/');
+    }
+
+    /**
+     * Gets the 'security.request_matcher.e32d8aefb5b59880c62e1a2111aa884fc5b89d540b3c4f3f126566afd79d8eb1771d0471' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is private.
+     * If you want to be able to request this service from the container directly,
+     * make it public, otherwise you might end up with broken code.
+     *
+     * @return \Symfony\Component\HttpFoundation\RequestMatcher A Symfony\Component\HttpFoundation\RequestMatcher instance
+     */
+    protected function getSecurity_RequestMatcher_E32d8aefb5b59880c62e1a2111aa884fc5b89d540b3c4f3f126566afd79d8eb1771d0471Service()
+    {
+        return $this->services['security.request_matcher.e32d8aefb5b59880c62e1a2111aa884fc5b89d540b3c4f3f126566afd79d8eb1771d0471'] = new \Symfony\Component\HttpFoundation\RequestMatcher('^/oauth/v2/auth');
     }
 
     /**
@@ -4788,7 +5629,41 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getSecurity_RoleHierarchyService()
     {
-        return $this->services['security.role_hierarchy'] = new \Symfony\Component\Security\Core\Role\RoleHierarchy(array());
+        return $this->services['security.role_hierarchy'] = new \Symfony\Component\Security\Core\Role\RoleHierarchy(array('ROLE_ADMIN' => array(0 => 'ROLE_USER'), 'ROLE_SUPER_ADMIN' => array(0 => 'ROLE_USER', 1 => 'ROLE_ALLOWED_TO_SWITCH')));
+    }
+
+    /**
+     * Gets the 'security.user.provider.concrete.dp_provider' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is private.
+     * If you want to be able to request this service from the container directly,
+     * make it public, otherwise you might end up with broken code.
+     *
+     * @return \Symfony\Bridge\Doctrine\Security\User\EntityUserProvider A Symfony\Bridge\Doctrine\Security\User\EntityUserProvider instance
+     */
+    protected function getSecurity_User_Provider_Concrete_DpProviderService()
+    {
+        return $this->services['security.user.provider.concrete.dp_provider'] = new \Symfony\Bridge\Doctrine\Security\User\EntityUserProvider(${($_ = isset($this->services['doctrine']) ? $this->services['doctrine'] : $this->get('doctrine')) && false ?: '_'}, 'AppBundle:User', NULL, NULL);
+    }
+
+    /**
+     * Gets the 'security.user_checker' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is private.
+     * If you want to be able to request this service from the container directly,
+     * make it public, otherwise you might end up with broken code.
+     *
+     * @return \Symfony\Component\Security\Core\User\UserChecker A Symfony\Component\Security\Core\User\UserChecker instance
+     */
+    protected function getSecurity_UserCheckerService()
+    {
+        return $this->services['security.user_checker'] = new \Symfony\Component\Security\Core\User\UserChecker();
     }
 
     /**
@@ -4809,6 +5684,46 @@ class appDevDebugProjectContainer extends Container
     }
 
     /**
+     * Gets the 'service_locator.182f5c5b079727c046caf1a16a7b23a8' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is private.
+     * If you want to be able to request this service from the container directly,
+     * make it public, otherwise you might end up with broken code.
+     *
+     * @return \Symfony\Component\DependencyInjection\ServiceLocator A Symfony\Component\DependencyInjection\ServiceLocator instance
+     */
+    protected function getServiceLocator_182f5c5b079727c046caf1a16a7b23a8Service()
+    {
+        return $this->services['service_locator.182f5c5b079727c046caf1a16a7b23a8'] = new \Symfony\Component\DependencyInjection\ServiceLocator(array('viewhandler' => function () {
+            return ${($_ = isset($this->services['FOS\RestBundle\View\ViewHandlerInterface']) ? $this->services['FOS\RestBundle\View\ViewHandlerInterface'] : $this->get('FOS\RestBundle\View\ViewHandlerInterface', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'};
+        }));
+    }
+
+    /**
+     * Gets the 'service_locator.2da6c68114bb2c845d30e336cbd4b76a' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is private.
+     * If you want to be able to request this service from the container directly,
+     * make it public, otherwise you might end up with broken code.
+     *
+     * @return \Symfony\Component\DependencyInjection\ServiceLocator A Symfony\Component\DependencyInjection\ServiceLocator instance
+     */
+    protected function getServiceLocator_2da6c68114bb2c845d30e336cbd4b76aService()
+    {
+        return $this->services['service_locator.2da6c68114bb2c845d30e336cbd4b76a'] = new \Symfony\Component\DependencyInjection\ServiceLocator(array('encoder' => function () {
+            return ${($_ = isset($this->services['security.password_encoder']) ? $this->services['security.password_encoder'] : $this->get('security.password_encoder', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'};
+        }, 'user' => function () {
+            $f = function (\AppBundle\Entity\User $v) { return $v; }; return $f(${($_ = isset($this->services['autowired.AppBundle\Entity\User']) ? $this->services['autowired.AppBundle\Entity\User'] : $this->getAutowired_AppBundle_Entity_UserService()) && false ?: '_'});
+        }));
+    }
+
+    /**
      * Gets the 'service_locator.56b71901dc9f1612b3eb794d69c52524' service.
      *
      * This service is shared.
@@ -4824,6 +5739,44 @@ class appDevDebugProjectContainer extends Container
     {
         return $this->services['service_locator.56b71901dc9f1612b3eb794d69c52524'] = new \Symfony\Component\DependencyInjection\ServiceLocator(array('phone' => function () {
             $f = function (\AppBundle\Entity\Phones $v) { return $v; }; return $f(${($_ = isset($this->services['autowired.AppBundle\Entity\Phones']) ? $this->services['autowired.AppBundle\Entity\Phones'] : $this->getAutowired_AppBundle_Entity_PhonesService()) && false ?: '_'});
+        }));
+    }
+
+    /**
+     * Gets the 'service_locator.61c4bc70092b00e9393797dce8125338' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is private.
+     * If you want to be able to request this service from the container directly,
+     * make it public, otherwise you might end up with broken code.
+     *
+     * @return \Symfony\Component\DependencyInjection\ServiceLocator A Symfony\Component\DependencyInjection\ServiceLocator instance
+     */
+    protected function getServiceLocator_61c4bc70092b00e9393797dce8125338Service()
+    {
+        return $this->services['service_locator.61c4bc70092b00e9393797dce8125338'] = new \Symfony\Component\DependencyInjection\ServiceLocator(array('user' => function () {
+            $f = function (\AppBundle\Entity\User $v) { return $v; }; return $f(${($_ = isset($this->services['autowired.AppBundle\Entity\User']) ? $this->services['autowired.AppBundle\Entity\User'] : $this->getAutowired_AppBundle_Entity_UserService()) && false ?: '_'});
+        }));
+    }
+
+    /**
+     * Gets the 'service_locator.bb08ca9a813b17f5c0d9c069a1cda526' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is private.
+     * If you want to be able to request this service from the container directly,
+     * make it public, otherwise you might end up with broken code.
+     *
+     * @return \Symfony\Component\DependencyInjection\ServiceLocator A Symfony\Component\DependencyInjection\ServiceLocator instance
+     */
+    protected function getServiceLocator_Bb08ca9a813b17f5c0d9c069a1cda526Service()
+    {
+        return $this->services['service_locator.bb08ca9a813b17f5c0d9c069a1cda526'] = new \Symfony\Component\DependencyInjection\ServiceLocator(array('user' => function () {
+            $f = function (\AppBundle\Entity\User $v) { return $v; }; return $f(${($_ = isset($this->services['autowired.AppBundle\Entity\User']) ? $this->services['autowired.AppBundle\Entity\User'] : $this->getAutowired_AppBundle_Entity_UserService()) && false ?: '_'});
         }));
     }
 
@@ -5047,6 +6000,16 @@ class appDevDebugProjectContainer extends Container
                     'path' => ($this->targetDirs[3].'\\vendor\\friendsofsymfony\\rest-bundle'),
                     'namespace' => 'FOS\\RestBundle',
                 ),
+                'FOSOAuthServerBundle' => array(
+                    'parent' => NULL,
+                    'path' => ($this->targetDirs[3].'\\vendor\\friendsofsymfony\\oauth-server-bundle'),
+                    'namespace' => 'FOS\\OAuthServerBundle',
+                ),
+                'BazingaHateoasBundle' => array(
+                    'parent' => NULL,
+                    'path' => ($this->targetDirs[3].'\\vendor\\willdurand\\hateoas-bundle'),
+                    'namespace' => 'Bazinga\\Bundle\\HateoasBundle',
+                ),
                 'DebugBundle' => array(
                     'parent' => NULL,
                     'path' => ($this->targetDirs[3].'\\vendor\\symfony\\symfony\\src\\Symfony\\Bundle\\DebugBundle'),
@@ -5110,6 +6073,8 @@ class appDevDebugProjectContainer extends Container
                 'AppBundle' => 'AppBundle\\AppBundle',
                 'JMSSerializerBundle' => 'JMS\\SerializerBundle\\JMSSerializerBundle',
                 'FOSRestBundle' => 'FOS\\RestBundle\\FOSRestBundle',
+                'FOSOAuthServerBundle' => 'FOS\\OAuthServerBundle\\FOSOAuthServerBundle',
+                'BazingaHateoasBundle' => 'Bazinga\\Bundle\\HateoasBundle\\BazingaHateoasBundle',
                 'DebugBundle' => 'Symfony\\Bundle\\DebugBundle\\DebugBundle',
                 'WebProfilerBundle' => 'Symfony\\Bundle\\WebProfilerBundle\\WebProfilerBundle',
                 'SensioDistributionBundle' => 'Sensio\\Bundle\\DistributionBundle\\SensioDistributionBundle',
@@ -5177,7 +6142,13 @@ class appDevDebugProjectContainer extends Container
             'security.authentication.trust_resolver.anonymous_class' => 'Symfony\\Component\\Security\\Core\\Authentication\\Token\\AnonymousToken',
             'security.authentication.trust_resolver.rememberme_class' => 'Symfony\\Component\\Security\\Core\\Authentication\\Token\\RememberMeToken',
             'security.role_hierarchy.roles' => array(
-
+                'ROLE_ADMIN' => array(
+                    0 => 'ROLE_USER',
+                ),
+                'ROLE_SUPER_ADMIN' => array(
+                    0 => 'ROLE_USER',
+                    1 => 'ROLE_ALLOWED_TO_SWITCH',
+                ),
             ),
             'security.access.denied_url' => NULL,
             'security.authentication.manager.erase_credentials' => true,
@@ -5416,6 +6387,52 @@ class appDevDebugProjectContainer extends Container
             'jms_serializer.accessor_strategy.expression.class' => 'JMS\\Serializer\\Accessor\\ExpressionAccessorStrategy',
             'jms_serializer.cache.cache_warmer.class' => 'JMS\\SerializerBundle\\Cache\\CacheWarmer',
             'fos_rest.format_listener.rules' => NULL,
+            'fos_oauth_server.server.class' => 'OAuth2\\OAuth2',
+            'fos_oauth_server.security.authentication.provider.class' => 'FOS\\OAuthServerBundle\\Security\\Authentication\\Provider\\OAuthProvider',
+            'fos_oauth_server.security.authentication.listener.class' => 'FOS\\OAuthServerBundle\\Security\\Firewall\\OAuthListener',
+            'fos_oauth_server.security.entry_point.class' => 'FOS\\OAuthServerBundle\\Security\\EntryPoint\\OAuthEntryPoint',
+            'fos_oauth_server.server.options' => array(
+
+            ),
+            'fos_oauth_server.model_manager_name' => NULL,
+            'fos_oauth_server.model.client.class' => 'AppBundle\\Entity\\Client',
+            'fos_oauth_server.model.access_token.class' => 'AppBundle\\Entity\\AccessToken',
+            'fos_oauth_server.model.refresh_token.class' => 'AppBundle\\Entity\\RefreshToken',
+            'fos_oauth_server.model.auth_code.class' => 'AppBundle\\Entity\\AuthCode',
+            'fos_oauth_server.template.engine' => 'twig',
+            'fos_oauth_server.authorize.form.type' => 'FOS\\OAuthServerBundle\\Form\\Type\\AuthorizeFormType',
+            'fos_oauth_server.authorize.form.name' => 'fos_oauth_server_authorize_form',
+            'fos_oauth_server.authorize.form.validation_groups' => array(
+                0 => 'Authorize',
+                1 => 'Default',
+            ),
+            'hateoas.link_factory.class' => 'Hateoas\\Factory\\LinkFactory',
+            'hateoas.links_factory.class' => 'Hateoas\\Factory\\LinksFactory',
+            'hateoas.embeds_factory.class' => 'Hateoas\\Factory\\EmbeddedsFactory',
+            'hateoas.expression.evaluator.class' => 'Bazinga\\Bundle\\HateoasBundle\\Hateoas\\Expression\\LazyFunctionExpressionEvaluator',
+            'bazinga_hateoas.expression_language.class' => 'Bazinga\\Bundle\\HateoasBundle\\ExpressionLanguage\\ExpressionLanguage',
+            'hateoas.expression.link.class' => 'Hateoas\\Expression\\LinkExpressionFunction',
+            'hateoas.serializer.xml.class' => 'Hateoas\\Serializer\\XmlSerializer',
+            'hateoas.serializer.json_hal.class' => 'Hateoas\\Serializer\\JsonHalSerializer',
+            'hateoas.serializer.exclusion_manager.class' => 'Hateoas\\Serializer\\ExclusionManager',
+            'hateoas.event_subscriber.xml.class' => 'Hateoas\\Serializer\\EventSubscriber\\XmlEventSubscriber',
+            'hateoas.event_subscriber.json.class' => 'Hateoas\\Serializer\\EventSubscriber\\JsonEventSubscriber',
+            'hateoas.inline_deferrer.embeds.class' => 'Hateoas\\Serializer\\Metadata\\InlineDeferrer',
+            'hateoas.inline_deferrer.links.class' => 'Hateoas\\Serializer\\Metadata\\InlineDeferrer',
+            'hateoas.configuration.provider.resolver.chain.class' => 'Hateoas\\Configuration\\Provider\\Resolver\\ChainResolver',
+            'hateoas.configuration.provider.resolver.method.class' => 'Hateoas\\Configuration\\Provider\\Resolver\\MethodResolver',
+            'hateoas.configuration.provider.resolver.static_method.class' => 'Hateoas\\Configuration\\Provider\\Resolver\\StaticMethodResolver',
+            'hateoas.configuration.provider.resolver.symfony_container.class' => 'Hateoas\\Configuration\\Provider\\Resolver\\SymfonyContainerResolver',
+            'hateoas.configuration.relation_provider.class' => 'Hateoas\\Configuration\\Provider\\RelationProvider',
+            'hateoas.configuration.relations_repository.class' => 'Hateoas\\Configuration\\RelationsRepository',
+            'hateoas.configuration.metadata.yaml_driver.class' => 'Hateoas\\Configuration\\Metadata\\Driver\\YamlDriver',
+            'hateoas.configuration.metadata.xml_driver.class' => 'Hateoas\\Configuration\\Metadata\\Driver\\XmlDriver',
+            'hateoas.configuration.metadata.annotation_driver.class' => 'Hateoas\\Configuration\\Metadata\\Driver\\AnnotationDriver',
+            'hateoas.configuration.metadata.extension_driver.class' => 'Hateoas\\Configuration\\Metadata\\Driver\\ExtensionDriver',
+            'hateoas.generator.registry.class' => 'Hateoas\\UrlGenerator\\UrlGeneratorRegistry',
+            'hateoas.generator.symfony.class' => 'Hateoas\\UrlGenerator\\SymfonyUrlGenerator',
+            'hateoas.helper.link.class' => 'Hateoas\\Helper\\LinkHelper',
+            'hateoas.twig.link.class' => 'Hateoas\\Twig\\Extension\\LinkExtension',
             'web_profiler.debug_toolbar.position' => 'bottom',
             'web_profiler.debug_toolbar.intercept_redirects' => false,
             'web_profiler.debug_toolbar.mode' => 2,
@@ -5486,6 +6503,7 @@ class appDevDebugProjectContainer extends Container
                 ),
             ),
             'console.command.ids' => array(
+                'console.command.appbundle_command_createoauthclientcommand' => 'console.command.appbundle_command_createoauthclientcommand',
                 'console.command.symfony_bundle_securitybundle_command_userpasswordencodercommand' => 'console.command.symfony_bundle_securitybundle_command_userpasswordencodercommand',
                 'console.command.sensiolabs_security_command_securitycheckercommand' => 'sensio_distribution.security_checker.command',
                 'console.command.doctrine_bundle_fixturesbundle_command_loaddatafixturesdoctrinecommand' => 'doctrine.fixtures_load_command',
