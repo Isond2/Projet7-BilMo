@@ -1,3 +1,0 @@
-1554172718
-%255BAppBundle%255CEntity%255CFabricant%2524fabricantPhones%2540%255BAnnot%255D%255D%255B1%255D
-a:1:{i:0;O:30:"Doctrine\ORM\Mapping\OneToMany":6:{s:8:"mappedBy";s:14:"phoneFabricant";s:12:"targetEntity";s:6:"Phones";s:7:"cascade";a:1:{i:0;s:7:"persist";}s:5:"fetch";s:4:"LAZY";s:13:"orphanRemoval";b:0;s:7:"indexBy";N;}}

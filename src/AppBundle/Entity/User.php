@@ -2,15 +2,66 @@
 
 namespace AppBundle\Entity;
 
+
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation as Serializer;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * User
  *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ *
+ * @Hateoas\Relation(
+ *      "self",
+ *      href = @Hateoas\Route(
+ *          "user_detail",
+ *          parameters = { "id" = "expr(object.getId())" },
+ *          absolute = true
+ *      ),
+ *      exclusion = @Hateoas\Exclusion(
+ *          groups = {"user_detail", "user_list"}
+ *      )
+ * )
+ *
+ * @Hateoas\Relation(
+ *      "delete",
+ *      href = @Hateoas\Route(
+ *          "delete_user",
+ *          parameters = { "id" = "expr(object.getId())" },
+ *          absolute = true
+ *      ),
+ *      exclusion = @Hateoas\Exclusion(
+ *          groups = {"user_detail", "user_list"},
+ *          excludeIf = "expr(not is_granted(['ROLE_ADMIN']))"
+ *      )
+ * )
+ *
+ * @Hateoas\Relation(
+ *      "create",
+ *      href = @Hateoas\Route(
+ *          "user_registration",
+ *          absolute = true
+ *      ),
+ *      exclusion = @Hateoas\Exclusion(
+ *          groups = {"user_detail"},
+ *          excludeIf = "expr(not is_granted(['ROLE_ADMIN']))"
+ *      )
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "company",
+ *     embedded = @Hateoas\Embedded("expr(object.getUserCompany())"),
+ *     exclusion = @Hateoas\Exclusion(
+ *          groups = {"user_detail"}
+ *     )
+ * )
+ *
  */
-class User
+class User implements UserInterface, \Serializable
 {
     /**
      * @var int
@@ -21,25 +72,56 @@ class User
      */
     private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="UserName", type="string", length=255)
-     */
-    private $userName;
 
     /**
-     *   
-     * @ORM\ManyToOne(targetEntity="Client", inversedBy="user")
-     * @ORM\JoinColumn(name="client_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\Column(type="string", length=25, unique=true, nullable=false)
+     * @Serializer\Groups({"user_list", "user_detail"})
      */
-    private $userClient;
+    private $username;
+
+    /**
+     * @ORM\Column(type="string", length=64, nullable=false)
+     */
+    private $password;
+
+    /**
+     * @ORM\Column(type="string", length=25, unique=true, nullable=false)
+     * @Serializer\Groups({"user_detail"})
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="string", length=64, unique=true, nullable=false)
+     * @Serializer\Groups({"user_detail"})
+     */
+    private $firstName;
+
+    /**
+     * @ORM\Column(type="string", length=64, unique=true, nullable=false)
+     * @Serializer\Groups({"user_detail"})
+     */
+    private $lastName;
+
+    /**
+     * @ORM\Column(name="role", type="json_array", nullable=false)
+     * @Serializer\Groups({"user_detail"})
+     *
+     * @Assert\Type("array")
+     *
+     */
+    private $roles;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Company", cascade={"all"}, fetch="EAGER")
+     */
+    private $userCompany;
+
 
 
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -53,44 +135,112 @@ class User
      *
      * @return User
      */
-    public function setUserName($userName)
+    public function setUsername($username)
     {
-        $this->userName = $userName;
+        $this->username = $username;
 
         return $this;
     }
 
     /**
-     * Get userName
+     * Get username
      *
      * @return string
      */
-    public function getUserName()
+    public function getUsername()
     {
-        return $this->userName;
+        return $this->username;
     }
 
     /**
-     * Set userClient
+     * Set password
      *
-     * @param string $userClient
+     * @param string $password
      *
      * @return User
      */
-    public function setUserClient($userClient)
+    public function setPassword($password)
     {
-        $this->userClient = $userClient;
+        $this->password = $password;
+        return $this;
+    }
+    /**
+     * Get password
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Set userCompany
+     *
+     * @param \AppBundle\Entity\Company $userCompany
+     *
+     * @return User
+     */
+    public function setUserCompany(\AppBundle\Entity\Company $userCompany = null)
+    {
+        $this->userCompany = $userCompany;
 
         return $this;
     }
 
     /**
-     * Get userClient
+     * Get userCompany
      *
-     * @return string
+     * @return \AppBundle\Entity\Company
      */
-    public function getUserClient()
+    public function getUserCompany()
     {
-        return $this->userClient;
+        return $this->userCompany;
     }
+
+
+    public function getRoles()
+    {
+        $roles = $this->roles;
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles)
+    {
+        $this->roles = $roles;
+        return $this;
+    }
+
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+        ) = unserialize($serialized);
+    }
+
+
+    public function eraseCredentials()
+    {
+
+    }
+
 }
