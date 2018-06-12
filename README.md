@@ -45,7 +45,8 @@ Oauth process :
   Send your request with theses params in yout header :
   
             Authorization = 'Bearer ' + "your_token".
-         
+            
+  Doc online at : api/doc
     
    
     
