@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Nelmio\ApiDocBundle\Annotation as Doc;
 
 /**
 * @Route("/api")
@@ -31,6 +33,12 @@ class UserController extends FOSRestController
      * @View(StatusCode = 200,
      * serializerGroups = {"user_detail"}
      * )
+     *
+     * @Doc\ApiDoc(
+     *     section="Users",
+     *     resource=true,
+     *     description="Get my user's detail"
+     * )
      */
     public function currentAction()
     {
@@ -40,9 +48,7 @@ class UserController extends FOSRestController
 
 
 	/**
-     * TODO : ADMIN ONLY CAN SEE USERS OF HIS COMPANY AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-     *
-     * User detail
+     * User detail (SUPER_ADMIN can have all users detail , but ROLE_ADMIN can only have the detail of the users from the company he is attached to.)
      *
      * @Rest\Get("/user/{id}", name="user_detail")
      *
@@ -51,30 +57,55 @@ class UserController extends FOSRestController
      * @View(StatusCode = 200,
      * serializerGroups = {"user_detail", "company_detail"}
      * )
+     *
+     * @Doc\ApiDoc(
+     *     section="Users",
+     *     resource=true,
+     *     description="Get the detail of one user",
+     *     requirements={
+     *         {
+     *             "name"="user",
+     *             "dataType"="integer",
+     *             "requirements"="\d+",
+     *             "description"="The user unique identifier."
+     *         }
+     *     }
+     * )
      */
-    public function userAction(User $user)
+    public function userAction(User $user, AuthorizationCheckerInterface $authChecker)
     {
         $admin = $this->getUser();
-        $adminCompany = $admin->getUserCompany();
-        $userCompany = $user->getUserCompany();
-        if($userCompany === $adminCompany) {
+        if(true === $authChecker->isGranted('ROLE_SUPER_ADMIN'))
+        {
             return $user;
         } else {
-            return $this->view($admin, Response::HTTP_BAD_REQUEST);
+            $adminCompany = $admin->getUserCompany();
+            $userCompany = $user->getUserCompany();
+            if($userCompany === $adminCompany) {
+                return $user;
+            } else {
+                return $this->view(Response::HTTP_BAD_REQUEST);
+            }
         }
 
     }
 
 
     /**
-     * My company details
+     * My company details (current logged user's company)
      *
      * @Rest\Get("/my_company/detail", name="my_company_detail")
      *
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_SUPER_ADMIN')")
      *
      * @View(StatusCode = 200,
      * serializerGroups = {"company_detail"}
+     * )
+     *
+     * @Doc\ApiDoc(
+     *     section="Users",
+     *     resource=true,
+     *     description="Get the detail of my company"
      * )
      */
     public function myCompanyAction()
@@ -94,6 +125,20 @@ class UserController extends FOSRestController
      * @View(StatusCode = 200,
      * serializerGroups = {"company_detail"}
      * )
+     *
+     * @Doc\ApiDoc(
+     *     section="Users",
+     *     resource=true,
+     *     description="Get the detail of one company",
+     *     requirements={
+     *         {
+     *             "name"="company",
+     *             "dataType"="string",
+     *             "requirements"="[A-Za-z- ]+",
+     *             "description"="The company name."
+     *         }
+     *     }
+     * )
      */
     public function companyAction($company)
     {
@@ -103,7 +148,7 @@ class UserController extends FOSRestController
 
 
      /**
-     * Users of my company
+     * Users of my company (list of users of the current logged user's company)
      *
      * @Rest\Get("/my_company/user_list", name="my_users_list")
      *
@@ -112,6 +157,13 @@ class UserController extends FOSRestController
      * @View(statusCode = 200,
      * serializerGroups = {"user_list"}
      * )
+     *
+     * @Doc\ApiDoc(
+     *     section="Users",
+     *     resource=true,
+     *     description="Get the user's list of my company"
+     * )
+     *
      */
     public function myUserListAction()
     {
@@ -133,6 +185,21 @@ class UserController extends FOSRestController
      * @View(statusCode = 200,
      * serializerGroups = {"user_list"}
      * )
+     *
+     * @Doc\ApiDoc(
+     *     section="Users",
+     *     resource=true,
+     *     description="Get the user's list of one company",
+     *     requirements={
+     *         {
+     *             "name"="company",
+     *             "dataType"="string",
+     *             "requirements"="[A-Za-z- ]+",
+     *             "description"="The company name."
+     *         }
+     *     }
+     * )
+     *
      */
     public function userListAction($company)
     {

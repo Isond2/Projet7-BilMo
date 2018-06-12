@@ -15,6 +15,8 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use FOS\RestBundle\Controller\Annotations\View;
+use AppBundle\Exception\ResourceValidationException;
+use Nelmio\ApiDocBundle\Annotation as Doc;
 
 /**
 * @Route("/api")
@@ -28,28 +30,62 @@ class SecurityController extends FOSRestController
      *		path = "/register",
      *		name = "user_registration",
      * )
-     * @Rest\View(StatusCode = 201)
+     * @Rest\View(StatusCode = 201,
+     *     serializerGroups = {"user_detail"}
+     * )
      *
      * @Security("has_role('ROLE_ADMIN')")
      *
      * @ParamConverter("user", converter="fos_rest.request_body")
      *
      * @Rest\RequestParam(
+     *      name = "username",
+     *      nullable = false,
+     *      description = "User's username."
+     * )
+     *
+     * @Rest\RequestParam(
+     *      name = "password",
+     *      nullable = false,
+     *      description = "User's password."
+     * )
+     *
+     * @Rest\RequestParam(
+     *      name = "email",
+     *      requirements = "[A-Za-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}",
+     *      nullable = false,
+     *      description = "User's email."
+     * )
+     *
+     * @Rest\RequestParam(
+     *      name = "first_name",
+     *      requirements = "[A-Za-z- ]+",
+     *      nullable = false,
+     *      description = "User's firstname."
+     * )
+     *
+     * @Rest\RequestParam(
+     *      name = "last_name",
+     *      requirements = "[A-Za-z- ]+",
+     *      nullable = false,
+     *      description = "User's lastname."
+     * )
+     *
+     * @Rest\RequestParam(
      *      name = "role",
      *      requirements = "ROLE_USER",
      *      default = "ROLE_USER",
-     *      nullable = true,
-     *      description = "Create User."
+     *      nullable = false,
+     *      description = "User's Role (Must be ROLE_USER)."
      * )
      *
-     * @View(serializerGroups = {"user_detail"})
-     *
+     * @Doc\ApiDoc(
+     *     description="Create an User (Admins can only create users attach to their own company.",
+     *     section="User's security"
+     * )
      */
     public function registerAction(User $user, UserPasswordEncoderInterface $encoder, ConstraintViolationList $violations, $role)
     {
-        if (count($violations)) {
-            return $this->view($violations, Response::HTTP_BAD_REQUEST);
-        }
 
         $em = $this->getDoctrine()->getManager();
         $admin = $this->getUser();
@@ -71,32 +107,78 @@ class SecurityController extends FOSRestController
      *      path = "/register_admin",
      *      name = "admin_registration",
      * )
-     * @Rest\View(StatusCode = 201)
+     * @Rest\View(StatusCode = 201,
+     *     serializerGroups = {"user_detail"}
+     * )
      *
      * @Security("has_role('ROLE_SUPER_ADMIN')")
      *
      * @ParamConverter("user", converter="fos_rest.request_body")
      *
      * @Rest\RequestParam(
+     *      name = "username",
+     *      nullable = false,
+     *      description = "Admin's username."
+     * )
+     *
+     * @Rest\RequestParam(
+     *      name = "password",
+     *      nullable = false,
+     *      description = "Admin's password."
+     * )
+     *
+     * @Rest\RequestParam(
+     *      name = "email",
+     *      requirements = "[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}",
+     *      nullable = false,
+     *      description = "Admin's email."
+     * )
+     *
+     * @Rest\RequestParam(
+     *      name = "first_name",
+     *      requirements = "[A-Za-z- ]+",
+     *      nullable = false,
+     *      description = "Admin's firstname."
+     * )
+     *
+     * @Rest\RequestParam(
+     *      name = "last_name",
+     *      requirements = "[A-Za-z- ]+",
+     *      nullable = false,
+     *      description = "Admin's lastname."
+     * )
+     * @Rest\RequestParam(
      *      name = "role",
      *      requirements = "ROLE_ADMIN",
      *      default = "ROLE_ADMIN",
-     *      nullable = true,
-     *      description = "Create Admin."
+     *      nullable = false,
+     *      description = "Admin's Role (must be ROLE_ADMIN)."
      * )
+     *
      * @Rest\RequestParam(
      *      name = "user_company",
      *      nullable = false,
-     *      description = "Create Company."
+     *      description = "Create the Company of the admin."
      * )
      *
-     * @View(serializerGroups = {"user_detail"})
+     * @Doc\ApiDoc(
+     *     resource=true,
+     *     description="Create an Admin",
+     *     section="User's security"
+     * )
      *
      */
     public function registerAdminAction(User $user, UserPasswordEncoderInterface $encoder, ConstraintViolationList $violations, $role)
     {
         if (count($violations)) {
-            return $this->view($violations, Response::HTTP_BAD_REQUEST);
+
+            $message = 'The JSON sent contains invalid data. Here are the errors you need to correct: ';
+
+                foreach ($violations as $violation) {
+                    $message .= sprintf("Field %s: %s ", $violation->getPropertyPath(), $violation->getMessage());
+                }
+
+            throw new ResourceValidationException($message);
         }
 
         $em = $this->getDoctrine()->getManager();
@@ -123,8 +205,22 @@ class SecurityController extends FOSRestController
      * @View(statusCode=204,
      *     serializerGroups = {"user_detail"}
      * )
+     *
+     * @Doc\ApiDoc(
+     *     resource=true,
+     *     description="Delete one user.",
+     *     section="User's security",
+     *     requirements={
+     *         {
+     *             "name"="id",
+     *             "dataType"="integer",
+     *             "requirements"="\d+",
+     *             "description"="The user unique identifier."
+     *         }
+     *     }
+     * )
      */
-    public function delUserAction(User $user, $id)
+    public function delUserAction(User $user)
     {
         $admin = $this->getUser();
         $adminCompany = $admin->getUserCompany();
@@ -141,42 +237,33 @@ class SecurityController extends FOSRestController
 
 }
 
-
-
-
-
 /**
-
-
-
-
-     * @Rest\Post(
-     *      path = "/company-registration",
-     *      name = "company_registration",
+ *
+ *      *
+     * @Rest\RequestParam(
+     *      name = "company_name",
+     *      nullable = false,
+     *      description = "Name of the new company"
      * )
-     * @Rest\View(StatusCode = 201)
-     * @ParamConverter("company", converter="fos_rest.request_body")
-
-    public function registerCompanyAction(Company $company)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $em->persist($company);
-        $em->flush();
-
-        return $this->view($company, Response::HTTP_CREATED, ['Location' => $this->generateUrl('company_detail', ['id' => $company->getId(), UrlGeneratorInterface::ABSOLUTE_URL])]);
-    }
-
-* @Doc\ApiDoc(
-     *     resource=true,
-     *     description="Delete one user.",
-     *     section="Users",
-     *     requirements={
-     *         {
-     *             "name"="id",
-     *             "dataType"="integer",
-     *             "requirements"="\d+",
-     *             "description"="The id of the user to delete"
-     *         }
-     *     }
-*/
+     *
+     * @Rest\RequestParam(
+     *      name = "adresse_postale",
+     *      nullable = false,
+     *      description = "Postal adress of the new company"
+     * )
+     *
+     * @Rest\RequestParam(
+     *      name = "siret",
+     *      requirements = "\d+",
+     *      nullable = false,
+     *      description = "Siret of the new company"
+     * )
+     *
+     * @Rest\RequestParam(
+     *      name = "url",
+     *      nullable = false,
+     *      description = "Url of the new company's website"
+     * )
+     *
+     *
+ */

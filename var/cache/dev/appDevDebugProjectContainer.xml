@@ -21,6 +21,7 @@
       <parameter key="FOSRestBundle">FOS\RestBundle\FOSRestBundle</parameter>
       <parameter key="FOSOAuthServerBundle">FOS\OAuthServerBundle\FOSOAuthServerBundle</parameter>
       <parameter key="BazingaHateoasBundle">Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle</parameter>
+      <parameter key="NelmioApiDocBundle">Nelmio\ApiDocBundle\NelmioApiDocBundle</parameter>
       <parameter key="DebugBundle">Symfony\Bundle\DebugBundle\DebugBundle</parameter>
       <parameter key="WebProfilerBundle">Symfony\Bundle\WebProfilerBundle\WebProfilerBundle</parameter>
       <parameter key="SensioDistributionBundle">Sensio\Bundle\DistributionBundle\SensioDistributionBundle</parameter>
@@ -88,6 +89,11 @@
         <parameter key="parent">null</parameter>
         <parameter key="path">C:\wamp64\www\Symfony3\vendor\willdurand\hateoas-bundle</parameter>
         <parameter key="namespace">Bazinga\Bundle\HateoasBundle</parameter>
+      </parameter>
+      <parameter key="NelmioApiDocBundle" type="collection">
+        <parameter key="parent">null</parameter>
+        <parameter key="path">C:\wamp64\www\Symfony3\vendor\nelmio\api-doc-bundle\Nelmio\ApiDocBundle</parameter>
+        <parameter key="namespace">Nelmio\ApiDocBundle</parameter>
       </parameter>
       <parameter key="DebugBundle" type="collection">
         <parameter key="parent">null</parameter>
@@ -463,6 +469,57 @@
     <parameter key="hateoas.generator.symfony.class">Hateoas\UrlGenerator\SymfonyUrlGenerator</parameter>
     <parameter key="hateoas.helper.link.class">Hateoas\Helper\LinkHelper</parameter>
     <parameter key="hateoas.twig.link.class">Hateoas\Twig\Extension\LinkExtension</parameter>
+    <parameter key="nelmio_api_doc.motd.template">NelmioApiDocBundle::Components/motd.html.twig</parameter>
+    <parameter key="nelmio_api_doc.exclude_sections" type="collection"/>
+    <parameter key="nelmio_api_doc.default_sections_opened">true</parameter>
+    <parameter key="nelmio_api_doc.api_name">API documentation</parameter>
+    <parameter key="nelmio_api_doc.sandbox.enabled">true</parameter>
+    <parameter key="nelmio_api_doc.sandbox.endpoint">null</parameter>
+    <parameter key="nelmio_api_doc.sandbox.accept_type">null</parameter>
+    <parameter key="nelmio_api_doc.sandbox.body_format.formats" type="collection">
+      <parameter>form</parameter>
+      <parameter>json</parameter>
+    </parameter>
+    <parameter key="nelmio_api_doc.sandbox.body_format.default_format">form</parameter>
+    <parameter key="nelmio_api_doc.sandbox.request_format.method">format_param</parameter>
+    <parameter key="nelmio_api_doc.sandbox.request_format.default_format">json</parameter>
+    <parameter key="nelmio_api_doc.sandbox.request_format.formats" type="collection">
+      <parameter key="json">application/json</parameter>
+      <parameter key="xml">application/xml</parameter>
+    </parameter>
+    <parameter key="nelmio_api_doc.sandbox.entity_to_choice">true</parameter>
+    <parameter key="nelmio_api_doc.formatter.abstract_formatter.class">Nelmio\ApiDocBundle\Formatter\AbstractFormatter</parameter>
+    <parameter key="nelmio_api_doc.formatter.markdown_formatter.class">Nelmio\ApiDocBundle\Formatter\MarkdownFormatter</parameter>
+    <parameter key="nelmio_api_doc.formatter.simple_formatter.class">Nelmio\ApiDocBundle\Formatter\SimpleFormatter</parameter>
+    <parameter key="nelmio_api_doc.formatter.html_formatter.class">Nelmio\ApiDocBundle\Formatter\HtmlFormatter</parameter>
+    <parameter key="nelmio_api_doc.formatter.swagger_formatter.class">Nelmio\ApiDocBundle\Formatter\SwaggerFormatter</parameter>
+    <parameter key="nelmio_api_doc.sandbox.authentication">null</parameter>
+    <parameter key="nelmio_api_doc.extractor.api_doc_extractor.class">Nelmio\ApiDocBundle\Extractor\ApiDocExtractor</parameter>
+    <parameter key="nelmio_api_doc.form.extension.description_form_type_extension.class">Nelmio\ApiDocBundle\Form\Extension\DescriptionFormTypeExtension</parameter>
+    <parameter key="nelmio_api_doc.twig.extension.extra_markdown.class">Nelmio\ApiDocBundle\Twig\Extension\MarkdownExtension</parameter>
+    <parameter key="nelmio_api_doc.doc_comment_extractor.class">Nelmio\ApiDocBundle\Util\DocCommentExtractor</parameter>
+    <parameter key="nelmio_api_doc.extractor.handler.fos_rest.class">Nelmio\ApiDocBundle\Extractor\Handler\FosRestHandler</parameter>
+    <parameter key="nelmio_api_doc.extractor.handler.jms_security.class">Nelmio\ApiDocBundle\Extractor\Handler\JmsSecurityExtraHandler</parameter>
+    <parameter key="nelmio_api_doc.extractor.handler.sensio_framework_extra.class">Nelmio\ApiDocBundle\Extractor\Handler\SensioFrameworkExtraHandler</parameter>
+    <parameter key="nelmio_api_doc.extractor.handler.phpdoc.class">Nelmio\ApiDocBundle\Extractor\Handler\PhpDocHandler</parameter>
+    <parameter key="nelmio_api_doc.parser.collection_parser.class">Nelmio\ApiDocBundle\Parser\CollectionParser</parameter>
+    <parameter key="nelmio_api_doc.parser.form_errors_parser.class">Nelmio\ApiDocBundle\Parser\FormErrorsParser</parameter>
+    <parameter key="nelmio_api_doc.parser.json_serializable_parser.class">Nelmio\ApiDocBundle\Parser\JsonSerializableParser</parameter>
+    <parameter key="nelmio_api_doc.request_listener.parameter">_doc</parameter>
+    <parameter key="nelmio_api_doc.event_listener.request.class">Nelmio\ApiDocBundle\EventListener\RequestListener</parameter>
+    <parameter key="nelmio_api_doc.parser.validation_parser.class">Nelmio\ApiDocBundle\Parser\ValidationParser</parameter>
+    <parameter key="nelmio_api_doc.swagger.base_path">/api</parameter>
+    <parameter key="nelmio_api_doc.swagger.swagger_version">1.2</parameter>
+    <parameter key="nelmio_api_doc.swagger.api_version">0.1</parameter>
+    <parameter key="nelmio_api_doc.swagger.info" type="collection">
+      <parameter key="title">Symfony2</parameter>
+      <parameter key="description">My awesome Symfony2 app!</parameter>
+      <parameter key="TermsOfServiceUrl">null</parameter>
+      <parameter key="contact">null</parameter>
+      <parameter key="license">null</parameter>
+      <parameter key="licenseUrl">null</parameter>
+    </parameter>
+    <parameter key="nelmio_api_doc.swagger.model_naming_strategy">dot_notation</parameter>
     <parameter key="web_profiler.debug_toolbar.position">bottom</parameter>
     <parameter key="web_profiler.debug_toolbar.intercept_redirects">false</parameter>
     <parameter key="web_profiler.debug_toolbar.mode">2</parameter>
@@ -542,6 +599,8 @@
       <parameter key="console.command.symfony_bundle_webserverbundle_command_serverstopcommand">console.command.symfony_bundle_webserverbundle_command_serverstopcommand</parameter>
       <parameter key="console.command.symfony_bundle_webserverbundle_command_serverstatuscommand">console.command.symfony_bundle_webserverbundle_command_serverstatuscommand</parameter>
     </parameter>
+    <parameter key="nelmio_api_doc.parser.form_type_parser.class">Nelmio\ApiDocBundle\Parser\FormTypeParser</parameter>
+    <parameter key="nelmio_api_doc.parser.jms_metadata_parser.class">Nelmio\ApiDocBundle\Parser\JmsMetadataParser</parameter>
   </parameters>
   <services>
     <service id="service_container" class="Symfony\Component\DependencyInjection\ContainerInterface" synthetic="true"/>
@@ -564,6 +623,7 @@
     <service id="AppBundle\DataFixtures\ORM\AppFixture" class="AppBundle\DataFixtures\ORM\AppFixture" public="false" autowire="true" autoconfigure="true">
       <tag name="doctrine.fixture.orm"/>
     </service>
+    <service id="AppBundle\Exception\ResourceValidationException" class="AppBundle\Exception\ResourceValidationException" public="false" autowire="true" autoconfigure="true"/>
     <service id="AppBundle\Security\UserProvider" class="AppBundle\Security\UserProvider" public="false" autowire="true" autoconfigure="true">
       <argument type="service" id="doctrine.orm.default_entity_manager"/>
     </service>
@@ -586,7 +646,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver" public="false">
       <tag name="controller.argument_value_resolver" priority="-50"/>
-      <argument type="service" id="service_locator.bb4d6afec700d4fa5ca44fb616411dd9"/>
+      <argument type="service" id="service_locator.02880d27ed187aabfe797eb364f849ec"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver" public="false">
       <tag name="controller.argument_value_resolver" priority="-100"/>
@@ -755,7 +815,7 @@
       <tag name="monolog.logger" channel="cache"/>
       <argument></argument>
       <argument>0</argument>
-      <argument>oU-3ePI0po9NKQFXMIui8d</argument>
+      <argument>kFknJiVeMCe8PZDrMUIc2Z</argument>
       <argument>C:\wamp64\www\Symfony3\var\cache\dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -765,7 +825,7 @@
       <tag name="monolog.logger" channel="cache"/>
       <argument></argument>
       <argument>0</argument>
-      <argument>oU-3ePI0po9NKQFXMIui8d</argument>
+      <argument>kFknJiVeMCe8PZDrMUIc2Z</argument>
       <call method="setLogger">
         <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       </call>
@@ -892,6 +952,7 @@
           <argument type="service" id="form.type_extension.upload.validator"/>
           <argument type="service" id="form.type_extension.csrf"/>
           <argument type="service" id="form.type_extension.form.data_collector"/>
+          <argument type="service" id="nelmio_api_doc.form.extension.description_form_type_extension"/>
         </argument>
         <argument key="Symfony\Component\Form\Extension\Core\Type\RepeatedType" type="iterator">
           <argument type="service" id="form.type_extension.repeated.validator"/>
@@ -1418,6 +1479,14 @@
         <argument>5</argument>
       </call>
       <call method="addListener">
+        <argument>kernel.request</argument>
+        <argument type="collection">
+          <argument type="service" id="nelmio_api_doc.event_listener.request"/>
+          <argument>onKernelRequest</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
         <argument>kernel.response</argument>
         <argument type="collection">
           <argument type="service" id="response_listener"/>
@@ -1706,6 +1775,14 @@
         <argument>0</argument>
       </call>
       <call method="addListener">
+        <argument>kernel.exception</argument>
+        <argument type="collection">
+          <argument type="service" id="fos_rest.exception_listener"/>
+          <argument>onKernelException</argument>
+        </argument>
+        <argument>-100</argument>
+      </call>
+      <call method="addListener">
         <argument>kernel.view</argument>
         <argument type="collection">
           <argument type="service" id="fos_rest.view_response_listener"/>
@@ -1962,8 +2039,9 @@
       <argument type="service" id="security.logout_url_generator"/>
     </service>
     <service id="security.firewall.map" class="Symfony\Bundle\SecurityBundle\Security\FirewallMap" public="false">
-      <argument type="service" id="service_locator.fa6e3d4c7f65ddc5604f18519c5b1033"/>
+      <argument type="service" id="service_locator.93ad099c1a4f478499e4b38f3a75a7af"/>
       <argument type="iterator">
+        <argument key="security.firewall.map.context.api_doc" type="service" id="security.request_matcher.3077bfab95310b28c4e70f73063e45a4438b033e21c8e4b186a5b070aa3d95f69211fcec"/>
         <argument key="security.firewall.map.context.oauth_token" type="service" id="security.request_matcher.9aeba7fba005ca2de6ea0e58141fd0f560b96c6bfaf30a7f437ed27f98a09bf8fd4a1ccf"/>
         <argument key="security.firewall.map.context.oauth_authorize" type="service" id="security.request_matcher.e32d8aefb5b59880c62e1a2111aa884fc5b89d540b3c4f3f126566afd79d8eb1771d0471"/>
         <argument key="security.firewall.map.context.api" type="service" id="security.request_matcher.83414b4f59ab53f8865b08d5074e037efbb06e57ccba58ede5e1ed417a9ddcd1b645c11b"/>
@@ -2345,6 +2423,27 @@
       <argument>null</argument>
       <argument>null</argument>
     </service>
+    <service id="security.firewall.map.config.api_doc" class="Symfony\Bundle\SecurityBundle\Security\FirewallConfig" public="false">
+      <argument>api_doc</argument>
+      <argument>security.user_checker</argument>
+      <argument>security.request_matcher.3077bfab95310b28c4e70f73063e45a4438b033e21c8e4b186a5b070aa3d95f69211fcec</argument>
+      <argument>false</argument>
+      <argument></argument>
+      <argument></argument>
+      <argument></argument>
+      <argument></argument>
+      <argument></argument>
+      <argument></argument>
+      <argument type="collection"/>
+    </service>
+    <service id="security.request_matcher.3077bfab95310b28c4e70f73063e45a4438b033e21c8e4b186a5b070aa3d95f69211fcec" class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
+      <argument>^/api/doc</argument>
+    </service>
+    <service id="security.firewall.map.context.api_doc" class="Symfony\Bundle\SecurityBundle\Security\FirewallContext">
+      <argument type="collection"/>
+      <argument>null</argument>
+      <argument type="service" id="security.firewall.map.config.api_doc"/>
+    </service>
     <service id="security.firewall.map.config.oauth_token" class="Symfony\Bundle\SecurityBundle\Security\FirewallConfig" public="false">
       <argument>oauth_token</argument>
       <argument>security.user_checker</argument>
@@ -2528,12 +2627,12 @@
     </service>
     <service id="security.authentication.listener.anonymous.main" class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
       <argument type="service" id="security.token_storage"/>
-      <argument>5b1d624ddb6891.67453009</argument>
+      <argument>5b1f0a487bd738.91575160</argument>
       <argument type="service" id="monolog.logger.security" on-invalid="null"/>
       <argument type="service" id="security.authentication.manager"/>
     </service>
     <service id="security.authentication.provider.anonymous.main" class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-      <argument>5b1d624ddb6891.67453009</argument>
+      <argument>5b1f0a487bd738.91575160</argument>
     </service>
     <service id="security.exception_listener.main" class="Symfony\Component\Security\Http\Firewall\ExceptionListener" public="false">
       <argument type="service" id="security.token_storage"/>
@@ -2557,10 +2656,11 @@
       <argument type="service" id="security.exception_listener.main"/>
       <argument type="service" id="security.firewall.map.config.main"/>
     </service>
-    <service id="service_locator.fa6e3d4c7f65ddc5604f18519c5b1033" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id="service_locator.93ad099c1a4f478499e4b38f3a75a7af" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="security.firewall.map.context.api" type="service" id="security.firewall.map.context.api"/>
+        <argument key="security.firewall.map.context.api_doc" type="service" id="security.firewall.map.context.api_doc"/>
         <argument key="security.firewall.map.context.main" type="service" id="security.firewall.map.context.main"/>
         <argument key="security.firewall.map.context.oauth_authorize" type="service" id="security.firewall.map.context.oauth_authorize"/>
         <argument key="security.firewall.map.context.oauth_token" type="service" id="security.firewall.map.context.oauth_token"/>
@@ -2658,6 +2758,9 @@
         <argument type="service" id="hateoas.twig.link"/>
       </call>
       <call method="addExtension">
+        <argument type="service" id="nelmio_api_doc.twig.extension.extra_markdown"/>
+      </call>
+      <call method="addExtension">
         <argument type="service" id="twig.extension.dump"/>
       </call>
       <call method="addExtension">
@@ -2730,6 +2833,10 @@
       <call method="addPath">
         <argument>C:\wamp64\www\Symfony3\vendor\friendsofsymfony\oauth-server-bundle/Resources/views</argument>
         <argument>FOSOAuthServer</argument>
+      </call>
+      <call method="addPath">
+        <argument>C:\wamp64\www\Symfony3\vendor\nelmio\api-doc-bundle\Nelmio\ApiDocBundle/Resources/views</argument>
+        <argument>NelmioApiDoc</argument>
       </call>
       <call method="addPath">
         <argument>C:\wamp64\www\Symfony3\vendor\symfony\symfony\src\Symfony\Bundle\DebugBundle/Resources/views</argument>
@@ -2876,6 +2983,10 @@
       <call method="addPath">
         <argument>C:\wamp64\www\Symfony3\vendor\friendsofsymfony\oauth-server-bundle/Resources/views</argument>
         <argument>FOSOAuthServer</argument>
+      </call>
+      <call method="addPath">
+        <argument>C:\wamp64\www\Symfony3\vendor\nelmio\api-doc-bundle\Nelmio\ApiDocBundle/Resources/views</argument>
+        <argument>NelmioApiDoc</argument>
       </call>
       <call method="addPath">
         <argument>C:\wamp64\www\Symfony3\vendor\symfony\symfony\src\Symfony\Bundle\DebugBundle/Resources/views</argument>
@@ -3446,7 +3557,7 @@
       <argument type="service" id="debug.stopwatch"/>
     </service>
     <service id="jms_serializer.handler_registry" class="JMS\Serializer\Handler\LazyHandlerRegistry">
-      <argument type="service" id="service_locator.d6be89097cac897af5423faacb6fffa8"/>
+      <argument type="service" id="service_locator.565a5010890b50eed04862cecb8b2cfe"/>
       <argument type="collection">
         <argument key="2" type="collection">
           <argument key="DateTime" type="collection">
@@ -3787,6 +3898,16 @@
               <argument>serializeViolationToyml</argument>
             </argument>
           </argument>
+          <argument key="Exception" type="collection">
+            <argument key="json" type="collection">
+              <argument>fos_rest.serializer.exception_normalizer.jms</argument>
+              <argument>serializeToJson</argument>
+            </argument>
+            <argument key="xml" type="collection">
+              <argument>fos_rest.serializer.exception_normalizer.jms</argument>
+              <argument>serializeToXml</argument>
+            </argument>
+          </argument>
         </argument>
       </argument>
     </service>
@@ -4067,6 +4188,41 @@
     <service id="fos_rest.serializer.form_error_normalizer" class="FOS\RestBundle\Serializer\Normalizer\FormErrorNormalizer" public="false">
       <tag name="serializer.normalizer" priority="-10"/>
       <argument type="service" id="translator"/>
+    </service>
+    <service id="fos_rest.exception_listener" class="FOS\RestBundle\EventListener\ExceptionListener">
+      <tag name="kernel.event_subscriber"/>
+      <tag name="monolog.logger" channel="request"/>
+      <argument>fos_rest.exception.twig_controller:showAction</argument>
+      <argument type="service" id="monolog.logger.request" on-invalid="null"/>
+    </service>
+    <service id="fos_rest.exception.controller" class="FOS\RestBundle\Controller\ExceptionController">
+      <argument type="service" id="fos_rest.view_handler.default"/>
+      <argument type="service" id="fos_rest.exception.codes_map"/>
+      <argument>true</argument>
+    </service>
+    <service id="fos_rest.exception.twig_controller" class="FOS\RestBundle\Controller\TwigExceptionController">
+      <argument type="service" id="fos_rest.view_handler.default"/>
+      <argument type="service" id="fos_rest.exception.codes_map"/>
+      <argument>true</argument>
+      <argument type="service" id="templating.engine.twig"/>
+    </service>
+    <service id="fos_rest.exception.codes_map" class="FOS\RestBundle\Util\ExceptionValueMap" public="false">
+      <argument type="collection">
+        <argument key="AppBundle\Exception\ResourceValidationException">400</argument>
+      </argument>
+    </service>
+    <service id="fos_rest.exception.messages_map" class="FOS\RestBundle\Util\ExceptionValueMap" public="false">
+      <argument type="collection"/>
+    </service>
+    <service id="fos_rest.serializer.exception_normalizer.jms" class="FOS\RestBundle\Serializer\Normalizer\ExceptionHandler">
+      <tag name="jms_serializer.subscribing_handler"/>
+      <argument type="service" id="fos_rest.exception.messages_map"/>
+      <argument>true</argument>
+    </service>
+    <service id="fos_rest.serializer.exception_normalizer.symfony" class="FOS\RestBundle\Serializer\Normalizer\ExceptionNormalizer" public="false">
+      <tag name="serializer.normalizer" priority="-10"/>
+      <argument type="service" id="fos_rest.exception.messages_map"/>
+      <argument>true</argument>
     </service>
     <service id="fos_rest.converter.request_body" class="FOS\RestBundle\Request\RequestBodyParamConverter" public="false">
       <tag name="request.param_converter" converter="fos_rest.request_body" priority="-50"/>
@@ -4356,6 +4512,148 @@
       <tag name="twig.extension"/>
       <argument type="service" id="hateoas.helper.link"/>
     </service>
+    <service id="nelmio_api_doc.formatter.abstract_formatter" class="Nelmio\ApiDocBundle\Formatter\AbstractFormatter" abstract="true"/>
+    <service id="nelmio_api_doc.formatter.markdown_formatter" class="Nelmio\ApiDocBundle\Formatter\MarkdownFormatter"/>
+    <service id="nelmio_api_doc.formatter.simple_formatter" class="Nelmio\ApiDocBundle\Formatter\SimpleFormatter"/>
+    <service id="nelmio_api_doc.formatter.html_formatter" class="Nelmio\ApiDocBundle\Formatter\HtmlFormatter">
+      <call method="setTemplatingEngine">
+        <argument type="service" id="templating.engine.twig"/>
+      </call>
+      <call method="setMotdTemplate">
+        <argument>NelmioApiDocBundle::Components/motd.html.twig</argument>
+      </call>
+      <call method="setApiName">
+        <argument>API documentation</argument>
+      </call>
+      <call method="setEnableSandbox">
+        <argument>true</argument>
+      </call>
+      <call method="setEndpoint">
+        <argument>null</argument>
+      </call>
+      <call method="setRequestFormatMethod">
+        <argument>format_param</argument>
+      </call>
+      <call method="setRequestFormats">
+        <argument type="collection">
+          <argument key="json">application/json</argument>
+          <argument key="xml">application/xml</argument>
+        </argument>
+      </call>
+      <call method="setDefaultRequestFormat">
+        <argument>json</argument>
+      </call>
+      <call method="setAcceptType">
+        <argument>null</argument>
+      </call>
+      <call method="setBodyFormats">
+        <argument type="collection">
+          <argument>form</argument>
+          <argument>json</argument>
+        </argument>
+      </call>
+      <call method="setDefaultBodyFormat">
+        <argument>form</argument>
+      </call>
+      <call method="setAuthentication">
+        <argument>null</argument>
+      </call>
+      <call method="setDefaultSectionsOpened">
+        <argument>true</argument>
+      </call>
+    </service>
+    <service id="nelmio_api_doc.formatter.swagger_formatter" class="Nelmio\ApiDocBundle\Formatter\SwaggerFormatter">
+      <argument>dot_notation</argument>
+      <call method="setBasePath">
+        <argument>/api</argument>
+      </call>
+      <call method="setApiVersion">
+        <argument>0.1</argument>
+      </call>
+      <call method="setSwaggerVersion">
+        <argument>1.2</argument>
+      </call>
+      <call method="setInfo">
+        <argument type="collection">
+          <argument key="title">Symfony2</argument>
+          <argument key="description">My awesome Symfony2 app!</argument>
+          <argument key="TermsOfServiceUrl">null</argument>
+          <argument key="contact">null</argument>
+          <argument key="license">null</argument>
+          <argument key="licenseUrl">null</argument>
+        </argument>
+      </call>
+    </service>
+    <service id="nelmio_api_doc.doc_comment_extractor" class="Nelmio\ApiDocBundle\Util\DocCommentExtractor"/>
+    <service id="nelmio_api_doc.controller_name_parser" class="Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser" public="false">
+      <argument type="service" id="kernel"/>
+    </service>
+    <service id="nelmio_api_doc.extractor.api_doc_extractor" class="Nelmio\ApiDocBundle\Extractor\ApiDocExtractor">
+      <argument type="service" id="service_container"/>
+      <argument type="service" id="router.default"/>
+      <argument type="service" id="annotations.cached_reader"/>
+      <argument type="service" id="nelmio_api_doc.doc_comment_extractor"/>
+      <argument type="service" id="nelmio_api_doc.controller_name_parser"/>
+      <argument type="collection">
+        <argument type="service" id="nelmio_api_doc.extractor.handler.fos_rest"/>
+        <argument type="service" id="nelmio_api_doc.extractor.handler.jms_security"/>
+        <argument type="service" id="nelmio_api_doc.extractor.handler.sensio_framework_extra"/>
+        <argument type="service" id="nelmio_api_doc.extractor.handler.phpdoc"/>
+      </argument>
+      <argument type="collection"/>
+      <call method="addParser">
+        <argument type="service" id="nelmio_api_doc.parser.json_serializable_parser"/>
+      </call>
+      <call method="addParser">
+        <argument type="service" id="nelmio_api_doc.parser.collection_parser"/>
+      </call>
+      <call method="addParser">
+        <argument type="service" id="nelmio_api_doc.parser.form_errors_parser"/>
+      </call>
+      <call method="addParser">
+        <argument type="service" id="nelmio_api_doc.parser.form_type_parser"/>
+      </call>
+      <call method="addParser">
+        <argument type="service" id="nelmio_api_doc.parser.validation_parser"/>
+      </call>
+      <call method="addParser">
+        <argument type="service" id="nelmio_api_doc.parser.jms_metadata_parser"/>
+      </call>
+    </service>
+    <service id="nelmio_api_doc.form.extension.description_form_type_extension" class="Nelmio\ApiDocBundle\Form\Extension\DescriptionFormTypeExtension">
+      <tag name="form.type_extension" alias="form" extended_type="Symfony\Component\Form\Extension\Core\Type\FormType" extended-type="Symfony\Component\Form\Extension\Core\Type\FormType"/>
+    </service>
+    <service id="nelmio_api_doc.twig.extension.extra_markdown" class="Nelmio\ApiDocBundle\Twig\Extension\MarkdownExtension">
+      <tag name="twig.extension"/>
+    </service>
+    <service id="nelmio_api_doc.extractor.handler.fos_rest" class="Nelmio\ApiDocBundle\Extractor\Handler\FosRestHandler" public="false">
+      <tag name="nelmio_api_doc.extractor.handler"/>
+    </service>
+    <service id="nelmio_api_doc.extractor.handler.jms_security" class="Nelmio\ApiDocBundle\Extractor\Handler\JmsSecurityExtraHandler" public="false">
+      <tag name="nelmio_api_doc.extractor.handler"/>
+    </service>
+    <service id="nelmio_api_doc.extractor.handler.sensio_framework_extra" class="Nelmio\ApiDocBundle\Extractor\Handler\SensioFrameworkExtraHandler" public="false">
+      <tag name="nelmio_api_doc.extractor.handler"/>
+    </service>
+    <service id="nelmio_api_doc.extractor.handler.phpdoc" class="Nelmio\ApiDocBundle\Extractor\Handler\PhpDocHandler" public="false">
+      <tag name="nelmio_api_doc.extractor.handler"/>
+      <argument type="service" id="nelmio_api_doc.doc_comment_extractor"/>
+    </service>
+    <service id="nelmio_api_doc.parser.collection_parser" class="Nelmio\ApiDocBundle\Parser\CollectionParser">
+      <tag name="nelmio_api_doc.extractor.parser"/>
+    </service>
+    <service id="nelmio_api_doc.parser.form_errors_parser" class="Nelmio\ApiDocBundle\Parser\FormErrorsParser">
+      <tag name="nelmio_api_doc.extractor.parser"/>
+    </service>
+    <service id="nelmio_api_doc.parser.json_serializable_parser" class="Nelmio\ApiDocBundle\Parser\JsonSerializableParser">
+      <tag name="nelmio_api_doc.extractor.parser" priority="1"/>
+    </service>
+    <service id="nelmio_api_doc.event_listener.request" class="Nelmio\ApiDocBundle\EventListener\RequestListener">
+      <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest"/>
+      <argument type="service" id="nelmio_api_doc.extractor.api_doc_extractor"/>
+      <argument type="service" id="nelmio_api_doc.formatter.html_formatter"/>
+      <argument>_doc</argument>
+    </service>
     <service id="twig.extension.dump" class="Symfony\Bridge\Twig\Extension\DumpExtension" public="false">
       <tag name="twig.extension"/>
       <argument type="service" id="var_dumper.cloner"/>
@@ -4578,13 +4876,14 @@
         <argument key="viewhandler" type="service" id="fos_rest.view_handler.default" on-invalid="ignore"/>
       </argument>
     </service>
-    <service id="service_locator.61c4bc70092b00e9393797dce8125338" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id="service_locator.6fcf12e31bac5ba0c5c4b71881e84944" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
+        <argument key="authChecker" type="service" id="security.authorization_checker" on-invalid="ignore"/>
         <argument key="user" type="service" id="autowired.AppBundle\Entity\User"/>
       </argument>
     </service>
-    <service id="service_locator.bb4d6afec700d4fa5ca44fb616411dd9" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id="service_locator.02880d27ed187aabfe797eb364f849ec" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="AppBundle\Controller\DefaultController:phoneAction" type="service" id="service_locator.56b71901dc9f1612b3eb794d69c52524"/>
@@ -4593,14 +4892,14 @@
         <argument key="AppBundle\Controller\SecurityController:registerAdminAction" type="service" id="service_locator.2da6c68114bb2c845d30e336cbd4b76a"/>
         <argument key="AppBundle\Controller\SecurityController:setViewHandler" type="service" id="service_locator.182f5c5b079727c046caf1a16a7b23a8"/>
         <argument key="AppBundle\Controller\UserController:setViewHandler" type="service" id="service_locator.182f5c5b079727c046caf1a16a7b23a8"/>
-        <argument key="AppBundle\Controller\UserController:userAction" type="service" id="service_locator.61c4bc70092b00e9393797dce8125338"/>
+        <argument key="AppBundle\Controller\UserController:userAction" type="service" id="service_locator.6fcf12e31bac5ba0c5c4b71881e84944"/>
         <argument key="AppBundle\Controller\DefaultController::phoneAction" type="service" id="service_locator.56b71901dc9f1612b3eb794d69c52524"/>
         <argument key="AppBundle\Controller\SecurityController::delUserAction" type="service" id="service_locator.bb08ca9a813b17f5c0d9c069a1cda526"/>
         <argument key="AppBundle\Controller\SecurityController::registerAction" type="service" id="service_locator.2da6c68114bb2c845d30e336cbd4b76a"/>
         <argument key="AppBundle\Controller\SecurityController::registerAdminAction" type="service" id="service_locator.2da6c68114bb2c845d30e336cbd4b76a"/>
         <argument key="AppBundle\Controller\SecurityController::setViewHandler" type="service" id="service_locator.182f5c5b079727c046caf1a16a7b23a8"/>
         <argument key="AppBundle\Controller\UserController::setViewHandler" type="service" id="service_locator.182f5c5b079727c046caf1a16a7b23a8"/>
-        <argument key="AppBundle\Controller\UserController::userAction" type="service" id="service_locator.61c4bc70092b00e9393797dce8125338"/>
+        <argument key="AppBundle\Controller\UserController::userAction" type="service" id="service_locator.6fcf12e31bac5ba0c5c4b71881e84944"/>
       </argument>
     </service>
     <service id="service_locator.2f12455839988f6548ca54240c18a0e3" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
@@ -4765,6 +5064,21 @@
       <argument>null</argument>
       <argument type="collection"/>
     </service>
+    <service id="nelmio_api_doc.parser.form_type_parser" class="Nelmio\ApiDocBundle\Parser\FormTypeParser">
+      <tag name="nelmio_api_doc.extractor.parser"/>
+      <argument type="service" id="form.factory"/>
+      <argument>true</argument>
+    </service>
+    <service id="nelmio_api_doc.parser.validation_parser" class="Nelmio\ApiDocBundle\Parser\ValidationParser">
+      <tag name="nelmio_api_doc.extractor.parser"/>
+      <argument type="service" id="validator"/>
+    </service>
+    <service id="nelmio_api_doc.parser.jms_metadata_parser" class="Nelmio\ApiDocBundle\Parser\JmsMetadataParser">
+      <tag name="nelmio_api_doc.extractor.parser"/>
+      <argument type="service" id="jms_serializer.metadata_factory"/>
+      <argument type="service" id="jms_serializer.cache_naming_strategy"/>
+      <argument type="service" id="nelmio_api_doc.doc_comment_extractor"/>
+    </service>
     <service id="debug.event_dispatcher.inner" class="Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher" public="false">
       <argument type="service" id="service_container"/>
     </service>
@@ -4832,7 +5146,7 @@
     <service id="cache.system.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false" lazy="true">
       <argument>a+V6g3iEDE</argument>
       <argument>0</argument>
-      <argument>oU-3ePI0po9NKQFXMIui8d</argument>
+      <argument>kFknJiVeMCe8PZDrMUIc2Z</argument>
       <argument>C:\wamp64\www\Symfony3\var\cache\dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -4840,7 +5154,7 @@
     <service id="cache.validator.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false" lazy="true">
       <argument>Z8cfsXxJ9v</argument>
       <argument>0</argument>
-      <argument>oU-3ePI0po9NKQFXMIui8d</argument>
+      <argument>kFknJiVeMCe8PZDrMUIc2Z</argument>
       <argument>C:\wamp64\www\Symfony3\var\cache\dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -4848,7 +5162,7 @@
     <service id="cache.serializer.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false" lazy="true">
       <argument>Eykh4o4F3u</argument>
       <argument>0</argument>
-      <argument>oU-3ePI0po9NKQFXMIui8d</argument>
+      <argument>kFknJiVeMCe8PZDrMUIc2Z</argument>
       <argument>C:\wamp64\www\Symfony3\var\cache\dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -4856,7 +5170,7 @@
     <service id="cache.annotations.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false" lazy="true">
       <argument>U7ZBQaeMIW</argument>
       <argument>0</argument>
-      <argument>oU-3ePI0po9NKQFXMIui8d</argument>
+      <argument>kFknJiVeMCe8PZDrMUIc2Z</argument>
       <argument>C:\wamp64\www\Symfony3\var\cache\dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -4878,9 +5192,10 @@
         <argument key="jms_serializer.stopwatch_subscriber" type="service" id="jms_serializer.stopwatch_subscriber"/>
       </argument>
     </service>
-    <service id="service_locator.d6be89097cac897af5423faacb6fffa8" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id="service_locator.565a5010890b50eed04862cecb8b2cfe" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
+        <argument key="fos_rest.serializer.exception_normalizer.jms" type="service" id="fos_rest.serializer.exception_normalizer.jms"/>
         <argument key="jms_serializer.array_collection_handler" type="service" id="jms_serializer.array_collection_handler"/>
         <argument key="jms_serializer.constraint_violation_handler" type="service" id="jms_serializer.constraint_violation_handler"/>
         <argument key="jms_serializer.datetime_handler" type="service" id="jms_serializer.datetime_handler"/>

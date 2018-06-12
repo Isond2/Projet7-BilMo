@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Nelmio\ApiDocBundle\Annotation as Doc;
 
 /**
 * @Route("/api")
@@ -29,6 +30,21 @@ class DefaultController extends Controller
      *     statusCode = 200,
      *     serializerGroups = {"phone_detail"}
      * )
+     *
+     * @Doc\ApiDoc(
+     *     section="Phones",
+     *     resource=true,
+     *     description="Get phone detail",
+     *     requirements={
+     *         {
+     *             "name"="id",
+     *             "dataType"="integer",
+     *             "requirements"="\d+",
+     *             "description"="The phone unique identifier."
+     *         }
+     *     }
+     * )
+     *
      */
 
     public function phoneAction(Phones $phone)
@@ -47,6 +63,12 @@ class DefaultController extends Controller
      *     statusCode = 200,
      *     serializerGroups = {"all_phone_list"}
      * )
+     *
+     * @Doc\ApiDoc(
+     *     section="Phones",
+     *     resource=true,
+     *     description="Get the list of all phones"
+     * )
      */
     public function listAction()
     {
@@ -63,6 +85,20 @@ class DefaultController extends Controller
      *
      * @View(statusCode = 200,
      * serializerGroups = {"manufacturer_list"}
+     * )
+     *
+     * @Doc\ApiDoc(
+     *     section="Phones",
+     *     resource=true,
+     *     description="Get the list of the phones from one manufacturer",
+     *     requirements={
+     *         {
+     *             "name"="manufacturer",
+     *             "dataType"="string",
+     *             "requirements"="[A-Za-z- ]+",
+     *             "description"="The manufacturer name."
+     *         }
+     *     }
      * )
      */
     public function phoneListAction($manufacturer)
@@ -82,6 +118,20 @@ class DefaultController extends Controller
      *
      * @View(StatusCode = 200,
      * serializerGroups = {"manufacturer_detail"}
+     * )
+     *
+     * @Doc\ApiDoc(
+     *     section="Phones",
+     *     resource=true,
+     *     description="Get manufacturer detail",
+     *     requirements={
+     *         {
+     *             "name"="manufacturer",
+     *             "dataType"="string",
+     *             "requirements"="[A-Za-z- ]+",
+     *             "description"="The manufacturer name."
+     *         }
+     *     }
      * )
      */
     public function manufacturerAction($manufacturer)
