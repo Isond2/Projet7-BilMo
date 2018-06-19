@@ -77,6 +77,7 @@ fos_rest:
             - { path: '^/', priorities: ['json'], fallback_format: 'json' }
     param_fetcher_listener: force
 
+
 fos_oauth_server:
     db_driver: orm
     client_class:        AppBundle\Entity\Client
@@ -85,3 +86,5 @@ fos_oauth_server:
     auth_code_class:     AppBundle\Entity\AuthCode
     service:
         user_provider: my_user_provider
+
+nelmio_api_doc: ~
