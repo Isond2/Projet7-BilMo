@@ -51,3 +51,17 @@ cc2394,::1,POST,http://localhost/Symfony3/web/app_dev.php/api/register,152876061
 bedd8d,::1,POST,http://localhost/Symfony3/web/app_dev.php/api/register,1528760915,,201
 d362a5,::1,POST,http://localhost/Symfony3/web/app_dev.php/api/register,1528761114,,201
 ef4352,::1,GET,http://localhost/Symfony3/web/app_dev.php/api/register,1528761136,df0e10,500
+accf08,::1,POST,http://localhost/Symfony3/web/app_dev.php/oauth/v2/token,1528762883,,200
+768a9c,::1,POST,http://localhost/Symfony3/web/app_dev.php/oauth/v2/token,1528762912,,200
+03be03,::1,POST,http://localhost/Symfony3/web/app_dev.php/api/register,1528762959,,201
+08bbca,::1,POST,http://localhost/Symfony3/web/app_dev.php/api/register,1528763003,,201
+ac568b,::1,GET,http://localhost/Symfony3/web/app_dev.php/oauth/v2/token,1528763835,b69dc6,400
+b69dc6,::1,POST,http://localhost/Symfony3/web/app_dev.php/oauth/v2/token,1528763836,,400
+d38039,::1,POST,http://localhost/Symfony3/web/app_dev.php/oauth/v2/token,1528763845,,200
+f53fa6,::1,POST,http://localhost/Symfony3/web/app_dev.php/oauth/v2/token,1528763858,,200
+dda38f,::1,POST,http://localhost/Symfony3/web/app_dev.php/oauth/v2/token,1528763870,,200
+d84a24,::1,GET,http://localhost/Symfony3/web/app_dev.php/oauth/v2/token,1528766796,,400
+8d5552,::1,GET,http://localhost/Symfony3/web/app_dev.php/api/doc,1528766805,,200
+2e3d10,::1,POST,http://localhost/Symfony3/web/app_dev.php/oauth/v2/token,1529444066,,400
+6f528e,::1,POST,http://localhost/Symfony3/web/app_dev.php/oauth/v2/token,1529444078,,200
+834f0f,::1,POST,http://localhost/Symfony3/web/app_dev.php/api/register,1529444141,,201
