@@ -85,19 +85,19 @@ class User implements UserInterface, \Serializable
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=25, unique=true, nullable=false)
+     * @ORM\Column(type="string", unique=true, nullable=false)
      * @Serializer\Groups({"user_detail"})
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=64, unique=true, nullable=false)
+     * @ORM\Column(type="string", length=64, nullable=false)
      * @Serializer\Groups({"user_detail"})
      */
     private $firstName;
 
     /**
-     * @ORM\Column(type="string", length=64, unique=true, nullable=false)
+     * @ORM\Column(type="string", length=64, nullable=false)
      * @Serializer\Groups({"user_detail"})
      */
     private $lastName;

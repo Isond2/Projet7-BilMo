@@ -30,7 +30,7 @@ abstract class AbstractScalarParam extends AbstractParam
     public $map = false;
 
     /** @var bool */
-    public $allowBlank = true;
+    public $allowBlank = false;
 
     /** {@inheritdoc} */
     public function getConstraints()

@@ -63,6 +63,10 @@ swiftmailer:
     spool: { type: memory }
 
 fos_rest:
+    exception:
+        enabled: true
+        codes:
+            { AppBundle\Exception\ResourceValidationException: 400 }
     body_converter:
         enabled: true
         validate: true
@@ -76,6 +80,7 @@ fos_rest:
         rules:
             - { path: '^/', priorities: ['json'], fallback_format: 'json' }
     param_fetcher_listener: force
+
 
 
 fos_oauth_server:

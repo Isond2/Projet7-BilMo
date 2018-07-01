@@ -87,6 +87,15 @@ class SecurityController extends FOSRestController
     public function registerAction(User $user, UserPasswordEncoderInterface $encoder, ConstraintViolationList $violations, $role)
     {
 
+        if (count($violations)) {
+            $message = 'The JSON sent contains invalid data. Here are the errors you need to correct: ';
+            foreach ($violations as $violation) {
+                $message .= sprintf("Field %s: %s ", $violation->getPropertyPath(), $violation->getMessage());
+            }
+
+            throw new ResourceValidationException($message);
+        }
+
         $em = $this->getDoctrine()->getManager();
         $admin = $this->getUser();
         $company = $admin->getUserCompany();
