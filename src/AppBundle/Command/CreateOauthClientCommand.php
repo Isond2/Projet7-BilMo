@@ -10,16 +10,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateOauthClientCommand extends ContainerAwareCommand
 {
-  protected function configure()
-  {
-    $this
-      ->setName('app:oauth-client:create')
-      ->setDescription('Create a new OAuth client')
-      ->addArgument('redirect_url', null, InputArgument::REQUIRED, 'Url redirection after authorization');
-  }
+    protected function configure()
+    {
+        $this
+        ->setName('app:oauth-client:create')
+        ->setDescription('Create a new OAuth client')
+        ->addArgument('redirect_url', null, InputArgument::REQUIRED, 'Url redirection after authorization');
+    }
 
-  protected function execute(InputInterface $input, OutputInterface $output)
-  {
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
         if ($input->getArgument('redirect_url')) {
             $url = $input->getArgument('redirect_url');
         }
@@ -30,5 +30,5 @@ class CreateOauthClientCommand extends ContainerAwareCommand
         $client->setAllowedGrantTypes(array('password', 'refresh_token'));
         $clientManager->updateClient($client);
         $output->writeln("Added a new client with client_id : <info>".$client->getPublicId()."</info> and client_secret : <info>".$client->getSecret()."</info>");
-  }
+    }
 }

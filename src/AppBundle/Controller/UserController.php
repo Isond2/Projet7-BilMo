@@ -43,11 +43,12 @@ class UserController extends FOSRestController
     public function currentAction()
     {
         $user = $this->getUser();
+
         return $user;
     }
 
 
-	/**
+    /**
      * User detail (SUPER_ADMIN can have all users detail , but ROLE_ADMIN can only have the detail of the users from the company he is attached to.)
      *
      * @Rest\Get("/user/{id}", name="user_detail")
@@ -75,19 +76,17 @@ class UserController extends FOSRestController
     public function userAction(User $user, AuthorizationCheckerInterface $authChecker)
     {
         $admin = $this->getUser();
-        if(true === $authChecker->isGranted('ROLE_SUPER_ADMIN'))
-        {
+        if (true === $authChecker->isGranted('ROLE_SUPER_ADMIN')) {
             return $user;
         } else {
             $adminCompany = $admin->getUserCompany();
             $userCompany = $user->getUserCompany();
-            if($userCompany === $adminCompany) {
+            if ($userCompany === $adminCompany) {
                 return $user;
             } else {
                 return $this->view(Response::HTTP_BAD_REQUEST);
             }
         }
-
     }
 
 
@@ -112,6 +111,7 @@ class UserController extends FOSRestController
     {
         $user = $this->getUser();
         $company = $user->getUserCompany();
+
         return $company;
     }
 
@@ -142,7 +142,9 @@ class UserController extends FOSRestController
      */
     public function companyAction($company)
     {
-        $company = $this->getDoctrine()->getRepository('AppBundle:Company')->findOneBy(['companyName' => $company]);;
+        $company = $this->getDoctrine()->getRepository('AppBundle:Company')->findOneBy(['companyName' => $company]);
+        ;
+
         return $company;
     }
 
@@ -171,6 +173,7 @@ class UserController extends FOSRestController
         $company = $user->getUserCompany();
         $companyId = $company->getId();
         $users = $this->getDoctrine()->getRepository('AppBundle:User')->findBy(['userCompany' => $companyId]);
+
         return $users;
     }
 
@@ -203,10 +206,10 @@ class UserController extends FOSRestController
      */
     public function userListAction($company)
     {
-    	$companyName = $this->getDoctrine()->getRepository('AppBundle:Company')->findOneBy(['companyName' => $company]);
-    	$companyId = $companyName->getId();
+        $companyName = $this->getDoctrine()->getRepository('AppBundle:Company')->findOneBy(['companyName' => $company]);
+        $companyId = $companyName->getId();
         $users = $this->getDoctrine()->getRepository('AppBundle:User')->findBy(['userCompany' => $companyId]);
+
         return $users;
     }
-
 }
