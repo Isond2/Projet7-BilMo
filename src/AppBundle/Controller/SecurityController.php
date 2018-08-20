@@ -236,34 +236,3 @@ class SecurityController extends FOSRestController
     }
 
 }
-
-/**
- *
- *      *
-     * @Rest\RequestParam(
-     *      name = "company_name",
-     *      nullable = false,
-     *      description = "Name of the new company"
-     * )
-     *
-     * @Rest\RequestParam(
-     *      name = "adresse_postale",
-     *      nullable = false,
-     *      description = "Postal adress of the new company"
-     * )
-     *
-     * @Rest\RequestParam(
-     *      name = "siret",
-     *      requirements = "\d+",
-     *      nullable = false,
-     *      description = "Siret of the new company"
-     * )
-     *
-     * @Rest\RequestParam(
-     *      name = "url",
-     *      nullable = false,
-     *      description = "Url of the new company's website"
-     * )
-     *
-     *
- */
