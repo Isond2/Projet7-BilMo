@@ -26,25 +26,29 @@ This project is part of the "php/symfony" training.
     
     Get your token : POST on /oauth/v2/token
     With the following json:
-
-            "client_id" = "client_id",
-            "client_secret" = "client_secret",
-            "grant_type" = "password",
-            "username" = "your_username",
-            "password" = "your_password"
-   
+   ```json
+        {
+            "client_id" : "client_id",
+            "client_secret" : "client_secret",
+            "grant_type" : "password",
+            "username" : "your_username",
+            "password" : "your_password"
+        }
+ ```
    Get your refresh token : POST on /oauth/v2/token
    With the following json:
-   
-           "grant_type" :  "refresh_token",
-           "client_id" : "client_id",
-           "client_secret" : "client_secret",
-           "refresh_token" : "your_refresh_token"
- 
+   ```json
+        {
+           "grant_type" :  "refreshToken",
+           "client_id" : "clientId",
+           "client_secret" : "clientSecret",
+           "refresh_token" : "yourRefreshToken"
+        }
+ ```
   ### Log in the api :
   Send your request with theses params in yout header :
   
-            Authorization = 'Bearer ' + "your_token".
+            Authorization = 'Bearer ' + "yourToken".
             
   Doc online at : api/doc
     
