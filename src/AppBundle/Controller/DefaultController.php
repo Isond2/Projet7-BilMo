@@ -73,6 +73,7 @@ class DefaultController extends Controller
     public function listAction()
     {
         $phones = $this->getDoctrine()->getRepository('AppBundle:Phones')->findAll();
+
         return $phones;
     }
 
@@ -106,6 +107,7 @@ class DefaultController extends Controller
         $manufacturerName = $this->getDoctrine()->getRepository('AppBundle:Manufacturer')->findOneBy(['manufacturerName' => $manufacturer]);
         $manufacturerId = $manufacturerName->getId();
         $phones = $this->getDoctrine()->getRepository('AppBundle:Phones')->findBy(['phoneManufacturer' => $manufacturerId]);
+
         return $phones;
     }
 
@@ -136,9 +138,9 @@ class DefaultController extends Controller
      */
     public function manufacturerAction($manufacturer)
     {
-        $manufacturer = $this->getDoctrine()->getRepository('AppBundle:Manufacturer')->findOneBy(['manufacturerName' => $manufacturer]);;
+        $manufacturer = $this->getDoctrine()->getRepository('AppBundle:Manufacturer')->findOneBy(['manufacturerName' => $manufacturer]);
+        ;
+
         return $manufacturer;
     }
-
-
 }

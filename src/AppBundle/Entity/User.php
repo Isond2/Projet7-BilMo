@@ -2,7 +2,6 @@
 
 namespace AppBundle\Entity;
 
-
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -162,6 +161,7 @@ class User implements UserInterface, \Serializable
     public function setPassword($password)
     {
         $this->password = $password;
+
         return $this;
     }
     /**
@@ -202,12 +202,14 @@ class User implements UserInterface, \Serializable
     public function getRoles()
     {
         $roles = $this->roles;
+
         return array_unique($roles);
     }
 
     public function setRoles(array $roles)
     {
         $this->roles = $roles;
+
         return $this;
     }
 
@@ -240,7 +242,5 @@ class User implements UserInterface, \Serializable
 
     public function eraseCredentials()
     {
-
     }
-
 }

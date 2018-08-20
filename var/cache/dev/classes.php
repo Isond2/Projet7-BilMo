@@ -5364,11 +5364,11 @@ namespace
 {
 class Twig_Environment
 {
-const VERSION ='1.35.3';
-const VERSION_ID = 13503;
+const VERSION ='1.35.4';
+const VERSION_ID = 13504;
 const MAJOR_VERSION = 1;
 const MINOR_VERSION = 35;
-const RELEASE_VERSION = 3;
+const RELEASE_VERSION = 4;
 const EXTRA_VERSION ='';
 protected $charset;
 protected $loader;
@@ -6890,8 +6890,10 @@ throw new Twig_Error_Runtime('No suitable convert encoding function (use UTF-8 a
 function _twig_escape_js_callback($matches)
 {
 $char = $matches[0];
-if (!isset($char[1])) {
-return'\\x'.strtoupper(substr('00'.bin2hex($char), -2));
+static $shortMap = array('\\'=>'\\\\','/'=>'\\/',"\x08"=>'\b',"\x0C"=>'\f',"\x0A"=>'\n',"\x0D"=>'\r',"\x09"=>'\t',
+);
+if (isset($shortMap[$char])) {
+return $shortMap[$char];
 }
 $char = twig_convert_encoding($char,'UTF-16BE','UTF-8');
 $char = strtoupper(bin2hex($char));

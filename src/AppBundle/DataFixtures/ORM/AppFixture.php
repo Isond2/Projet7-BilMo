@@ -9,7 +9,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
-
 class AppFixture extends Fixture
 {
     public function load(ObjectManager $manager)
@@ -118,26 +117,12 @@ class AppFixture extends Fixture
 
 
         $manager->flush();
-
-
     }
 
 
 
-       public function getOrder()
-        {
-            return 1;
-        }
-
-
-
-
-
-
+    public function getOrder()
+    {
+         return 1;
+    }
 }
-
-
-
-
-?>
-

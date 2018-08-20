@@ -33,6 +33,7 @@ class UserProvider implements UserProviderInterface
                 sprintf('Instances of "%s" are not supported.', get_class($user))
             );
         }
+
         return $this->loadUserByUsername($user->getUsername());
     }
     public function supportsClass($class)

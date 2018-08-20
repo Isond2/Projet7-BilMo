@@ -27,8 +27,8 @@ class SecurityController extends FOSRestController
      * Allows a ROLE_ADMIN to create a ROLE_USER
      *
      * @Rest\Post(
-     *		path = "/register",
-     *		name = "user_registration",
+     *      path = "/register",
+     *      name = "user_registration",
      * )
      * @Rest\View(StatusCode = 201,
      *     serializerGroups = {"user_detail"}
@@ -180,12 +180,11 @@ class SecurityController extends FOSRestController
     public function registerAdminAction(User $user, UserPasswordEncoderInterface $encoder, ConstraintViolationList $violations, $role)
     {
         if (count($violations)) {
-
             $message = 'The JSON sent contains invalid data. Here are the errors you need to correct: ';
 
-                foreach ($violations as $violation) {
-                    $message .= sprintf("Field %s: %s ", $violation->getPropertyPath(), $violation->getMessage());
-                }
+            foreach ($violations as $violation) {
+                $message .= sprintf("Field %s: %s ", $violation->getPropertyPath(), $violation->getMessage());
+            }
 
             throw new ResourceValidationException($message);
         }
@@ -234,7 +233,7 @@ class SecurityController extends FOSRestController
         $admin = $this->getUser();
         $adminCompany = $admin->getUserCompany();
         $userCompany = $user->getUserCompany();
-        if($userCompany === $adminCompany) {
+        if ($userCompany === $adminCompany) {
             $em = $this->getDoctrine()->getManager();
             $user->setUserCompany(null);
             $em->remove($user);
@@ -243,5 +242,4 @@ class SecurityController extends FOSRestController
             return $this->view($admin, Response::HTTP_BAD_REQUEST);
         }
     }
-
 }
