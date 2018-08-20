@@ -1,23 +1,23 @@
-Bilmo Api
+## Bilmo Api
 
 This project is part of the "php/symfony" training.
 
-Install :
+### Install :
   - Clone the repository
   - run $ php composer install
   
-Create database
+### Create database
   - $ php bin/console doctrine:database:create
   - $ php bin/console doctrine:schema:update --force
   
-Load the sample data
+### Load the sample data
   - $ php bin/console doctrine:fixtures:load
 
-Oauth process :
+### Oauth process :
 
     Create a client :
   
-        -php bin/console app:oauth-client:create -- redirect_url=http://your-redirect.url
+        - php bin/console app:oauth-client:create -- redirect_url=http://your-redirect.url
         - will respond client_id and client_secret
         
     Create an admin :
@@ -41,7 +41,7 @@ Oauth process :
            "client_secret" : "client_secret",
            "refresh_token" : "your_refresh_token"
  
-  Log in your api
+  ### Log in the api :
   Send your request with theses params in yout header :
   
             Authorization = 'Bearer ' + "your_token".
