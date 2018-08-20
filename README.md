@@ -2,6 +2,8 @@
 
 This project is part of the "php/symfony" training.
 
+Bilmo Api is and Api who provides different product's informations (phones) from the Bilmo's catalog. The catalog is accessible by any reseller who is interested. Bilmo Api is a B2B Api only.
+
 ### Install :
   - Clone the repository
   - run $ php composer install
