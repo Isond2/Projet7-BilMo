@@ -15,17 +15,16 @@ This project is part of the "php/symfony" training.
 
 ### Oauth process :
 
-    Create a client :
+Create a client :
   
         - php bin/console app:oauth-client:create -- redirect_url=http://your-redirect.url
         - will respond client_id and client_secret
         
-    Create an admin :
+Create an admin :
         
          - /api/register_admin
     
-    Get your token : POST on /oauth/v2/token
-    With the following json:
+   Get your token : **POST on /oauth/v2/token** with the following json:
    ```json
         {
             "client_id" : "client_id",
@@ -35,8 +34,7 @@ This project is part of the "php/symfony" training.
             "password" : "your_password"
         }
  ```
-   Get your refresh token : POST on /oauth/v2/token
-   With the following json:
+   Get your refresh token : **POST on /oauth/v2/token** with the following json:
    ```json
         {
            "grant_type" :  "refreshToken",
