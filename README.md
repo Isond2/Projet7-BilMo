@@ -1,4 +1,5 @@
 ## Bilmo Api
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/074647b165034b4b959d916df7a74835)](https://www.codacy.com/app/Isond2_3/Projet7-BilMo?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Isond2/Projet7-BilMo&amp;utm_campaign=Badge_Grade)
 
 This project is part of the "php/symfony" training.
 
