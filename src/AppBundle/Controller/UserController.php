@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Bilmo API.
+ *
+ * GOMEZ José-Adrian j.gomez.17.j@gmail.com
+ *
+ */
+
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
@@ -39,6 +46,8 @@ class UserController extends FOSRestController
      *     resource=true,
      *     description="Get my user's detail"
      * )
+     *
+     * @return json
      */
     public function currentAction()
     {
@@ -72,21 +81,27 @@ class UserController extends FOSRestController
      *         }
      *     }
      * )
+     *
+     * @param  User                          $user
+     * @param  AuthorizationCheckerInterface $authChecker
+     *
+     * @return json
      */
     public function userAction(User $user, AuthorizationCheckerInterface $authChecker)
     {
         $admin = $this->getUser();
         if (true === $authChecker->isGranted('ROLE_SUPER_ADMIN')) {
             return $user;
-        } else {
-            $adminCompany = $admin->getUserCompany();
-            $userCompany = $user->getUserCompany();
-            if ($userCompany === $adminCompany) {
-                return $user;
-            } else {
-                return $this->view(Response::HTTP_BAD_REQUEST);
-            }
         }
+
+        $adminCompany = $admin->getUserCompany();
+        $userCompany = $user->getUserCompany();
+
+        if ($userCompany === $adminCompany) {
+            return $user;
+        }
+
+        return $this->view(Response::HTTP_BAD_REQUEST);
     }
 
 
@@ -106,6 +121,8 @@ class UserController extends FOSRestController
      *     resource=true,
      *     description="Get the detail of my company"
      * )
+     *
+     * @return json
      */
     public function myCompanyAction()
     {
@@ -139,6 +156,10 @@ class UserController extends FOSRestController
      *         }
      *     }
      * )
+     *
+     * @param  company $company
+     *
+     * @return json
      */
     public function companyAction($company)
     {
@@ -166,6 +187,7 @@ class UserController extends FOSRestController
      *     description="Get the user's list of my company"
      * )
      *
+     * @return json
      */
     public function myUserListAction()
     {
@@ -203,6 +225,9 @@ class UserController extends FOSRestController
      *     }
      * )
      *
+     * @param  company $company
+     *
+     * @return json
      */
     public function userListAction($company)
     {

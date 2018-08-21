@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Bilmo API.
+ *
+ * GOMEZ José-Adrian j.gomez.17.j@gmail.com
+ *
+ */
+
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -59,6 +66,7 @@ class Phones
      * @var string
      *
      * @ORM\Column(name="phone_name", type="string", length=255, unique=true)
+     *
      * @Serializer\Groups({"all_phone_list", "phone_detail", "manufacturer_list"})
      */
     private $phoneName;
@@ -67,6 +75,7 @@ class Phones
      * @var int
      *
      * @ORM\Column(name="phone_price", type="integer")
+     *
      * @Serializer\Groups({"all_phone_list", "phone_detail", "manufacturer_list"})
      */
     private $phonePrice;
@@ -76,6 +85,7 @@ class Phones
      * @var string
      *
      * @ORM\Column(name="phone_description", type="text")
+     *
      * @Serializer\Groups({"phone_detail"})
      */
     private $phoneDescription;

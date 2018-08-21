@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Bilmo API.
+ *
+ * GOMEZ José-Adrian j.gomez.17.j@gmail.com
+ *
+ */
+
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -83,7 +90,7 @@ class Company
      /**
      * @ORM\OneToMany(targetEntity="User", mappedBy="userCompany", cascade={"persist"})
      */
-    private $CompanyUsers;
+    private $companyUsers;
 
     /**
      * @ORM\Column(type="string", unique=true, nullable=false)
@@ -116,7 +123,7 @@ class Company
      */
     public function __construct()
     {
-        $this->CompanyUsers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->companyUsers = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -162,7 +169,7 @@ class Company
      */
     public function addCompanyUser(\AppBundle\Entity\User $companyUser)
     {
-        $this->CompanyUsers[] = $companyUser;
+        $this->companyUsers[] = $companyUser;
 
         return $this;
     }
@@ -174,7 +181,7 @@ class Company
      */
     public function removeCompanyUser(\AppBundle\Entity\User $companyUser)
     {
-        $this->CompanyUsers->removeElement($companyUser);
+        $this->companyUsers->removeElement($companyUser);
     }
 
     /**
@@ -184,6 +191,6 @@ class Company
      */
     public function getCompanyUsers()
     {
-        return $this->CompanyUsers;
+        return $this->companyUsers;
     }
 }

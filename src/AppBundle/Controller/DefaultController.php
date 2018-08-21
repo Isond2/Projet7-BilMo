@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Bilmo API.
+ *
+ * GOMEZ José-Adrian j.gomez.17.j@gmail.com
+ *
+ */
+
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Manufacturer;
@@ -45,8 +52,10 @@ class DefaultController extends Controller
      *     }
      * )
      *
+     * @param  Phones $phone
+     *
+     * @return json
      */
-
     public function phoneAction(Phones $phone)
     {
         return $phone;
@@ -69,6 +78,8 @@ class DefaultController extends Controller
      *     resource=true,
      *     description="Get the list of all phones"
      * )
+     *
+     * @return json
      */
     public function listAction()
     {
@@ -101,6 +112,10 @@ class DefaultController extends Controller
      *         }
      *     }
      * )
+     *
+     * @param manufacturer $manufacturer
+     *
+     * @return json
      */
     public function phoneListAction($manufacturer)
     {
@@ -135,6 +150,10 @@ class DefaultController extends Controller
      *         }
      *     }
      * )
+     *
+     * @param manufacturer $manufacturer
+     *
+     * @return json
      */
     public function manufacturerAction($manufacturer)
     {

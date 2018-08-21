@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Bilmo API.
+ *
+ * GOMEZ José-Adrian j.gomez.17.j@gmail.com
+ *
+ */
+
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -74,6 +81,7 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=25, unique=true, nullable=false)
+     *
      * @Serializer\Groups({"user_list", "user_detail"})
      */
     private $username;
@@ -85,24 +93,28 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", unique=true, nullable=false)
+     *
      * @Serializer\Groups({"user_detail"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=false)
+     *
      * @Serializer\Groups({"user_detail"})
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=false)
+     *
      * @Serializer\Groups({"user_detail"})
      */
     private $lastName;
 
     /**
      * @ORM\Column(name="role", type="json_array", nullable=false)
+     *
      * @Serializer\Groups({"user_detail"})
      *
      * @Assert\Type("array")
@@ -130,7 +142,7 @@ class User implements UserInterface, \Serializable
     /**
      * Set userName
      *
-     * @param string $userName
+     * @param string $username
      *
      * @return User
      */
@@ -198,7 +210,11 @@ class User implements UserInterface, \Serializable
         return $this->userCompany;
     }
 
-
+    /**
+     * Get Roles
+     *
+     * @return array
+     */
     public function getRoles()
     {
         $roles = $this->roles;
@@ -206,6 +222,13 @@ class User implements UserInterface, \Serializable
         return array_unique($roles);
     }
 
+    /**
+     * Set Roles
+     *
+     * @param array $roles
+     *
+     * @return array
+     */
     public function setRoles(array $roles)
     {
         $this->roles = $roles;
@@ -213,7 +236,11 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-
+    /**
+     * Get Salt
+     *
+     * @return null
+     */
     public function getSalt()
     {
         return null;
@@ -239,7 +266,7 @@ class User implements UserInterface, \Serializable
         ) = unserialize($serialized);
     }
 
-
+    /** eraseCredentials */
     public function eraseCredentials()
     {
     }

@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Bilmo API.
+ *
+ * GOMEZ José-Adrian j.gomez.17.j@gmail.com
+ *
+ */
+
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
@@ -83,6 +90,13 @@ class SecurityController extends FOSRestController
      *     description="Create an User (Admins can only create users attach to their own company.",
      *     section="User's security"
      * )
+     *
+     * @param  User                         $user
+     * @param  UserPasswordEncoderInterface $encoder
+     * @param  ConstraintViolationList      $violations
+     * @param  array                        $role
+     *
+     * @return json
      */
     public function registerAction(User $user, UserPasswordEncoderInterface $encoder, ConstraintViolationList $violations, $role)
     {
@@ -176,6 +190,12 @@ class SecurityController extends FOSRestController
      *     section="User's security"
      * )
      *
+     * @param  User                         $user
+     * @param  UserPasswordEncoderInterface $encoder
+     * @param  ConstraintViolationList      $violations
+     * @param  array                        $role
+     *
+     * @return json
      */
     public function registerAdminAction(User $user, UserPasswordEncoderInterface $encoder, ConstraintViolationList $violations, $role)
     {
@@ -227,6 +247,10 @@ class SecurityController extends FOSRestController
      *         }
      *     }
      * )
+     *
+     * @param  User $user
+     *
+     * @return json
      */
     public function delUserAction(User $user)
     {
