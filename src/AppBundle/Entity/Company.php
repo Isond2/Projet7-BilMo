@@ -96,7 +96,7 @@ class Company
      *
      * @Serializer\Groups({"company_detail", "user_detail"})
      */
-    private $adressePostale;
+    private $adress;
 
     /**
      * @ORM\Column(type="string", length=14, unique=true, nullable=false)
@@ -157,6 +157,78 @@ class Company
     public function getCompanyName()
     {
         return $this->companyName;
+    }
+
+    /**
+     * Set adress
+     *
+     * @param string $adress
+     *
+     * @return Company
+     */
+    public function setAdress($adress)
+    {
+        $this->adress = $adress;
+
+        return $this;
+    }
+
+    /**
+     * Get adress
+     *
+     * @return string
+     */
+    public function getAdress()
+    {
+        return $this->adress;
+    }
+
+    /**
+     * Set siret
+     *
+     * @param string $siret
+     *
+     * @return Company
+     */
+    public function setSiret($siret)
+    {
+        $this->siret = $siret;
+
+        return $this;
+    }
+
+    /**
+     * Get siret
+     *
+     * @return string
+     */
+    public function getSiret()
+    {
+        return $this->siret;
+    }
+
+    /**
+     * Set url
+     *
+     * @param string $url
+     *
+     * @return Company
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    /**
+     * Get url
+     *
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
     }
 
     /**

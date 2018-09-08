@@ -10,6 +10,8 @@ namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\Manufacturer;
 use AppBundle\Entity\Phones;
+use AppBundle\Entity\Company;
+use AppBundle\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -128,9 +130,101 @@ class AppFixture extends Fixture
             $manager->persist($phone9);
 
 
+    //Companys
+
+        //Bilmo
+        $bilmo1 = new Company();
+        $bilmo1->setCompanyName('Bilmo');
+        $bilmo1->setAdress('605 S. Blue Spring Ave. Waterloo, IA 50701');
+        $bilmo1->setSiret('80456448500123');
+        $bilmo1->setUrl('https://bilmo.com/');
+        $manager->persist($bilmo1);
+
+        //retailer 1
+        $retailer1 = new Company();
+        $retailer1->setCompanyName('Retailer 2');
+        $retailer1->setAdress('8993 Fairview Ave.Hobart, IN 46342');
+        $retailer1->setSiret('89545258801478');
+        $retailer1->setUrl('https://retailer1.com/');
+        $manager->persist($retailer1);
+
+        //retailer 2
+        $retailer2 = new Company();
+        $retailer2->setCompanyName('Retailer 1');
+        $retailer2->setAdress('636 Smith Store St. Mcallen, TX 78501');
+        $retailer2->setSiret('56957458911654');
+        $retailer2->setUrl('https://retailer2.com/');
+        $manager->persist($retailer2);
 
 
-        $manager->flush();
+    //Users
+        //Bilmo Super Admin
+        $superAdmin = new User();
+        $superAdmin->setUsername('BilmoSuperAdmin');
+        $superAdmin->setPassword('$2b$10$C/CgWKNF1T4Tn6UtBf7n9O7.ZNdPhqj95OEKuDUDxuHv64bsLzFBi');
+        $superAdmin->setEmail('jean.wood@gmail.com');
+        $superAdmin->setFirstName('Jean');
+        $superAdmin->setLastName('Wood');
+        $superAdmin->setRoles(['ROLE_SUPER_ADMIN']);
+        $superAdmin->setUserCompany($bilmo1);
+        $manager->persist($superAdmin);
+
+        //Retailer 1 Admin
+        $retailer1Admin = new User();
+        $retailer1Admin->setUsername('Retailer1');
+        $retailer1Admin->setPassword('$2b$10$LbgJW7MpuOcrH.Fz13t3AOi/rQXD/yLFMyh2stQSJIuLmhbTxNCri');
+        $retailer1Admin->setEmail('retail.1@gmail.com');
+        $retailer1Admin->setFirstName('Pierre');
+        $retailer1Admin->setLastName('Smith');
+        $retailer1Admin->setRoles(['ROLE_ADMIN']);
+        $retailer1Admin->setUserCompany($retailer1);
+        $manager->persist($retailer1Admin);
+
+        //Retailer 1 Edward
+        $retailer1Edward = new User();
+        $retailer1Edward->setUsername('Edward');
+        $retailer1Edward->setPassword('$2b$10$bSeydm2WsDqzCpiuC/8/juadldr9s.Ky/Xx9ejiQZeusPIR493EBm');
+        $retailer1Edward->setEmail('edward.Ikeda@gmail.com');
+        $retailer1Edward->setFirstName('Edward');
+        $retailer1Edward->setLastName('Ikeda');
+        $retailer1Edward->setRoles(['ROLE_USER']);
+        $retailer1Edward->setUserCompany($retailer1);
+        $manager->persist($retailer1Edward);
+
+        //Retailer 1 Thomas
+        $retailer1Thomas = new User();
+        $retailer1Thomas->setUsername('Thomas');
+        $retailer1Thomas->setPassword('$2b$10$Qkesrl269tzcBcM3r9v1Weg1/z0w4QaM/Vqn/Bapn0s4yshlSf7kG');
+        $retailer1Thomas->setEmail('thomas.slater@hotmail.fr');
+        $retailer1Thomas->setFirstName('Thomas');
+        $retailer1Thomas->setLastName('Slater');
+        $retailer1Thomas->setRoles(['ROLE_USER']);
+        $retailer1Thomas->setUserCompany($retailer1);
+        $manager->persist($retailer1Thomas);
+
+        //Retailer 2 Admin
+        $retailer2Admin = new User();
+        $retailer2Admin->setUsername('Retailer2');
+        $retailer2Admin->setPassword('$2b$10$vVIuw7q6ttR5gU2bX7/yD.eklQAqkIlZXAHZXXbF85wDcLGZ1NH9O');
+        $retailer2Admin->setEmail('retail.2@gmail.com');
+        $retailer2Admin->setFirstName('Kaitlyn');
+        $retailer2Admin->setLastName('Stevens');
+        $retailer2Admin->setRoles(['ROLE_ADMIN']);
+        $retailer2Admin->setUserCompany($retailer2);
+        $manager->persist($retailer2Admin);
+
+        //Retailer 2 Althea
+        $retailer2Athela = new User();
+        $retailer2Athela->setUsername('Althea');
+        $retailer2Athela->setPassword('$2b$10$RCHPJVctcN/OXFmt5qDJQ.blxV/ZUwNP1sWERV5Sn3BcYJmOtOOOq');
+        $retailer2Athela->setEmail('athela.brown@orange.fr');
+        $retailer2Athela->setFirstName('Althea');
+        $retailer2Athela->setLastName('Brown');
+        $retailer2Athela->setRoles(['ROLE_USER']);
+        $retailer2Athela->setUserCompany($retailer2);
+        $manager->persist($retailer2Athela);
+
+    $manager->flush();
     }
 
 

@@ -81,6 +81,13 @@ class Manufacturer
 
 
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->manufacturerPhones = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -138,13 +145,6 @@ class Manufacturer
     public function getManufacturerPhones()
     {
         return $this->manufacturerPhones;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->manufacturerPhones = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

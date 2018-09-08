@@ -33,7 +33,7 @@ class SecurityController extends FOSRestController
      * Allows a ROLE_ADMIN to create a ROLE_USER
      *
      * @Rest\Post(
-     *      path = "/register",
+     *      path = "/user",
      *      name = "user_registration",
      * )
      * @Rest\View(StatusCode = 201,
@@ -126,7 +126,7 @@ class SecurityController extends FOSRestController
      * Allows a ROLE_SUPER_ADMIN to create a ROLE_ADMIN
      *
      * @Rest\Post(
-     *      path = "/register_admin",
+     *      path = "/admin",
      *      name = "admin_registration",
      * )
      * @Rest\View(StatusCode = 201,
@@ -222,7 +222,7 @@ class SecurityController extends FOSRestController
      * Allows a ROLE_ADMIN to delete an user
      *
      * @Rest\Delete(
-     *     path = "/delete_user/{id}",
+     *     path = "/user/{id}",
      *     name = "delete_user",
      *     requirements = {"id"="\d+"}
      * )
