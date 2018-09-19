@@ -104,18 +104,18 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
         }
 
         elseif (0 === strpos($pathinfo, '/api')) {
-            if (0 === strpos($pathinfo, '/api/phones')) {
-                // phones_detail
-                if (preg_match('#^/api/phones/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
-                    if ('GET' !== $canonicalMethod) {
-                        $allow[] = 'GET';
-                        goto not_phones_detail;
-                    }
-
-                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'phones_detail')), array (  '_controller' => 'AppBundle\\Controller\\DefaultController::phoneAction',));
+            // phones_detail
+            if (0 === strpos($pathinfo, '/api/phone') && preg_match('#^/api/phone/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                if ('GET' !== $canonicalMethod) {
+                    $allow[] = 'GET';
+                    goto not_phones_detail;
                 }
-                not_phones_detail:
 
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'phones_detail')), array (  '_controller' => 'AppBundle\\Controller\\DefaultController::phoneAction',));
+            }
+            not_phones_detail:
+
+            if (0 === strpos($pathinfo, '/api/phones')) {
                 // phones_list
                 if ('/api/phones' === $pathinfo) {
                     if ('GET' !== $canonicalMethod) {
@@ -127,56 +127,31 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
                 }
                 not_phones_list:
 
+                // phone_list_manufacturer
+                if (preg_match('#^/api/phones/(?P<manufacturer>[^/]++)$#s', $pathinfo, $matches)) {
+                    if ('GET' !== $canonicalMethod) {
+                        $allow[] = 'GET';
+                        goto not_phone_list_manufacturer;
+                    }
+
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'phone_list_manufacturer')), array (  '_controller' => 'AppBundle\\Controller\\DefaultController::phoneListAction',));
+                }
+                not_phone_list_manufacturer:
+
             }
 
-            // phone_list_manufacturer
-            if (0 === strpos($pathinfo, '/api/phone_list') && preg_match('#^/api/phone_list/(?P<manufacturer>[^/]++)$#s', $pathinfo, $matches)) {
+            // manufacturer_detail
+            if (0 === strpos($pathinfo, '/api/manufacturer') && preg_match('#^/api/manufacturer/(?P<manufacturer>[^/]++)$#s', $pathinfo, $matches)) {
                 if ('GET' !== $canonicalMethod) {
                     $allow[] = 'GET';
-                    goto not_phone_list_manufacturer;
+                    goto not_manufacturer_detail;
                 }
 
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'phone_list_manufacturer')), array (  '_controller' => 'AppBundle\\Controller\\DefaultController::phoneListAction',));
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'manufacturer_detail')), array (  '_controller' => 'AppBundle\\Controller\\DefaultController::manufacturerAction',));
             }
-            not_phone_list_manufacturer:
+            not_manufacturer_detail:
 
-            if (0 === strpos($pathinfo, '/api/m')) {
-                // manufacturer_detail
-                if (0 === strpos($pathinfo, '/api/manufacturer') && preg_match('#^/api/manufacturer/(?P<manufacturer>[^/]++)$#s', $pathinfo, $matches)) {
-                    if ('GET' !== $canonicalMethod) {
-                        $allow[] = 'GET';
-                        goto not_manufacturer_detail;
-                    }
-
-                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'manufacturer_detail')), array (  '_controller' => 'AppBundle\\Controller\\DefaultController::manufacturerAction',));
-                }
-                not_manufacturer_detail:
-
-                // my_company_detail
-                if ('/api/my_company/detail' === $pathinfo) {
-                    if ('GET' !== $canonicalMethod) {
-                        $allow[] = 'GET';
-                        goto not_my_company_detail;
-                    }
-
-                    return array (  '_controller' => 'AppBundle\\Controller\\UserController::myCompanyAction',  '_route' => 'my_company_detail',);
-                }
-                not_my_company_detail:
-
-                // my_users_list
-                if ('/api/my_company/user_list' === $pathinfo) {
-                    if ('GET' !== $canonicalMethod) {
-                        $allow[] = 'GET';
-                        goto not_my_users_list;
-                    }
-
-                    return array (  '_controller' => 'AppBundle\\Controller\\UserController::myUserListAction',  '_route' => 'my_users_list',);
-                }
-                not_my_users_list:
-
-            }
-
-            elseif (0 === strpos($pathinfo, '/api/user')) {
+            if (0 === strpos($pathinfo, '/api/user')) {
                 // user_registration
                 if ('/api/user' === $pathinfo) {
                     if ('POST' !== $canonicalMethod) {
@@ -210,6 +185,17 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
                 }
                 not_user_detail:
 
+                // company_user_list
+                if (0 === strpos($pathinfo, '/api/users') && preg_match('#^/api/users/(?P<company>[^/]++)$#s', $pathinfo, $matches)) {
+                    if ('GET' !== $canonicalMethod) {
+                        $allow[] = 'GET';
+                        goto not_company_user_list;
+                    }
+
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'company_user_list')), array (  '_controller' => 'AppBundle\\Controller\\UserController::userListAction',));
+                }
+                not_company_user_list:
+
             }
 
             // admin_registration
@@ -234,27 +220,41 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             }
             not_current_user_detail:
 
-            // company_detail
-            if (0 === strpos($pathinfo, '/api/company') && preg_match('#^/api/company/(?P<company>[^/]++)$#s', $pathinfo, $matches)) {
-                if ('GET' !== $canonicalMethod) {
-                    $allow[] = 'GET';
-                    goto not_company_detail;
+            if (0 === strpos($pathinfo, '/api/company')) {
+                // my_company_detail
+                if ('/api/company' === $pathinfo) {
+                    if ('GET' !== $canonicalMethod) {
+                        $allow[] = 'GET';
+                        goto not_my_company_detail;
+                    }
+
+                    return array (  '_controller' => 'AppBundle\\Controller\\UserController::myCompanyAction',  '_route' => 'my_company_detail',);
                 }
+                not_my_company_detail:
 
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'company_detail')), array (  '_controller' => 'AppBundle\\Controller\\UserController::companyAction',));
-            }
-            not_company_detail:
+                // my_users_list
+                if ('/api/company/users' === $pathinfo) {
+                    if ('GET' !== $canonicalMethod) {
+                        $allow[] = 'GET';
+                        goto not_my_users_list;
+                    }
 
-            // company_user_list
-            if (preg_match('#^/api/(?P<company>[^/]++)/user_list$#s', $pathinfo, $matches)) {
-                if ('GET' !== $canonicalMethod) {
-                    $allow[] = 'GET';
-                    goto not_company_user_list;
+                    return array (  '_controller' => 'AppBundle\\Controller\\UserController::myUserListAction',  '_route' => 'my_users_list',);
                 }
+                not_my_users_list:
 
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'company_user_list')), array (  '_controller' => 'AppBundle\\Controller\\UserController::userListAction',));
+                // company_detail
+                if (preg_match('#^/api/company/(?P<company>[^/]++)$#s', $pathinfo, $matches)) {
+                    if ('GET' !== $canonicalMethod) {
+                        $allow[] = 'GET';
+                        goto not_company_detail;
+                    }
+
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'company_detail')), array (  '_controller' => 'AppBundle\\Controller\\UserController::companyAction',));
+                }
+                not_company_detail:
+
             }
-            not_company_user_list:
 
             // nelmio_api_doc_index
             if (0 === strpos($pathinfo, '/api/doc') && preg_match('#^/api/doc(?:/(?P<view>[^/]++))?$#s', $pathinfo, $matches)) {

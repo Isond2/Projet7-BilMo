@@ -34,7 +34,7 @@ class UserController extends FOSRestController
      *
      * @Rest\Get("/current", name="current_user_detail")
      *
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_SUPER_ADMIN')")
      *
      * @View(StatusCode = 200,
      * serializerGroups = {"user_detail"}
@@ -100,14 +100,14 @@ class UserController extends FOSRestController
             return $user;
         }
 
-        return $this->view(Response::HTTP_BAD_REQUEST);
+        return $this->view(Response::HTTP_UNAUTHORIZED)->setStatusCode('401');
     }
 
 
     /**
      * My company details (current logged user's company)
      *
-     * @Rest\Get("/my_company/detail", name="my_company_detail")
+     * @Rest\Get("/company", name="my_company_detail")
      *
      * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_SUPER_ADMIN')")
      *
@@ -129,6 +129,35 @@ class UserController extends FOSRestController
         $company = $user->getUserCompany();
 
         return $company;
+    }
+
+     /**
+     * Users of my company (list of users of the current logged user's company)
+     *
+     * @Rest\Get("/company/users", name="my_users_list")
+     *
+     * @Security("has_role('ROLE_ADMIN')")
+     *
+     * @View(statusCode = 200,
+     * serializerGroups = {"user_list"}
+     * )
+     *
+     * @Doc\ApiDoc(
+     *     section="Users",
+     *     resource=true,
+     *     description="Get the user's list of my company"
+     * )
+     *
+     * @return json
+     */
+    public function myUserListAction()
+    {
+        $user = $this->getUser();
+        $company = $user->getUserCompany();
+        $companyId = $company->getId();
+        $users = $this->getDoctrine()->getRepository('AppBundle:User')->findBy(['userCompany' => $companyId]);
+
+        return $users;
     }
 
     /**
@@ -163,46 +192,16 @@ class UserController extends FOSRestController
     public function companyAction($company)
     {
         $company = $this->getDoctrine()->getRepository('AppBundle:Company')->findOneBy(['companyName' => $company]);
-        ;
-
         return $company;
     }
 
 
-     /**
-     * Users of my company (list of users of the current logged user's company)
-     *
-     * @Rest\Get("/my_company/user_list", name="my_users_list")
-     *
-     * @Security("has_role('ROLE_ADMIN')")
-     *
-     * @View(statusCode = 200,
-     * serializerGroups = {"user_list"}
-     * )
-     *
-     * @Doc\ApiDoc(
-     *     section="Users",
-     *     resource=true,
-     *     description="Get the user's list of my company"
-     * )
-     *
-     * @return json
-     */
-    public function myUserListAction()
-    {
-        $user = $this->getUser();
-        $company = $user->getUserCompany();
-        $companyId = $company->getId();
-        $users = $this->getDoctrine()->getRepository('AppBundle:User')->findBy(['userCompany' => $companyId]);
-
-        return $users;
-    }
 
 
     /**
      * Users of one company (Super admin only)
      *
-     * @Rest\Get("/{company}/user_list", name="company_user_list")
+     * @Rest\Get("/users/{company}", name="company_user_list")
      *
      * @Security("has_role('ROLE_SUPER_ADMIN')")
      *

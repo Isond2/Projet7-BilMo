@@ -9,6 +9,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Manufacturer;
+use FOS\RestBundle\Controller\FOSRestController;
 use AppBundle\Entity\Phones;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\View;
@@ -18,17 +19,18 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Nelmio\ApiDocBundle\Annotation as Doc;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
 * @Route("/api")
 */
-class DefaultController extends Controller
+class DefaultController extends FOSRestController
 {
 
     /**
      * Phone detail
      *
-     * @Rest\Get("/phones/{id}", name="phones_detail")
+     * @Rest\Get("/phone/{id}", name="phones_detail")
      *
      * @Security("has_role('ROLE_USER')")
      *
@@ -90,7 +92,7 @@ class DefaultController extends Controller
     /**
      * Phones list of one manufacturer
      *
-     * @Rest\Get("/phone_list/{manufacturer}", name="phone_list_manufacturer")
+     * @Rest\Get("/phones/{manufacturer}", name="phone_list_manufacturer")
      *
      * @Security("has_role('ROLE_USER')")
      *
@@ -119,6 +121,9 @@ class DefaultController extends Controller
     public function phoneListAction($manufacturer)
     {
         $manufacturerName = $this->getDoctrine()->getRepository('AppBundle:Manufacturer')->findOneBy(['manufacturerName' => $manufacturer]);
+        if ($manufacturerName===null) {
+        	return $this->view(Response::HTTP_NOT_FOUND)->setStatusCode('404');
+        }
         $manufacturerId = $manufacturerName->getId();
         $phones = $this->getDoctrine()->getRepository('AppBundle:Phones')->findBy(['phoneManufacturer' => $manufacturerId]);
 

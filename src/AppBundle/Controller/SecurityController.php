@@ -262,7 +262,7 @@ class SecurityController extends FOSRestController
             $em->remove($user);
             $em->flush();
         } else {
-            return $this->view($admin, Response::HTTP_BAD_REQUEST);
+            return $this->view(Response::HTTP_UNAUTHORIZED)->setStatusCode('401');
         }
     }
 }

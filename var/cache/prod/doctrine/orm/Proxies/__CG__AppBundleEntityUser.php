@@ -235,6 +235,72 @@ class User extends \AppBundle\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function setEmail($email)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEmail', [$email]);
+
+        return parent::setEmail($email);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEmail()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEmail', []);
+
+        return parent::getEmail();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setFirstName($firstName)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFirstName', [$firstName]);
+
+        return parent::setFirstName($firstName);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getFirstName()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFirstName', []);
+
+        return parent::getFirstName();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setLastName($lastName)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLastName', [$lastName]);
+
+        return parent::setLastName($lastName);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLastName()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLastName', []);
+
+        return parent::getLastName();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function setUserCompany(\AppBundle\Entity\Company $userCompany = NULL)
     {
 

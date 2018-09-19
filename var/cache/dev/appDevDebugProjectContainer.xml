@@ -669,7 +669,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver" public="false">
       <tag name="controller.argument_value_resolver" priority="-50"/>
-      <argument type="service" id="service_locator.02880d27ed187aabfe797eb364f849ec"/>
+      <argument type="service" id="service_locator.e878b286003e8c429ed586997e4eec1c"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver" public="false">
       <tag name="controller.argument_value_resolver" priority="-100"/>
@@ -815,7 +815,7 @@
       <tag name="monolog.logger" channel="cache"/>
       <argument></argument>
       <argument>0</argument>
-      <argument>uBrzVgvqqnDXhNYr7TCJXB</argument>
+      <argument>9QbqTgSeMPIExi7ftdntjr</argument>
       <argument>C:\wamp64\www\bilmo-api\var\cache\dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -825,7 +825,7 @@
       <tag name="monolog.logger" channel="cache"/>
       <argument></argument>
       <argument>0</argument>
-      <argument>uBrzVgvqqnDXhNYr7TCJXB</argument>
+      <argument>9QbqTgSeMPIExi7ftdntjr</argument>
       <call method="setLogger">
         <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       </call>
@@ -2641,12 +2641,12 @@
     </service>
     <service id="security.authentication.listener.anonymous.main" class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
       <argument type="service" id="security.token_storage"/>
-      <argument>5b9167f290de51.49234512</argument>
+      <argument>5ba2a237e5f189.61092177</argument>
       <argument type="service" id="monolog.logger.security" on-invalid="null"/>
       <argument type="service" id="security.authentication.manager"/>
     </service>
     <service id="security.authentication.provider.anonymous.main" class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-      <argument>5b9167f290de51.49234512</argument>
+      <argument>5ba2a237e5f189.61092177</argument>
     </service>
     <service id="security.exception_listener.main" class="Symfony\Component\Security\Http\Firewall\ExceptionListener" public="false">
       <argument type="service" id="security.token_storage"/>
@@ -4972,6 +4972,12 @@
         <argument key="phone" type="service" id="autowired.AppBundle\Entity\Phones"/>
       </argument>
     </service>
+    <service id="service_locator.182f5c5b079727c046caf1a16a7b23a8" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="viewhandler" type="service" id="fos_rest.view_handler.default" on-invalid="ignore"/>
+      </argument>
+    </service>
     <service id="service_locator.2da6c68114bb2c845d30e336cbd4b76a" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -4985,12 +4991,6 @@
         <argument key="user" type="service" id="autowired.AppBundle\Entity\User"/>
       </argument>
     </service>
-    <service id="service_locator.182f5c5b079727c046caf1a16a7b23a8" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
-      <tag name="container.service_locator"/>
-      <argument type="collection">
-        <argument key="viewhandler" type="service" id="fos_rest.view_handler.default" on-invalid="ignore"/>
-      </argument>
-    </service>
     <service id="service_locator.6fcf12e31bac5ba0c5c4b71881e84944" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -4998,10 +4998,11 @@
         <argument key="user" type="service" id="autowired.AppBundle\Entity\User"/>
       </argument>
     </service>
-    <service id="service_locator.02880d27ed187aabfe797eb364f849ec" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id="service_locator.e878b286003e8c429ed586997e4eec1c" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="AppBundle\Controller\DefaultController:phoneAction" type="service" id="service_locator.56b71901dc9f1612b3eb794d69c52524"/>
+        <argument key="AppBundle\Controller\DefaultController:setViewHandler" type="service" id="service_locator.182f5c5b079727c046caf1a16a7b23a8"/>
         <argument key="AppBundle\Controller\SecurityController:delUserAction" type="service" id="service_locator.bb08ca9a813b17f5c0d9c069a1cda526"/>
         <argument key="AppBundle\Controller\SecurityController:registerAction" type="service" id="service_locator.2da6c68114bb2c845d30e336cbd4b76a"/>
         <argument key="AppBundle\Controller\SecurityController:registerAdminAction" type="service" id="service_locator.2da6c68114bb2c845d30e336cbd4b76a"/>
@@ -5009,6 +5010,7 @@
         <argument key="AppBundle\Controller\UserController:setViewHandler" type="service" id="service_locator.182f5c5b079727c046caf1a16a7b23a8"/>
         <argument key="AppBundle\Controller\UserController:userAction" type="service" id="service_locator.6fcf12e31bac5ba0c5c4b71881e84944"/>
         <argument key="AppBundle\Controller\DefaultController::phoneAction" type="service" id="service_locator.56b71901dc9f1612b3eb794d69c52524"/>
+        <argument key="AppBundle\Controller\DefaultController::setViewHandler" type="service" id="service_locator.182f5c5b079727c046caf1a16a7b23a8"/>
         <argument key="AppBundle\Controller\SecurityController::delUserAction" type="service" id="service_locator.bb08ca9a813b17f5c0d9c069a1cda526"/>
         <argument key="AppBundle\Controller\SecurityController::registerAction" type="service" id="service_locator.2da6c68114bb2c845d30e336cbd4b76a"/>
         <argument key="AppBundle\Controller\SecurityController::registerAdminAction" type="service" id="service_locator.2da6c68114bb2c845d30e336cbd4b76a"/>
@@ -5247,7 +5249,7 @@
     <service id="cache.system.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false" lazy="true">
       <argument>dl8WeYc7lL</argument>
       <argument>0</argument>
-      <argument>uBrzVgvqqnDXhNYr7TCJXB</argument>
+      <argument>9QbqTgSeMPIExi7ftdntjr</argument>
       <argument>C:\wamp64\www\bilmo-api\var\cache\dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -5255,7 +5257,7 @@
     <service id="cache.validator.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false" lazy="true">
       <argument>2xu6fRPu5U</argument>
       <argument>0</argument>
-      <argument>uBrzVgvqqnDXhNYr7TCJXB</argument>
+      <argument>9QbqTgSeMPIExi7ftdntjr</argument>
       <argument>C:\wamp64\www\bilmo-api\var\cache\dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -5263,7 +5265,7 @@
     <service id="cache.serializer.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false" lazy="true">
       <argument>y1XCoifuLt</argument>
       <argument>0</argument>
-      <argument>uBrzVgvqqnDXhNYr7TCJXB</argument>
+      <argument>9QbqTgSeMPIExi7ftdntjr</argument>
       <argument>C:\wamp64\www\bilmo-api\var\cache\dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -5271,7 +5273,7 @@
     <service id="cache.annotations.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false" lazy="true">
       <argument>XeQ5KbEn-y</argument>
       <argument>0</argument>
-      <argument>uBrzVgvqqnDXhNYr7TCJXB</argument>
+      <argument>9QbqTgSeMPIExi7ftdntjr</argument>
       <argument>C:\wamp64\www\bilmo-api\var\cache\dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>

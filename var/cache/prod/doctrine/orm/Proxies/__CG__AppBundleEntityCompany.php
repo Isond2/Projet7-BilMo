@@ -64,10 +64,10 @@ class Company extends \AppBundle\Entity\Company implements \Doctrine\ORM\Proxy\P
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', '' . "\0" . 'AppBundle\\Entity\\Company' . "\0" . 'companyName', '' . "\0" . 'AppBundle\\Entity\\Company' . "\0" . 'companyUsers', '' . "\0" . 'AppBundle\\Entity\\Company' . "\0" . 'adressePostale', '' . "\0" . 'AppBundle\\Entity\\Company' . "\0" . 'siret', '' . "\0" . 'AppBundle\\Entity\\Company' . "\0" . 'url'];
+            return ['__isInitialized__', 'id', '' . "\0" . 'AppBundle\\Entity\\Company' . "\0" . 'companyName', '' . "\0" . 'AppBundle\\Entity\\Company' . "\0" . 'companyUsers', '' . "\0" . 'AppBundle\\Entity\\Company' . "\0" . 'adress', '' . "\0" . 'AppBundle\\Entity\\Company' . "\0" . 'siret', '' . "\0" . 'AppBundle\\Entity\\Company' . "\0" . 'url'];
         }
 
-        return ['__isInitialized__', 'id', '' . "\0" . 'AppBundle\\Entity\\Company' . "\0" . 'companyName', '' . "\0" . 'AppBundle\\Entity\\Company' . "\0" . 'companyUsers', '' . "\0" . 'AppBundle\\Entity\\Company' . "\0" . 'adressePostale', '' . "\0" . 'AppBundle\\Entity\\Company' . "\0" . 'siret', '' . "\0" . 'AppBundle\\Entity\\Company' . "\0" . 'url'];
+        return ['__isInitialized__', 'id', '' . "\0" . 'AppBundle\\Entity\\Company' . "\0" . 'companyName', '' . "\0" . 'AppBundle\\Entity\\Company' . "\0" . 'companyUsers', '' . "\0" . 'AppBundle\\Entity\\Company' . "\0" . 'adress', '' . "\0" . 'AppBundle\\Entity\\Company' . "\0" . 'siret', '' . "\0" . 'AppBundle\\Entity\\Company' . "\0" . 'url'];
     }
 
     /**
@@ -208,6 +208,72 @@ class Company extends \AppBundle\Entity\Company implements \Doctrine\ORM\Proxy\P
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCompanyName', []);
 
         return parent::getCompanyName();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setAdress($adress)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAdress', [$adress]);
+
+        return parent::setAdress($adress);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getAdress()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAdress', []);
+
+        return parent::getAdress();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setSiret($siret)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSiret', [$siret]);
+
+        return parent::setSiret($siret);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getSiret()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSiret', []);
+
+        return parent::getSiret();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setUrl($url)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUrl', [$url]);
+
+        return parent::setUrl($url);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getUrl()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUrl', []);
+
+        return parent::getUrl();
     }
 
     /**
