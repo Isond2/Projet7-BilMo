@@ -20,6 +20,7 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Nelmio\ApiDocBundle\Annotation as Doc;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Cache\Simple\FilesystemCache;
 
 /**
 * @Route("/api")
@@ -59,7 +60,17 @@ class DefaultController extends FOSRestController
      */
     public function phoneAction(Phones $phone)
     {
-        return $phone;
+
+	$cache = new FilesystemCache();
+	$phoneId = $phone->getId();
+	if (!$cache->has('phone'.$phoneId.'')) {
+    	$cache->set('phone'.$phoneId.'', $phone, 3600);
+    	return $phone;
+	}
+
+	$phoneCache = $cache->get('phone'.$phoneId.'');
+    return $phoneCache;
+
     }
 
     /**
@@ -84,9 +95,14 @@ class DefaultController extends FOSRestController
      */
     public function listAction()
     {
-        $phones = $this->getDoctrine()->getRepository('AppBundle:Phones')->findAll();
-
-        return $phones;
+    $cache = new FilesystemCache();
+	if (!$cache->has('phoneList.all')) {
+		$phones = $this->getDoctrine()->getRepository('AppBundle:Phones')->findAll();
+    	$cache->set('phoneList.all', $phones, 3600);
+    	return $phones;
+	}
+	$listCache = $cache->get('phoneList.all');
+    return $listCache;
     }
 
     /**
@@ -120,14 +136,26 @@ class DefaultController extends FOSRestController
      */
     public function phoneListAction($manufacturer)
     {
-        $manufacturerName = $this->getDoctrine()->getRepository('AppBundle:Manufacturer')->findOneBy(['manufacturerName' => $manufacturer]);
-        if ($manufacturerName===null) {
-        	return $this->view(Response::HTTP_NOT_FOUND)->setStatusCode('404');
-        }
-        $manufacturerId = $manufacturerName->getId();
-        $phones = $this->getDoctrine()->getRepository('AppBundle:Phones')->findBy(['phoneManufacturer' => $manufacturerId]);
 
+   	$cache = new FilesystemCache();
+   	$manufacturerName = $this->getDoctrine()->getRepository('AppBundle:Manufacturer')->findOneBy(['manufacturerName' => $manufacturer]);
+
+   	if ($manufacturerName===null) {
+        		return $this->view(Response::HTTP_NOT_FOUND)->setStatusCode('404');
+        	}
+
+    $manufacturerId = $manufacturerName->getId();
+
+	if (!$cache->has('phoneList'.$manufacturerId.'')) {
+
+        $phones = $this->getDoctrine()->getRepository('AppBundle:Phones')->findBy(['phoneManufacturer' => $manufacturerId]);
+		$cache->set('phoneList'.$manufacturerId.'', $phones, 3600);
         return $phones;
+	}
+
+	$listCache = $cache->get('phoneList'.$manufacturerId.'');
+    return $listCache;
+
     }
 
     /**
@@ -161,9 +189,19 @@ class DefaultController extends FOSRestController
      */
     public function manufacturerAction($manufacturer)
     {
-        $manufacturer = $this->getDoctrine()->getRepository('AppBundle:Manufacturer')->findOneBy(['manufacturerName' => $manufacturer]);
-        ;
+    $cache = new FilesystemCache();
+    $manufacturerName = $this->getDoctrine()->getRepository('AppBundle:Manufacturer')->findOneBy(['manufacturerName' => $manufacturer]);
+    if ($manufacturerName===null) {
+    	return $this->view(Response::HTTP_NOT_FOUND)->setStatusCode('404');
+    }
 
-        return $manufacturer;
+	if (!$cache->has('manufacturer'.$manufacturer.'')) {
+        $manufacturerObject = $this->getDoctrine()->getRepository('AppBundle:Manufacturer')->findOneBy(['manufacturerName' => $manufacturer]);
+    	$cache->set('manufacturer'.$manufacturer.'', $manufacturerObject, 3600);
+    	return $manufacturerObject;
+	}
+
+	$manufacturerCache = $cache->get('manufacturer'.$manufacturer.'');
+    return $manufacturerCache;
     }
 }

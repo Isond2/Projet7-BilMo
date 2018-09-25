@@ -801,6 +801,13 @@ throw new \InvalidArgumentException(sprintf('Unable to find template "%s" : "%s"
 }
 }
 }
+namespace Symfony\Component\Cache
+{
+interface ResettableInterface
+{
+public function reset();
+}
+}
 namespace Psr\Log
 {
 interface LoggerAwareInterface
@@ -876,15 +883,25 @@ return false;
 }
 public function clear()
 {
-if ($cleared = $this->versioningIsEnabled) {
-$this->namespaceVersion = 2;
-foreach ($this->doFetch(array('@'.$this->namespace)) as $v) {
-$this->namespaceVersion = 1 + (int) $v;
-}
-$this->namespaceVersion .=':';
-$cleared = $this->doSave(array('@'.$this->namespace => $this->namespaceVersion), 0);
-}
 $this->deferred = array();
+if ($cleared = $this->versioningIsEnabled) {
+$namespaceVersion = 2;
+try {
+foreach ($this->doFetch(array('@'.$this->namespace)) as $v) {
+$namespaceVersion = 1 + (int) $v;
+}
+} catch (\Exception $e) {
+}
+$namespaceVersion .=':';
+try {
+$cleared = $this->doSave(array('@'.$this->namespace => $namespaceVersion), 0);
+} catch (\Exception $e) {
+$cleared = false;
+}
+if ($cleared = true === $cleared || array() === $cleared) {
+$this->namespaceVersion = $namespaceVersion;
+}
+}
 try {
 return $this->doClear($this->namespace) || $cleared;
 } catch (\Exception $e) {
@@ -930,6 +947,13 @@ $this->versioningIsEnabled = (bool) $enable;
 $this->namespaceVersion ='';
 return $wasEnabled;
 }
+public function reset()
+{
+if ($this->deferred) {
+$this->commit();
+}
+$this->namespaceVersion ='';
+}
 protected static function unserialize($value)
 {
 if ('b:0;'=== $value) {
@@ -952,15 +976,18 @@ private function getId($key)
 CacheItem::validateKey($key);
 if ($this->versioningIsEnabled &&''=== $this->namespaceVersion) {
 $this->namespaceVersion ='1:';
+try {
 foreach ($this->doFetch(array('@'.$this->namespace)) as $v) {
 $this->namespaceVersion = $v;
+}
+} catch (\Exception $e) {
 }
 }
 if (null === $this->maxIdLength) {
 return $this->namespace.$this->namespaceVersion.$key;
 }
-if (strlen($id = $this->namespace.$this->namespaceVersion.$key) > $this->maxIdLength) {
-$id = $this->namespace.$this->namespaceVersion.substr_replace(base64_encode(hash('sha256', $key, true)),':', -22);
+if (\strlen($id = $this->namespace.$this->namespaceVersion.$key) > $this->maxIdLength) {
+$id = $this->namespace.$this->namespaceVersion.substr_replace(base64_encode(hash('sha256', $key, true)),':', -(\strlen($this->namespaceVersion) + 22));
 }
 return $id;
 }
@@ -978,14 +1005,14 @@ trait ApcuTrait
 {
 public static function isSupported()
 {
-return function_exists('apcu_fetch') && ini_get('apc.enabled');
+return \function_exists('apcu_fetch') && ini_get('apc.enabled');
 }
 private function init($namespace, $defaultLifetime, $version)
 {
 if (!static::isSupported()) {
 throw new CacheException('APCu is not enabled');
 }
-if ('cli'=== PHP_SAPI) {
+if ('cli'=== \PHP_SAPI) {
 ini_set('apc.use_request_time', 0);
 }
 parent::__construct($namespace, $defaultLifetime);
@@ -1015,7 +1042,7 @@ return apcu_exists($id);
 }
 protected function doClear($namespace)
 {
-return isset($namespace[0]) && class_exists('APCuIterator', false) && ('cli'!== PHP_SAPI || ini_get('apc.enable_cli'))
+return isset($namespace[0]) && class_exists('APCuIterator', false) && ('cli'!== \PHP_SAPI || ini_get('apc.enable_cli'))
 ? apcu_delete(new \APCuIterator(sprintf('/^%s/', preg_quote($namespace,'/')), APC_ITER_KEY))
 : apcu_clear_cache();
 }
@@ -1036,7 +1063,7 @@ return array_keys($failures);
 } catch (\Error $e) {
 } catch (\Exception $e) {
 }
-if (1 === count($values)) {
+if (1 === \count($values)) {
 apcu_delete(key($values));
 }
 throw $e;
@@ -1051,8 +1078,9 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Symfony\Component\Cache\CacheItem;
 use Symfony\Component\Cache\Exception\InvalidArgumentException;
+use Symfony\Component\Cache\ResettableInterface;
 use Symfony\Component\Cache\Traits\AbstractTrait;
-abstract class AbstractAdapter implements AdapterInterface, LoggerAwareInterface
+abstract class AbstractAdapter implements AdapterInterface, LoggerAwareInterface, ResettableInterface
 {
 use AbstractTrait;
 private static $apcuSupported;
@@ -1062,8 +1090,8 @@ private $mergeByLifetime;
 protected function __construct($namespace ='', $defaultLifetime = 0)
 {
 $this->namespace =''=== $namespace ?'': CacheItem::validateKey($namespace).':';
-if (null !== $this->maxIdLength && strlen($namespace) > $this->maxIdLength - 24) {
-throw new InvalidArgumentException(sprintf('Namespace must be %d chars max, %d given ("%s")', $this->maxIdLength - 24, strlen($namespace), $namespace));
+if (null !== $this->maxIdLength && \strlen($namespace) > $this->maxIdLength - 24) {
+throw new InvalidArgumentException(sprintf('Namespace must be %d chars max, %d given ("%s")', $this->maxIdLength - 24, \strlen($namespace), $namespace));
 }
 $this->createCacheItem = \Closure::bind(
 function ($key, $value, $isHit) use ($defaultLifetime) {
@@ -1130,8 +1158,8 @@ return new ChainAdapter(array($apcu, $fs));
 }
 public static function createConnection($dsn, array $options = array())
 {
-if (!is_string($dsn)) {
-throw new InvalidArgumentException(sprintf('The %s() method expect argument #1 to be string, %s given.', __METHOD__, gettype($dsn)));
+if (!\is_string($dsn)) {
+throw new InvalidArgumentException(sprintf('The %s() method expect argument #1 to be string, %s given.', __METHOD__, \gettype($dsn)));
 }
 if (0 === strpos($dsn,'redis://')) {
 return RedisAdapter::createConnection($dsn, $options);
@@ -1210,12 +1238,12 @@ $e = $this->doSave($values, $lifetime);
 if (true === $e || array() === $e) {
 continue;
 }
-if (is_array($e) || 1 === count($values)) {
-foreach (is_array($e) ? $e : array_keys($values) as $id) {
+if (\is_array($e) || 1 === \count($values)) {
+foreach (\is_array($e) ? $e : array_keys($values) as $id) {
 $ok = false;
 $v = $values[$id];
-$type = is_object($v) ? get_class($v) : gettype($v);
-CacheItem::log($this->logger,'Failed to save key "{key}" ({type})', array('key'=> substr($id, strlen($this->namespace)),'type'=> $type,'exception'=> $e instanceof \Exception ? $e : null));
+$type = \is_object($v) ? \get_class($v) : \gettype($v);
+CacheItem::log($this->logger,'Failed to save key "{key}" ({type})', array('key'=> substr($id, \strlen($this->namespace)),'type'=> $type,'exception'=> $e instanceof \Exception ? $e : null));
 }
 } else {
 foreach ($values as $id => $v) {
@@ -1234,8 +1262,8 @@ if (true === $e || array() === $e) {
 continue;
 }
 $ok = false;
-$type = is_object($v) ? get_class($v) : gettype($v);
-CacheItem::log($this->logger,'Failed to save key "{key}" ({type})', array('key'=> substr($id, strlen($this->namespace)),'type'=> $type,'exception'=> $e instanceof \Exception ? $e : null));
+$type = \is_object($v) ? \get_class($v) : \gettype($v);
+CacheItem::log($this->logger,'Failed to save key "{key}" ({type})', array('key'=> substr($id, \strlen($this->namespace)),'type'=> $type,'exception'=> $e instanceof \Exception ? $e : null));
 }
 }
 return $ok;
@@ -1279,6 +1307,13 @@ $this->init($namespace, $defaultLifetime, $version);
 }
 }
 }
+namespace Symfony\Component\Cache
+{
+interface PruneableInterface
+{
+public function prune();
+}
+}
 namespace Symfony\Component\Cache\Traits
 {
 use Symfony\Component\Cache\Exception\InvalidArgumentException;
@@ -1297,13 +1332,13 @@ if (isset($namespace[0])) {
 if (preg_match('#[^-+_.A-Za-z0-9]#', $namespace, $match)) {
 throw new InvalidArgumentException(sprintf('Namespace contains "%s" but only characters in [-+_.A-Za-z0-9] are allowed.', $match[0]));
 }
-$directory .= DIRECTORY_SEPARATOR.$namespace;
+$directory .= \DIRECTORY_SEPARATOR.$namespace;
 }
 if (!file_exists($directory)) {
 @mkdir($directory, 0777, true);
 }
-$directory .= DIRECTORY_SEPARATOR;
-if ('\\'=== DIRECTORY_SEPARATOR && strlen($directory) > 234) {
+$directory .= \DIRECTORY_SEPARATOR;
+if ('\\'=== \DIRECTORY_SEPARATOR && \strlen($directory) > 234) {
 throw new InvalidArgumentException(sprintf('Cache directory too long (%s)', $directory));
 }
 $this->directory = $directory;
@@ -1344,7 +1379,7 @@ restore_error_handler();
 private function getFile($id, $mkdir = false)
 {
 $hash = str_replace('/','-', base64_encode(hash('sha256', static::class.$id, true)));
-$dir = $this->directory.strtoupper($hash[0].DIRECTORY_SEPARATOR.$hash[1].DIRECTORY_SEPARATOR);
+$dir = $this->directory.strtoupper($hash[0].\DIRECTORY_SEPARATOR.$hash[1].\DIRECTORY_SEPARATOR);
 if ($mkdir && !file_exists($dir)) {
 @mkdir($dir, 0777, true);
 }
@@ -1371,6 +1406,23 @@ use Symfony\Component\Cache\Exception\CacheException;
 trait FilesystemTrait
 {
 use FilesystemCommonTrait;
+public function prune()
+{
+$time = time();
+$pruned = true;
+foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($this->directory, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
+if (!$h = @fopen($file,'rb')) {
+continue;
+}
+if (($expiresAt = (int) fgets($h)) && $time >= $expiresAt) {
+fclose($h);
+$pruned = @unlink($file) && !file_exists($file) && $pruned;
+} else {
+fclose($h);
+}
+}
+return $pruned;
+}
 protected function doFetch(array $ids)
 {
 $values = array();
@@ -1380,11 +1432,9 @@ $file = $this->getFile($id);
 if (!file_exists($file) || !$h = @fopen($file,'rb')) {
 continue;
 }
-if ($now >= (int) $expiresAt = fgets($h)) {
+if (($expiresAt = (int) fgets($h)) && $now >= $expiresAt) {
 fclose($h);
-if (isset($expiresAt[0])) {
 @unlink($file);
-}
 } else {
 $i = rawurldecode(rtrim(fgets($h)));
 $value = stream_get_contents($h);
@@ -1404,7 +1454,7 @@ return file_exists($file) && (@filemtime($file) > time() || $this->doFetch(array
 protected function doSave(array $values, $lifetime)
 {
 $ok = true;
-$expiresAt = time() + ($lifetime ?: 31557600);
+$expiresAt = $lifetime ? (time() + $lifetime) : 0;
 foreach ($values as $id => $value) {
 $ok = $this->write($this->getFile($id, true), $expiresAt."\n".rawurlencode($id)."\n".serialize($value), $expiresAt) && $ok;
 }
@@ -1417,8 +1467,9 @@ return $ok;
 }
 namespace Symfony\Component\Cache\Adapter
 {
+use Symfony\Component\Cache\PruneableInterface;
 use Symfony\Component\Cache\Traits\FilesystemTrait;
-class FilesystemAdapter extends AbstractAdapter
+class FilesystemAdapter extends AbstractAdapter implements PruneableInterface
 {
 use FilesystemTrait;
 public function __construct($namespace ='', $defaultLifetime = 0, $directory = null)
@@ -1480,7 +1531,7 @@ $this->expiry = $this->defaultLifetime > 0 ? time() + $this->defaultLifetime : n
 } elseif ($expiration instanceof \DateTimeInterface) {
 $this->expiry = (int) $expiration->format('U');
 } else {
-throw new InvalidArgumentException(sprintf('Expiration date must implement DateTimeInterface or be null, "%s" given', is_object($expiration) ? get_class($expiration) : gettype($expiration)));
+throw new InvalidArgumentException(sprintf('Expiration date must implement DateTimeInterface or be null, "%s" given', \is_object($expiration) ? \get_class($expiration) : \gettype($expiration)));
 }
 return $this;
 }
@@ -1490,26 +1541,26 @@ if (null === $time) {
 $this->expiry = $this->defaultLifetime > 0 ? time() + $this->defaultLifetime : null;
 } elseif ($time instanceof \DateInterval) {
 $this->expiry = (int) \DateTime::createFromFormat('U', time())->add($time)->format('U');
-} elseif (is_int($time)) {
+} elseif (\is_int($time)) {
 $this->expiry = $time + time();
 } else {
-throw new InvalidArgumentException(sprintf('Expiration date must be an integer, a DateInterval or null, "%s" given', is_object($time) ? get_class($time) : gettype($time)));
+throw new InvalidArgumentException(sprintf('Expiration date must be an integer, a DateInterval or null, "%s" given', \is_object($time) ? \get_class($time) : \gettype($time)));
 }
 return $this;
 }
 public function tag($tags)
 {
-if (!is_array($tags)) {
+if (!\is_array($tags)) {
 $tags = array($tags);
 }
 foreach ($tags as $tag) {
-if (!is_string($tag)) {
-throw new InvalidArgumentException(sprintf('Cache tag must be string, "%s" given', is_object($tag) ? get_class($tag) : gettype($tag)));
+if (!\is_string($tag)) {
+throw new InvalidArgumentException(sprintf('Cache tag must be string, "%s" given', \is_object($tag) ? \get_class($tag) : \gettype($tag)));
 }
 if (isset($this->tags[$tag])) {
 continue;
 }
-if (!isset($tag[0])) {
+if (''=== $tag) {
 throw new InvalidArgumentException('Cache tag length must be greater than zero');
 }
 if (false !== strpbrk($tag,'{}()/\@:')) {
@@ -1525,10 +1576,10 @@ return $this->prevTags;
 }
 public static function validateKey($key)
 {
-if (!is_string($key)) {
-throw new InvalidArgumentException(sprintf('Cache key must be string, "%s" given', is_object($key) ? get_class($key) : gettype($key)));
+if (!\is_string($key)) {
+throw new InvalidArgumentException(sprintf('Cache key must be string, "%s" given', \is_object($key) ? \get_class($key) : \gettype($key)));
 }
-if (!isset($key[0])) {
+if (''=== $key) {
 throw new InvalidArgumentException('Cache key length must be greater than zero');
 }
 if (false !== strpbrk($key,'{}()/\@:')) {
@@ -2411,13 +2462,32 @@ return array('routing.loader'=> LoaderInterface::class,
 }
 namespace Symfony\Component\Cache\Traits
 {
+use Symfony\Component\Cache\PruneableInterface;
+use Symfony\Component\Cache\ResettableInterface;
+trait ProxyTrait
+{
+private $pool;
+public function prune()
+{
+return $this->pool instanceof PruneableInterface && $this->pool->prune();
+}
+public function reset()
+{
+if ($this->pool instanceof ResettableInterface) {
+$this->pool->reset();
+}
+}
+}
+}
+namespace Symfony\Component\Cache\Traits
+{
 use Symfony\Component\Cache\CacheItem;
 use Symfony\Component\Cache\Exception\InvalidArgumentException;
 trait PhpArrayTrait
 {
+use ProxyTrait;
 private $file;
 private $values;
-private $fallbackPool;
 private $zendDetectUnicode;
 public function warmUp(array $values)
 {
@@ -2429,7 +2499,7 @@ if (!is_writable($this->file)) {
 throw new InvalidArgumentException(sprintf('Cache file is not writable: %s.', $this->file));
 }
 } else {
-$directory = dirname($this->file);
+$directory = \dirname($this->file);
 if (!is_dir($directory) && !@mkdir($directory, 0777, true)) {
 throw new InvalidArgumentException(sprintf('Cache directory does not exist and cannot be created: %s.', $directory));
 }
@@ -2448,14 +2518,14 @@ return array(
 EOF
 ;
 foreach ($values as $key => $value) {
-CacheItem::validateKey(is_int($key) ? (string) $key : $key);
-if (null === $value || is_object($value)) {
+CacheItem::validateKey(\is_int($key) ? (string) $key : $key);
+if (null === $value || \is_object($value)) {
 try {
 $value = serialize($value);
 } catch (\Exception $e) {
-throw new InvalidArgumentException(sprintf('Cache key "%s" has non-serializable %s value.', $key, get_class($value)), 0, $e);
+throw new InvalidArgumentException(sprintf('Cache key "%s" has non-serializable %s value.', $key, \get_class($value)), 0, $e);
 }
-} elseif (is_array($value)) {
+} elseif (\is_array($value)) {
 try {
 $serialized = serialize($value);
 $unserialized = unserialize($serialized);
@@ -2465,12 +2535,12 @@ throw new InvalidArgumentException(sprintf('Cache key "%s" has non-serializable 
 if ($unserialized !== $value || (false !== strpos($serialized,';R:') && preg_match('/;R:[1-9]/', $serialized))) {
 $value = $serialized;
 }
-} elseif (is_string($value)) {
+} elseif (\is_string($value)) {
 if ('N;'=== $value || (isset($value[2]) &&':'=== $value[1])) {
 $value = serialize($value);
 }
-} elseif (!is_scalar($value)) {
-throw new InvalidArgumentException(sprintf('Cache key "%s" has non-serializable %s value.', $key, gettype($value)));
+} elseif (!\is_scalar($value)) {
+throw new InvalidArgumentException(sprintf('Cache key "%s" has non-serializable %s value.', $key, \gettype($value)));
 }
 $dump .= var_export($key, true).' => '.var_export($value, true).",\n";
 }
@@ -2487,7 +2557,7 @@ public function clear()
 {
 $this->values = array();
 $cleared = @unlink($this->file) || !file_exists($this->file);
-return $this->fallbackPool->clear() && $cleared;
+return $this->pool->clear() && $cleared;
 }
 private function initialize()
 {
@@ -2510,15 +2580,17 @@ use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Cache\CacheItem;
 use Symfony\Component\Cache\Exception\InvalidArgumentException;
+use Symfony\Component\Cache\PruneableInterface;
+use Symfony\Component\Cache\ResettableInterface;
 use Symfony\Component\Cache\Traits\PhpArrayTrait;
-class PhpArrayAdapter implements AdapterInterface
+class PhpArrayAdapter implements AdapterInterface, PruneableInterface, ResettableInterface
 {
 use PhpArrayTrait;
 private $createCacheItem;
 public function __construct($file, AdapterInterface $fallbackPool)
 {
 $this->file = $file;
-$this->fallbackPool = $fallbackPool;
+$this->pool = $fallbackPool;
 $this->zendDetectUnicode = ini_get('zend.detect_unicode');
 $this->createCacheItem = \Closure::bind(
 function ($key, $value, $isHit) {
@@ -2534,7 +2606,7 @@ CacheItem::class
 }
 public static function create($file, CacheItemPoolInterface $fallbackPool)
 {
-if ((\PHP_VERSION_ID >= 70000 && ini_get('opcache.enable')) || defined('HHVM_VERSION')) {
+if ((\PHP_VERSION_ID >= 70000 && ini_get('opcache.enable')) || \defined('HHVM_VERSION')) {
 if (!$fallbackPool instanceof AdapterInterface) {
 $fallbackPool = new ProxyAdapter($fallbackPool);
 }
@@ -2544,20 +2616,20 @@ return $fallbackPool;
 }
 public function getItem($key)
 {
-if (!is_string($key)) {
-throw new InvalidArgumentException(sprintf('Cache key must be string, "%s" given.', is_object($key) ? get_class($key) : gettype($key)));
+if (!\is_string($key)) {
+throw new InvalidArgumentException(sprintf('Cache key must be string, "%s" given.', \is_object($key) ? \get_class($key) : \gettype($key)));
 }
 if (null === $this->values) {
 $this->initialize();
 }
 if (!isset($this->values[$key])) {
-return $this->fallbackPool->getItem($key);
+return $this->pool->getItem($key);
 }
 $value = $this->values[$key];
 $isHit = true;
 if ('N;'=== $value) {
 $value = null;
-} elseif (is_string($value) && isset($value[2]) &&':'=== $value[1]) {
+} elseif (\is_string($value) && isset($value[2]) &&':'=== $value[1]) {
 try {
 $e = null;
 $value = unserialize($value);
@@ -2575,8 +2647,8 @@ return $f($key, $value, $isHit);
 public function getItems(array $keys = array())
 {
 foreach ($keys as $key) {
-if (!is_string($key)) {
-throw new InvalidArgumentException(sprintf('Cache key must be string, "%s" given.', is_object($key) ? get_class($key) : gettype($key)));
+if (!\is_string($key)) {
+throw new InvalidArgumentException(sprintf('Cache key must be string, "%s" given.', \is_object($key) ? \get_class($key) : \gettype($key)));
 }
 }
 if (null === $this->values) {
@@ -2586,31 +2658,31 @@ return $this->generateItems($keys);
 }
 public function hasItem($key)
 {
-if (!is_string($key)) {
-throw new InvalidArgumentException(sprintf('Cache key must be string, "%s" given.', is_object($key) ? get_class($key) : gettype($key)));
+if (!\is_string($key)) {
+throw new InvalidArgumentException(sprintf('Cache key must be string, "%s" given.', \is_object($key) ? \get_class($key) : \gettype($key)));
 }
 if (null === $this->values) {
 $this->initialize();
 }
-return isset($this->values[$key]) || $this->fallbackPool->hasItem($key);
+return isset($this->values[$key]) || $this->pool->hasItem($key);
 }
 public function deleteItem($key)
 {
-if (!is_string($key)) {
-throw new InvalidArgumentException(sprintf('Cache key must be string, "%s" given.', is_object($key) ? get_class($key) : gettype($key)));
+if (!\is_string($key)) {
+throw new InvalidArgumentException(sprintf('Cache key must be string, "%s" given.', \is_object($key) ? \get_class($key) : \gettype($key)));
 }
 if (null === $this->values) {
 $this->initialize();
 }
-return !isset($this->values[$key]) && $this->fallbackPool->deleteItem($key);
+return !isset($this->values[$key]) && $this->pool->deleteItem($key);
 }
 public function deleteItems(array $keys)
 {
 $deleted = true;
 $fallbackKeys = array();
 foreach ($keys as $key) {
-if (!is_string($key)) {
-throw new InvalidArgumentException(sprintf('Cache key must be string, "%s" given.', is_object($key) ? get_class($key) : gettype($key)));
+if (!\is_string($key)) {
+throw new InvalidArgumentException(sprintf('Cache key must be string, "%s" given.', \is_object($key) ? \get_class($key) : \gettype($key)));
 }
 if (isset($this->values[$key])) {
 $deleted = false;
@@ -2622,7 +2694,7 @@ if (null === $this->values) {
 $this->initialize();
 }
 if ($fallbackKeys) {
-$deleted = $this->fallbackPool->deleteItems($fallbackKeys) && $deleted;
+$deleted = $this->pool->deleteItems($fallbackKeys) && $deleted;
 }
 return $deleted;
 }
@@ -2631,18 +2703,18 @@ public function save(CacheItemInterface $item)
 if (null === $this->values) {
 $this->initialize();
 }
-return !isset($this->values[$item->getKey()]) && $this->fallbackPool->save($item);
+return !isset($this->values[$item->getKey()]) && $this->pool->save($item);
 }
 public function saveDeferred(CacheItemInterface $item)
 {
 if (null === $this->values) {
 $this->initialize();
 }
-return !isset($this->values[$item->getKey()]) && $this->fallbackPool->saveDeferred($item);
+return !isset($this->values[$item->getKey()]) && $this->pool->saveDeferred($item);
 }
 public function commit()
 {
-return $this->fallbackPool->commit();
+return $this->pool->commit();
 }
 private function generateItems(array $keys)
 {
@@ -2653,7 +2725,7 @@ if (isset($this->values[$key])) {
 $value = $this->values[$key];
 if ('N;'=== $value) {
 yield $key => $f($key, null, true);
-} elseif (is_string($value) && isset($value[2]) &&':'=== $value[1]) {
+} elseif (\is_string($value) && isset($value[2]) &&':'=== $value[1]) {
 try {
 yield $key => $f($key, unserialize($value), true);
 } catch (\Error $e) {
@@ -2669,7 +2741,7 @@ $fallbackKeys[] = $key;
 }
 }
 if ($fallbackKeys) {
-foreach ($this->fallbackPool->getItems($fallbackKeys) as $key => $item) {
+foreach ($this->pool->getItems($fallbackKeys) as $key => $item) {
 yield $key => $item;
 }
 }
@@ -2872,12 +2944,23 @@ namespace Symfony\Component\Cache
 {
 use Doctrine\Common\Cache\CacheProvider;
 use Psr\Cache\CacheItemPoolInterface;
-class DoctrineProvider extends CacheProvider
+class DoctrineProvider extends CacheProvider implements PruneableInterface, ResettableInterface
 {
 private $pool;
 public function __construct(CacheItemPoolInterface $pool)
 {
 $this->pool = $pool;
+}
+public function prune()
+{
+return $this->pool instanceof PruneableInterface && $this->pool->prune();
+}
+public function reset()
+{
+if ($this->pool instanceof ResettableInterface) {
+$this->pool->reset();
+}
+$this->setNamespace($this->getNamespace());
 }
 protected function doFetch($id)
 {
